@@ -57,3 +57,34 @@ This is a Next.js 15 (App Router) application that clones v0.dev functionality. 
 - `app/api/chat`: Chat API endpoints.
 - `lib/db`: Database configuration, schema, and migrations.
 - `components/ai-elements`: Rendering logic for AI responses (e.g., `code-block.tsx`, `reasoning.tsx`).
+
+## Governance & Quality Assurance
+
+### MANDATORY Testing Requirements
+- ALL new components require corresponding test files
+- ALL utility functions require unit tests
+- ALL API route changes require integration tests
+- Run `npm test` before completing any task
+- Never skip tests - they are mandatory, not optional
+
+### Code Integration Rules
+- Check package.json before importing any new libraries
+- Read existing implementation files before modifying
+- Follow established patterns in components/, lib/, and app/
+- Preserve existing functionality - no breaking changes
+- Run `npm run build` to verify type safety
+
+### Verification Process
+Before marking any task complete, you must:
+1. Run `npm run build` - ensures no type errors
+2. Run `npm run lint` - ensures code quality standards
+3. Run `npm test` - ensures all tests pass
+4. Test critical user flows manually if needed
+5. Confirm no regressions in existing functionality
+
+### AI-Specific Guidelines
+- This project uses V0 SDK for AI functionality
+- Database operations use Drizzle ORM
+- Authentication uses NextAuth v5
+- UI components use Radix UI primitives with Tailwind
+- State management uses SWR and React Context
