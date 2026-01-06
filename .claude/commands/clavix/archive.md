@@ -52,12 +52,12 @@ If you catch yourself doing any of these, STOP and correct:
 
 Before ANY action, output this confirmation:
 
-```
+\`\`\`
 **CLAVIX MODE: Archival**
 Mode: management
 Purpose: Organizing completed projects
 Implementation: BLOCKED (file operations only)
-```
+\`\`\`
 
 ---
 
@@ -135,13 +135,13 @@ I verify the operation completed and ask what you want to do next:
    - **ARCHIVE**: Completed work, incomplete but potentially useful work, anything you might reference later
 
    **Delete decision tree:**
-   ```
+   \`\`\`
    Is this a failed experiment with no learning value? → DELETE
    Is this a duplicate/test project with no unique info? → DELETE
    Might you need to reference this code later? → ARCHIVE
    Could this be useful for learning/reference? → ARCHIVE
    Are you unsure? → ARCHIVE (safe default)
-   ```
+   \`\`\`
 
    **Safety confirmation required:**
    - I show project details and task status
@@ -206,7 +206,7 @@ Optimized prompts from `/clavix:improve` are stored separately in `.clavix/outpu
 ## Example Workflows
 
 ### Workflow 1: Complete Project
-```
+\`\`\`
 User: "I've finished implementing the user authentication feature"
 You: "Great! Let me check the task status and help you archive it."
 
@@ -218,10 +218,10 @@ You confirm: Yes, archive it
 I execute: mv .clavix/outputs/user-authentication-system .clavix/outputs/archive/
 
 Result: Project archived to .clavix/outputs/archive/user-authentication-system/
-```
+\`\`\`
 
 ### Workflow 2: Force Archive WIP
-```
+\`\`\`
 User: "We're pivoting, I want to archive the old API design even though tasks aren't done"
 You: "I'll check the status and archive it if you confirm."
 
@@ -233,20 +233,20 @@ User confirms: Yes, archive anyway
 I execute: mv .clavix/outputs/old-api-design .clavix/outputs/archive/
 
 Result: Project archived despite incomplete tasks
-```
+\`\`\`
 
 ### Workflow 3: Restore Archived Project
-```
+\`\`\`
 User: "Actually, we need to revisit that authentication feature"
 You: "I'll restore it from the archive."
 
 I execute: mv .clavix/outputs/archive/user-authentication-system .clavix/outputs/
 
 Result: Project restored to .clavix/outputs/user-authentication-system/
-```
+\`\`\`
 
 ### Workflow 4: Delete Failed Experiment
-```
+\`\`\`
 User: "I have a test project 'api-experiment-1' that I don't need anymore"
 You: "Is this something you might reference later, or can it be permanently deleted?"
 
@@ -265,7 +265,7 @@ User types: api-experiment-1
 I execute: rm -rf .clavix/outputs/api-experiment-1
 
 Result: Project permanently deleted
-```
+\`\`\`
 
 ---
 
@@ -296,7 +296,7 @@ Clavix v5 follows an **agentic-first architecture**. This means:
 
 ## File System Structure
 
-```
+\`\`\`
 .clavix/
 ├── config.json              # Project configuration
 ├── outputs/
@@ -308,7 +308,7 @@ Clavix v5 follows an **agentic-first architecture**. This means:
 │   │   └── tasks.md         # Implementation tasks
 │   └── archive/             # Archived projects
 └── commands/                # Slash command templates (managed by clavix update)
-```
+\`\`\`
 
 ---
 
@@ -397,7 +397,7 @@ These rules define deterministic agent behavior. Follow exactly.
 
 ### Rule 1: Quality-Based Decisions
 
-```
+\`\`\`
 IF quality < 60%:
   → ACTION: Suggest comprehensive analysis
   → SAY: "Quality is [X]%. Consider comprehensive depth."
@@ -409,11 +409,11 @@ IF quality >= 60% AND quality < 80%:
 IF quality >= 80%:
   → ACTION: Ready to use
   → SAY: "Quality is good ([X]%). Ready to proceed."
-```
+\`\`\`
 
 ### Rule 2: Intent Confidence
 
-```
+\`\`\`
 IF confidence >= 85%:
   → ACTION: Proceed with detected intent
 
@@ -426,11 +426,11 @@ IF confidence 50-69%:
 IF confidence < 50%:
   → ACTION: Cannot proceed autonomously
   → ASK: "I'm unclear on intent. Is this: [A] | [B] | [C]?"
-```
+\`\`\`
 
 ### Rule 3: File Operations
 
-```
+\`\`\`
 BEFORE writing files:
   → CHECK: Target directory exists
   → IF not exists: Create directory first
@@ -438,11 +438,11 @@ BEFORE writing files:
 AFTER writing files:
   → VERIFY: File was created successfully
   → IF failed: Report error, suggest manual action
-```
+\`\`\`
 
 ### Rule 4: Task Completion (Implementation Mode)
 
-```
+\`\`\`
 AFTER implementing task:
   → EDIT tasks.md: Change - [ ] to - [x] for completed task
 
@@ -453,11 +453,11 @@ IF edit succeeds:
 IF edit fails:
   → SHOW error to user
   → ASK: "Task completion failed. How to proceed?"
-```
+\`\`\`
 
 ### Rule 5: Error Recovery
 
-```
+\`\`\`
 IF pattern application fails:
   → LOG: Which pattern failed
   → CONTINUE: With remaining patterns
@@ -470,18 +470,18 @@ IF file write fails:
 IF user prompt is empty/invalid:
   → ASK: For valid input
   → NEVER: Proceed with assumption
-```
+\`\`\`
 
 ### Rule 6: Execution Verification
 
-```
+\`\`\`
 BEFORE completing response:
   → VERIFY all checkpoints met for current mode
   → IF any checkpoint failed:
     → REPORT which checkpoint failed
     → EXPLAIN why it failed
     → SUGGEST recovery action
-```
+\`\`\`
 
 ---
 
@@ -651,12 +651,12 @@ If you realize you should have asked clarifying questions AFTER starting:
 
 At the end of workflows that produce output, include verification:
 
-```
+\`\`\`
 ## Clavix Execution Verification
 - [x] Mode: {improve|prd|plan|implement|verify|archive}
 - [x] Output created: {actual file path}
 - [x] Verification: {how you verified it exists}
-```
+\`\`\`
 
 ---
 
@@ -668,16 +668,16 @@ At the end of workflows that produce output, include verification:
 
 ### PRD-to-Implementation States
 
-```
+\`\`\`
 NO_PROJECT → PRD_EXISTS → TASKS_EXIST → IMPLEMENTING → ALL_COMPLETE → ARCHIVED
-```
+\`\`\`
 
 ### State Detection Protocol
 
 **Step 1: Check for project config**
-```
+\`\`\`
 Read: .clavix/outputs/{project}/.clavix-implement-config.json
-```
+\`\`\`
 
 **Step 2: Interpret state based on conditions**
 
@@ -692,9 +692,9 @@ Read: .clavix/outputs/{project}/.clavix-implement-config.json
 
 **Step 3: State assertion**
 Always output current state when starting a workflow:
-```
+\`\`\`
 "Current state: [STATE]. Progress: [X]/[Y] tasks. Next: [action]"
-```
+\`\`\`
 
 ### File Detection Guide
 
@@ -712,7 +712,7 @@ Always output current state when starting a workflow:
 
 ### State Transition Rules
 
-```
+\`\`\`
 NO_PROJECT:
   → /clavix:prd creates PRD_EXISTS
   → /clavix:start + /clavix:summarize creates PRD_EXISTS
@@ -734,13 +734,13 @@ ALL_COMPLETE:
 
 ARCHIVED:
   → Agent moves project back from archive/ → back to previous state
-```
+\`\`\`
 
 ### Prompt Lifecycle States (Separate from PRD)
 
-```
+\`\`\`
 NO_PROMPTS → PROMPT_EXISTS → EXECUTED → CLEANED
-```
+\`\`\`
 
 | Condition | State | Detection |
 |-----------|-------|-----------|
@@ -752,20 +752,20 @@ NO_PROMPTS → PROMPT_EXISTS → EXECUTED → CLEANED
 ### Multi-Project Handling
 
 When multiple projects exist:
-```
+\`\`\`
 IF project count > 1:
   → LIST: Show all projects with progress
   → ASK: "Multiple projects found. Which one?"
   → Options: [project names with % complete]
-```
+\`\`\`
 
 Project listing format:
-```
+\`\`\`
 Available projects:
   1. auth-feature (75% - 12/16 tasks)
   2. api-refactor (0% - not started)
   3. dashboard-v2 (100% - complete, suggest archive)
-```
+\`\`\`
 
 
 ### CLI Reference
@@ -842,7 +842,7 @@ These are commands the **user** runs in their terminal to set up Clavix:
 
 ### File System Structure
 
-```
+\`\`\`
 .clavix/
 ├── config.json              # Project configuration
 ├── outputs/
@@ -854,10 +854,10 @@ These are commands the **user** runs in their terminal to set up Clavix:
 │   │   └── tasks.md         # Implementation tasks
 │   └── archive/             # Archived projects
 └── commands/                # Slash command templates (managed by clavix update)
-```
+\`\`\`
 
 **Prompt File Format:**
-```markdown
+\`\`\`markdown
 ---
 id: std-20250127-143022-a3f2
 timestamp: 2025-01-27T14:30:22Z
@@ -868,7 +868,7 @@ originalPrompt: "the user's original prompt"
 # Improved Prompt
 
 [optimized prompt content]
-```
+\`\`\`
 
 ---
 
@@ -1138,13 +1138,13 @@ For ANY unexpected error:
 - Failed experiments with no learning value
 
 **Size check (run periodically):**
-```bash
+\`\`\`bash
 # Count archived projects
 ls .clavix/outputs/archive/ | wc -l
 
 # Check total archive size
 du -sh .clavix/outputs/archive/
-```
+\`\`\`
 
 **Cleanup workflow:**
 1. List all archived projects with dates: `ls -lt .clavix/outputs/archive/`

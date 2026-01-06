@@ -36,7 +36,7 @@ If mode is unclear:
 
 When uncertain, agent should ALWAYS ask:
 
-```markdown
+\`\`\`markdown
 Just to clarify - which mode should I be in?
 
 **Option 1: Planning Mode (Clavix)**
@@ -52,7 +52,7 @@ Just to clarify - which mode should I be in?
 - **Start implementing now**
 
 Which would you like me to do?
-```
+\`\`\`
 
 ---
 
@@ -61,14 +61,14 @@ Which would you like me to do?
 User should explicitly state:
 
 **For planning:**
-```markdown
+\`\`\`markdown
 Just planning for now. Help me create a solid PRD first.
-```
+\`\`\`
 
 **For implementation:**
-```markdown
+\`\`\`markdown
 Let's implement this now. Build the feature based on what we've discussed.
-```
+\`\`\`
 
 ---
 
@@ -77,18 +77,18 @@ Let's implement this now. Build the feature based on what we've discussed.
 Agent should acknowledge:
 
 **Planning mode:**
-```markdown
+\`\`\`markdown
 Got it - I'm in planning mode. I'll gather requirements and create documentation, but won't implement yet.
 
 Let's start with some clarifying questions...
-```
+\`\`\`
 
 **Implementation mode:**
-```markdown
+\`\`\`markdown
 Understood - I'll implement this now based on our requirements.
 
 Let me start building...
-```
+\`\`\`
 
 ---
 
@@ -100,19 +100,19 @@ Let me start building...
 
 Every workflow should declare its mode upfront:
 
-```markdown
+\`\`\`markdown
 ## CLAVIX MODE: Requirements & Planning Only
 
 You are in PLANNING mode. Do NOT implement.
-```
+\`\`\`
 
 Or for implementation:
 
-```markdown
+\`\`\`markdown
 ## IMPLEMENTATION MODE
 
 You are now in implementation mode. Write code based on requirements.
-```
+\`\`\`
 
 ---
 
@@ -120,10 +120,10 @@ You are now in implementation mode. Write code based on requirements.
 
 When transitioning between modes, make it explicit:
 
-```markdown
+\`\`\`markdown
 **TRANSITION:** Entering planning mode
 **TRANSITION:** Exiting planning mode, starting implementation
-```
+\`\`\`
 
 ---
 
@@ -131,10 +131,10 @@ When transitioning between modes, make it explicit:
 
 When agent might be uncertain:
 
-```markdown
+\`\`\`markdown
 **If uncertain whether to implement:**
 Ask user: "Should I implement this now, or continue planning?"
-```
+\`\`\`
 
 ---
 
@@ -158,15 +158,15 @@ Ask user: "Should I implement this now, or continue planning?"
 
 At conversation start:
 
-```markdown
+\`\`\`markdown
 Let's plan this out first before implementing. I want a solid PRD.
-```
+\`\`\`
 
 Or:
 
-```markdown
+\`\`\`markdown
 I already have requirements. Let's jump straight to implementation.
-```
+\`\`\`
 
 ---
 
@@ -174,9 +174,9 @@ I already have requirements. Let's jump straight to implementation.
 
 If agent seems confused:
 
-```markdown
+\`\`\`markdown
 To be clear: we're just planning right now. Don't implement yet.
-```
+\`\`\`
 
 ---
 
@@ -193,74 +193,74 @@ To be clear: we're just planning right now. Don't implement yet.
 **Solution:**
 
 Agent asks:
-```markdown
+\`\`\`markdown
 When you say "build an authentication system," do you want me to:
 
 1. **Help plan it**: Gather requirements, create a PRD, document what needs to be built
 2. **Implement it now**: Write the actual authentication code and components
 
 Which would you prefer?
-```
+\`\`\`
 
 ---
 
 ### Scenario 2: Mid-Conversation Shift
 
 **Starts in planning:**
-```markdown
+\`\`\`markdown
 User: /clavix:start
 User: I want a dashboard
 Agent: [Asks questions about dashboard]
 User: [Answers 5 questions]
 User: Looks good, let's do it!
-```
+\`\`\`
 
 **Agent thinks:** "Do it" = implement? Or "looks good" = continue planning?
 
 **Solution:**
 
 Agent asks:
-```markdown
+\`\`\`markdown
 When you say "let's do it," do you mean:
 
 1. Continue planning and create a PRD/summary?
 2. Start implementing the dashboard now?
-```
+\`\`\`
 
 ---
 
 ### Scenario 3: PRD Then Implementation
 
 **Flow:**
-```markdown
+\`\`\`markdown
 User: /clavix:prd
 Agent: [Creates PRD]
 User: Perfect! Now make it happen.
-```
+\`\`\`
 
 **Agent thinks:** "Make it happen" = implement? Or generate more docs?
 
 **Solution:**
 
 Agent interprets:
-```markdown
+\`\`\`markdown
 **TRANSITION:** You've approved the PRD. I understand you want implementation now.
 
 I'll build the features described in the PRD. Starting with [first feature]...
-```
+\`\`\`
 
 But if uncertain:
-```markdown
+\`\`\`markdown
 By "make it happen," do you mean:
 1. Implement the features in the PRD now?
 2. Create additional planning documents?
-```
+\`\`\`
 
 ---
 
 ## Decision Tree for Agents
 
-```
+\`\`\`
 User request received
     │
     ├─ Is Clavix command? (/clavix:*) ────► Planning Mode
@@ -276,7 +276,7 @@ User request received
     ├─ User approved PRD and said "do it"? ────► Likely Implementation Mode (confirm if uncertain)
     │
     └─ Unclear? ────► ASK: "Should I plan or implement?"
-```
+\`\`\`
 
 ---
 
@@ -323,9 +323,9 @@ User request received
 ### Test: Ambiguous Request Handling
 
 **Input:**
-```markdown
+\`\`\`markdown
 User: Help me build a todo app
-```
+\`\`\`
 
 **Expected behavior:**
 - Agent asks: "Should I help plan it, or implement it now?"
@@ -340,11 +340,11 @@ User: Help me build a todo app
 ### Test: Mid-Workflow Ambiguity
 
 **Input:**
-```markdown
+\`\`\`markdown
 User: /clavix:start
 [Conversation about requirements]
 User: Sounds great, let's go!
-```
+\`\`\`
 
 **Expected behavior:**
 - Agent asks: "Should I summarize our requirements, or start implementing?"
@@ -368,30 +368,30 @@ Mode clarity is working when:
 **Agent is confused?**
 
 Agent should ask:
-```markdown
+\`\`\`markdown
 Should I:
 1. Plan and document (create PRDs, gather requirements)?
 2. Implement (write code and build features)?
-```
+\`\`\`
 
 **User wants to clarify?**
 
 User should say:
-```markdown
+\`\`\`markdown
 Planning mode: "Just create a PRD / gather requirements for now"
 Implementation mode: "Implement this now / start coding"
-```
+\`\`\`
 
 **Template authors preventing confusion?**
 
 Add to templates:
-```markdown
+\`\`\`markdown
 ## CLAVIX MODE: Requirements & Planning Only
 
 [Clear mode boundary]
 
 **If uncertain whether to implement, ASK the user.**
-```
+\`\`\`
 
 ---
 

@@ -68,12 +68,12 @@ For complete mode documentation, see: `.clavix/instructions/core/clavix-mode.md`
 ## State Assertion (REQUIRED)
 
 **Before starting conversation, output:**
-```
+\`\`\`
 **CLAVIX MODE: Conversational Requirements**
 Mode: planning
 Purpose: Gathering requirements through iterative discussion
 Implementation: BLOCKED - I will ask questions and explore needs, not implement
-```
+\`\`\`
 
 ---
 
@@ -82,7 +82,7 @@ Implementation: BLOCKED - I will ask questions and explore needs, not implement
 **Before beginning:** Use the Clarifying Questions Protocol (see Agent Transparency section) throughout the conversation when you need critical information from the user (confidence < 95%). In conversational mode, this means probing for unclear requirements, technical constraints, or user needs.
 
 1. Begin with a friendly introduction:
-   ```
+   \`\`\`
    I'm starting Clavix conversational mode for requirements gathering.
 
    Tell me about what you want to create, and I'll ask clarifying questions to help refine your ideas.
@@ -91,7 +91,7 @@ Implementation: BLOCKED - I will ask questions and explore needs, not implement
    Note: I'm in planning mode - I'll help you define what to build, not implement it yet.
 
    What would you like to create?
-   ```
+   \`\`\`
 
    **CHECKPOINT:** Entered conversational mode (gathering requirements only)
 
@@ -178,11 +178,11 @@ Implementation: BLOCKED - I will ask questions and explore needs, not implement
 5. Remind them to use `/clavix-summarize` when ready to extract an optimized prompt.
 
    When user triggers summarization, acknowledge the transition:
-   ```
+   \`\`\`
    **CHECKPOINT:** Transitioning to summarization workflow
 
    I'll now analyze our entire conversation and extract structured requirements.
-   ```
+   \`\`\`
 
    Then proceed to `/clavix-summarize` to extract and optimize your requirements.
 
@@ -255,7 +255,7 @@ Clavix v5 follows an **agentic-first architecture**. This means:
 
 ## File System Structure
 
-```
+\`\`\`
 .clavix/
 ├── config.json              # Project configuration
 ├── outputs/
@@ -267,7 +267,7 @@ Clavix v5 follows an **agentic-first architecture**. This means:
 │   │   └── tasks.md         # Implementation tasks
 │   └── archive/             # Archived projects
 └── commands/                # Slash command templates (managed by clavix update)
-```
+\`\`\`
 
 ---
 
@@ -356,7 +356,7 @@ These rules define deterministic agent behavior. Follow exactly.
 
 ### Rule 1: Quality-Based Decisions
 
-```
+\`\`\`
 IF quality < 60%:
   → ACTION: Suggest comprehensive analysis
   → SAY: "Quality is [X]%. Consider comprehensive depth."
@@ -368,11 +368,11 @@ IF quality >= 60% AND quality < 80%:
 IF quality >= 80%:
   → ACTION: Ready to use
   → SAY: "Quality is good ([X]%). Ready to proceed."
-```
+\`\`\`
 
 ### Rule 2: Intent Confidence
 
-```
+\`\`\`
 IF confidence >= 85%:
   → ACTION: Proceed with detected intent
 
@@ -385,11 +385,11 @@ IF confidence 50-69%:
 IF confidence < 50%:
   → ACTION: Cannot proceed autonomously
   → ASK: "I'm unclear on intent. Is this: [A] | [B] | [C]?"
-```
+\`\`\`
 
 ### Rule 3: File Operations
 
-```
+\`\`\`
 BEFORE writing files:
   → CHECK: Target directory exists
   → IF not exists: Create directory first
@@ -397,11 +397,11 @@ BEFORE writing files:
 AFTER writing files:
   → VERIFY: File was created successfully
   → IF failed: Report error, suggest manual action
-```
+\`\`\`
 
 ### Rule 4: Task Completion (Implementation Mode)
 
-```
+\`\`\`
 AFTER implementing task:
   → EDIT tasks.md: Change - [ ] to - [x] for completed task
 
@@ -412,11 +412,11 @@ IF edit succeeds:
 IF edit fails:
   → SHOW error to user
   → ASK: "Task completion failed. How to proceed?"
-```
+\`\`\`
 
 ### Rule 5: Error Recovery
 
-```
+\`\`\`
 IF pattern application fails:
   → LOG: Which pattern failed
   → CONTINUE: With remaining patterns
@@ -429,18 +429,18 @@ IF file write fails:
 IF user prompt is empty/invalid:
   → ASK: For valid input
   → NEVER: Proceed with assumption
-```
+\`\`\`
 
 ### Rule 6: Execution Verification
 
-```
+\`\`\`
 BEFORE completing response:
   → VERIFY all checkpoints met for current mode
   → IF any checkpoint failed:
     → REPORT which checkpoint failed
     → EXPLAIN why it failed
     → SUGGEST recovery action
-```
+\`\`\`
 
 ---
 
@@ -610,12 +610,12 @@ If you realize you should have asked clarifying questions AFTER starting:
 
 At the end of workflows that produce output, include verification:
 
-```
+\`\`\`
 ## Clavix Execution Verification
 - [x] Mode: {improve|prd|plan|implement|verify|archive}
 - [x] Output created: {actual file path}
 - [x] Verification: {how you verified it exists}
-```
+\`\`\`
 
 ---
 
@@ -627,16 +627,16 @@ At the end of workflows that produce output, include verification:
 
 ### PRD-to-Implementation States
 
-```
+\`\`\`
 NO_PROJECT → PRD_EXISTS → TASKS_EXIST → IMPLEMENTING → ALL_COMPLETE → ARCHIVED
-```
+\`\`\`
 
 ### State Detection Protocol
 
 **Step 1: Check for project config**
-```
+\`\`\`
 Read: .clavix/outputs/{project}/.clavix-implement-config.json
-```
+\`\`\`
 
 **Step 2: Interpret state based on conditions**
 
@@ -651,9 +651,9 @@ Read: .clavix/outputs/{project}/.clavix-implement-config.json
 
 **Step 3: State assertion**
 Always output current state when starting a workflow:
-```
+\`\`\`
 "Current state: [STATE]. Progress: [X]/[Y] tasks. Next: [action]"
-```
+\`\`\`
 
 ### File Detection Guide
 
@@ -671,7 +671,7 @@ Always output current state when starting a workflow:
 
 ### State Transition Rules
 
-```
+\`\`\`
 NO_PROJECT:
   → /clavix-prd creates PRD_EXISTS
   → /clavix-start + /clavix-summarize creates PRD_EXISTS
@@ -693,13 +693,13 @@ ALL_COMPLETE:
 
 ARCHIVED:
   → Agent moves project back from archive/ → back to previous state
-```
+\`\`\`
 
 ### Prompt Lifecycle States (Separate from PRD)
 
-```
+\`\`\`
 NO_PROMPTS → PROMPT_EXISTS → EXECUTED → CLEANED
-```
+\`\`\`
 
 | Condition | State | Detection |
 |-----------|-------|-----------|
@@ -711,20 +711,20 @@ NO_PROMPTS → PROMPT_EXISTS → EXECUTED → CLEANED
 ### Multi-Project Handling
 
 When multiple projects exist:
-```
+\`\`\`
 IF project count > 1:
   → LIST: Show all projects with progress
   → ASK: "Multiple projects found. Which one?"
   → Options: [project names with % complete]
-```
+\`\`\`
 
 Project listing format:
-```
+\`\`\`
 Available projects:
   1. auth-feature (75% - 12/16 tasks)
   2. api-refactor (0% - not started)
   3. dashboard-v2 (100% - complete, suggest archive)
-```
+\`\`\`
 
 
 ### CLI Reference
@@ -801,7 +801,7 @@ These are commands the **user** runs in their terminal to set up Clavix:
 
 ### File System Structure
 
-```
+\`\`\`
 .clavix/
 ├── config.json              # Project configuration
 ├── outputs/
@@ -813,10 +813,10 @@ These are commands the **user** runs in their terminal to set up Clavix:
 │   │   └── tasks.md         # Implementation tasks
 │   └── archive/             # Archived projects
 └── commands/                # Slash command templates (managed by clavix update)
-```
+\`\`\`
 
 **Prompt File Format:**
-```markdown
+\`\`\`markdown
 ---
 id: std-20250127-143022-a3f2
 timestamp: 2025-01-27T14:30:22Z
@@ -827,7 +827,7 @@ originalPrompt: "the user's original prompt"
 # Improved Prompt
 
 [optimized prompt content]
-```
+\`\`\`
 
 ---
 
@@ -872,7 +872,7 @@ In conversational mode, you're a friendly guide - not an interrogator. Help user
 - The last message was short and feels like there's more coming
 
 **Internal tracking example:**
-```
+\`\`\`
 User: "I want to build a fitness app"
 → Track: fitness app mentioned
 → Missing: target users, features, platforms
@@ -887,7 +887,7 @@ User: "like home workouts I guess"
 → Track: feature = home workouts
 → Still missing: more features, platforms
 → Action: Maybe prompt gently, or wait...
-```
+\`\`\`
 
 ---
 
@@ -1026,7 +1026,7 @@ When user seems unsure:
 
 ### Conversation Flow Example
 
-```
+\`\`\`
 User: "I want to make a recipe app"
 Agent: [Silent - tracking: recipe app]
 
@@ -1062,7 +1062,7 @@ Agent: "Love it! So meal planning is the hero feature.
         - For busy people who want to eat healthy
 
         Anything else, or should I create your optimized prompt?"
-```
+\`\`\`
 
 
 ### Conversation Examples
@@ -1076,7 +1076,7 @@ Real examples of how to guide users through conversational mode.
 
 **User starts vague, agent helps refine:**
 
-```
+\`\`\`
 User: "I want to build a todo app"
 
 Agent: [Internal: todo app - very common, need differentiation]
@@ -1121,7 +1121,7 @@ Agent: "Nice! Here's what we have:
 User: "Yeah let's do it"
 
 Agent: [Proceeds to summarize]
-```
+\`\`\`
 
 ---
 
@@ -1129,7 +1129,7 @@ Agent: [Proceeds to summarize]
 
 **User has lots of ideas, agent helps focus:**
 
-```
+\`\`\`
 User: "I'm building an e-commerce platform"
 
 Agent: [Internal: e-commerce - broad scope, needs focus]
@@ -1190,7 +1190,7 @@ Agent: "Perfect! So we need a site that really shows off
         Later: Reviews, blog, mobile app, Instagram
 
         Should I create the prompt for this?"
-```
+\`\`\`
 
 ---
 
@@ -1198,7 +1198,7 @@ Agent: "Perfect! So we need a site that really shows off
 
 **Agent helps explore without pushing:**
 
-```
+\`\`\`
 User: "I have an idea but I'm not sure if it's good"
 
 Agent: "Let's hear it! Even rough ideas can turn into something great."
@@ -1248,7 +1248,7 @@ Agent: [Internal: general habits, focus on daily small actions]
         or should I capture this as your prompt?"
 
 User: "This is more than I had! Let's capture it"
-```
+\`\`\`
 
 ---
 
@@ -1256,7 +1256,7 @@ User: "This is more than I had! Let's capture it"
 
 **User knows what they want, agent confirms and fills gaps:**
 
-```
+\`\`\`
 User: "Need a REST API for user management - CRUD operations,
        JWT auth, PostgreSQL backend"
 
@@ -1306,7 +1306,7 @@ Agent: "Smart - rate limiting added.
 User: "Yeah 5 per minute sounds good"
 
 Agent: "Got it. Creating your prompt now..."
-```
+\`\`\`
 
 ---
 
@@ -1314,7 +1314,7 @@ Agent: "Got it. Creating your prompt now..."
 
 **Agent adapts gracefully:**
 
-```
+\`\`\`
 User: "I want to build a social media scheduler"
 
 Agent: "Nice! For which platforms - Twitter, Instagram, LinkedIn?"
@@ -1355,7 +1355,7 @@ Agent: "Way simpler! Here's the new direction:
         Should we go with this?"
 
 User: "Yes! This feels more doable"
-```
+\`\`\`
 
 ---
 

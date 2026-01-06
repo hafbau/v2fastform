@@ -6,7 +6,7 @@ This directory contains the complete instruction set for AI agents consuming Cla
 
 ## 📐 Documentation Architecture
 
-```
+\`\`\`
 Canonical Templates (SOURCE OF TRUTH)
   src/templates/slash-commands/_canonical/
   ├── improve.md          - Unified prompt optimization (standard + comprehensive)
@@ -35,7 +35,7 @@ Integration Adapters (THIN WRAPPERS)
   ├── cursor/            - Cursor adapter
   ├── windsurf/          - Windsurf adapter
   └── ... (22 integrations total)
-```
+\`\`\`
 
 ---
 
@@ -110,9 +110,9 @@ Problem → Solution guides:
 
 All workflows follow this progression:
 
-```
+\`\`\`
 PRD Creation → Task Planning → Implementation → Verification → Archive
-```
+\`\`\`
 
 | Phase | Command | Output | Mode |
 |-------|---------|--------|------|
@@ -177,7 +177,7 @@ In v5, agents use native tools (Write, Edit, Bash) instead of CLI commands:
 
 Clavix includes validation to catch incomplete updates:
 
-```bash
+\`\`\`bash
 # Run before committing
 npm run validate:consistency
 
@@ -187,7 +187,7 @@ npm run validate:consistency
 # - All templates have CLI implementations
 # - No deprecated version references
 # - Mode enforcement headers present
-```
+\`\`\`
 
 ---
 

@@ -10,13 +10,13 @@ This guide provides proven patterns for file creation in Clavix workflows. These
 
 ### Complete File Creation Workflow
 
-```markdown
+\`\`\`markdown
 **Step 1: Create Directory Structure**
 
 Use mkdir to create the output directory:
-```bash
+\`\`\`bash
 mkdir -p .clavix/outputs/[project-name]
-```
+\`\`\`
 
 **Step 2: Write First File**
 
@@ -33,14 +33,14 @@ Use the Write tool to create `.clavix/outputs/[project-name]/another-file.md` wi
 **Step 4: Verify File Creation**
 
 List the created files to confirm they exist:
-```
+\`\`\`
 Created files:
 ✓ .clavix/outputs/[project-name]/file-name.md
 ✓ .clavix/outputs/[project-name]/another-file.md
-```
+\`\`\`
 
 **CHECKPOINT:** Files created successfully.
-```
+\`\`\`
 
 ---
 
@@ -69,48 +69,48 @@ Created files:
 
 ### Single File Creation
 
-```markdown
+\`\`\`markdown
 **Create Output File (REQUIRED)**
 
 **Step 1: Create directory**
-```bash
+\`\`\`bash
 mkdir -p .clavix/outputs/[project-name]
-```
+\`\`\`
 
 **Step 2: Write file**
 Use the Write tool to create `.clavix/outputs/[project-name]/output.md`:
 
-```markdown
+\`\`\`markdown
 # [Project Name]
 
 [Content here]
-```
+\`\`\`
 
 **Step 3: Verify file exists**
 Confirm file created: `.clavix/outputs/[project-name]/output.md` ✓
 
 **CHECKPOINT:** File created successfully.
-```
+\`\`\`
 
 ---
 
 ### Multiple Files with Templates
 
-```markdown
+\`\`\`markdown
 **Create Output Files (REQUIRED)**
 
 You MUST create three files. This is not optional.
 
 **Step 1: Create directory structure**
-```bash
+\`\`\`bash
 mkdir -p .clavix/outputs/[project-name]
-```
+\`\`\`
 
 **Step 2: Write mini-prd.md**
 Use the Write tool to create `.clavix/outputs/[project-name]/mini-prd.md`
 
 Content template:
-```markdown
+\`\`\`markdown
 # Requirements: [Project Name]
 
 ## Objective
@@ -125,7 +125,7 @@ Content template:
 
 ## Success Criteria
 [Criteria]
-```
+\`\`\`
 
 **Step 3: Write original-prompt.md**
 Use the Write tool to create `.clavix/outputs/[project-name]/original-prompt.md`
@@ -139,20 +139,20 @@ Content: [Enhanced version with labeled improvements]
 
 **Step 5: Verify all files exist**
 List created files:
-```
+\`\`\`
 ✓ .clavix/outputs/[project-name]/mini-prd.md
 ✓ .clavix/outputs/[project-name]/original-prompt.md
 ✓ .clavix/outputs/[project-name]/optimized-prompt.md
-```
+\`\`\`
 
 **CHECKPOINT:** All files created successfully.
-```
+\`\`\`
 
 ---
 
 ### Timestamped Prompts
 
-```markdown
+\`\`\`markdown
 **Step 1: Generate prompt timestamp**
 Create timestamp: `YYYYMMDD-HHMMSS` format (e.g., `20251124-143022`)
 
@@ -172,7 +172,7 @@ executed: false
 
 **Step 3: Verify**
 Confirm: `.clavix/outputs/prompts/std-[timestamp]-[random].md` ✓
-```
+\`\`\`
 
 ---
 
@@ -238,7 +238,7 @@ Use standard pattern above. No adaptations needed.
 
 Add fallback pattern:
 
-```markdown
+\`\`\`markdown
 **Step 2: Write file (with fallback)**
 
 **Primary approach:** Use the Write tool to create `.clavix/outputs/[project]/file.md`
@@ -246,20 +246,20 @@ Add fallback pattern:
 **Fallback if Write tool unavailable:**
 If file creation fails, display content and instruct user:
 
-```
+\`\`\`
 ⚠️ File creation unavailable. Please save this content manually:
 
 **File path:** `.clavix/outputs/[project]/file.md`
 
 **Content:**
-```markdown
+\`\`\`markdown
 [Content here]
-```
-```
+\`\`\`
+\`\`\`
 
 Copy the content above and save to the specified path.
-```
-```
+\`\`\`
+\`\`\`
 
 ---
 
@@ -267,15 +267,15 @@ Copy the content above and save to the specified path.
 
 ### From fast.md (WORKS ✓)
 
-```markdown
+\`\`\`markdown
 ### Saving the Prompt (REQUIRED)
 
 After displaying the optimized prompt, you MUST save it to the Clavix system for future reference.
 
 #### Step 1: Create Directory Structure
-```bash
+\`\`\`bash
 mkdir -p .clavix/outputs/prompts/fast
-```
+\`\`\`
 
 #### Step 2: Generate Unique Prompt ID
 Create a unique identifier: `fast-YYYYMMDD-HHMM`
@@ -288,10 +288,10 @@ Use the Write tool to create the prompt file at:
 
 #### Step 5: Verify Saving Succeeded
 Confirm the file path and display to user:
-```
+\`\`\`
 ✓ Prompt saved: .clavix/outputs/prompts/fast/[prompt-id].md
-```
-```
+\`\`\`
+\`\`\`
 
 **Why it works:**
 - Header says "REQUIRED"
@@ -304,9 +304,9 @@ Confirm the file path and display to user:
 
 ### From summarize.md OLD (BROKEN ✗)
 
-```markdown
+\`\`\`markdown
 5. Suggest saving to `.clavix/outputs/[session-name]/`
-```
+\`\`\`
 
 **Why it failed:**
 - "Suggest" is passive

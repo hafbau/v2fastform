@@ -19,28 +19,28 @@
 ## Common Workflows
 
 **Quick optimization:**
-```
+\`\`\`
 /clavix:improve "your prompt here"
   → /clavix:implement --latest
-```
+\`\`\`
 
 **Full planning cycle:**
-```
+\`\`\`
 /clavix:prd
   → /clavix:plan
   → /clavix:implement
   → /clavix:verify
   → /clavix:archive
-```
+\`\`\`
 
 **Exploratory approach:**
-```
+\`\`\`
 /clavix:start
   → (conversation)
   → /clavix:summarize
   → /clavix:plan
   → /clavix:implement
-```
+\`\`\`
 
 ## Key Directories
 

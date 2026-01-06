@@ -18,19 +18,19 @@ Checkpoints are standardized markers that agents output to confirm workflow step
 
 ### Checkpoint Format
 
-```markdown
+\`\`\`markdown
 **CHECKPOINT:** [Brief description of what was completed]
-```
+\`\`\`
 
 ### Examples
 
-```markdown
+\`\`\`markdown
 **CHECKPOINT:** Entered conversational mode (gathering requirements only)
 **CHECKPOINT:** Asked 5 clarifying questions about authentication system
 **CHECKPOINT:** Extracted requirements from conversation
 **CHECKPOINT:** Created 3 output files successfully
 **CHECKPOINT:** Files verified - all exist at expected paths
-```
+\`\`\`
 
 ---
 
@@ -39,35 +39,35 @@ Checkpoints are standardized markers that agents output to confirm workflow step
 ### 1. Mode Transitions
 
 **When entering a specific mode:**
-```markdown
+\`\`\`markdown
 **CHECKPOINT:** Entered conversational mode for requirements gathering
 **CHECKPOINT:** Started PRD generation workflow
 **CHECKPOINT:** Beginning deep analysis of prompt
-```
+\`\`\`
 
 ### 2. After File Operations
 
 **After creating files:**
-```markdown
+\`\`\`markdown
 **CHECKPOINT:** Files created successfully - verified existence
 **CHECKPOINT:** Saved prompt to .clavix/outputs/prompts/fast/fast-20251124-1430.md
-```
+\`\`\`
 
 ### 3. After Complex Operations
 
 **After multi-step processes:**
-```markdown
+\`\`\`markdown
 **CHECKPOINT:** Completed pattern-based optimization - 5 improvements applied
 **CHECKPOINT:** Analyzed conversation - extracted 12 requirements, 3 constraints
-```
+\`\`\`
 
 ### 4. At Decision Points
 
 **When making workflow decisions:**
-```markdown
+\`\`\`markdown
 **CHECKPOINT:** Conversation complexity threshold reached (15+ exchanges) - suggesting summarization
 **CHECKPOINT:** Missing critical requirements - requesting more information before proceeding
-```
+\`\`\`
 
 ---
 
@@ -77,23 +77,23 @@ Checkpoints are standardized markers that agents output to confirm workflow step
 
 **After file creation, always verify:**
 
-```markdown
+\`\`\`markdown
 **Step 5: Verify File Creation**
 
 List the created files to confirm they exist:
-```
+\`\`\`
 Created files:
 ✓ .clavix/outputs/[project]/mini-prd.md
 ✓ .clavix/outputs/[project]/original-prompt.md
 ✓ .clavix/outputs/[project]/optimized-prompt.md
-```
+\`\`\`
 
 **CHECKPOINT:** All files created successfully.
 
 If any file is missing:
 - Review file creation steps
 - See troubleshooting: `.clavix/instructions/troubleshooting/skipped-file-creation.md`
-```
+\`\`\`
 
 ---
 
@@ -101,7 +101,7 @@ If any file is missing:
 
 **Verify content meets requirements:**
 
-```markdown
+\`\`\`markdown
 **Step 6: Validate Content**
 
 Verify each file contains:
@@ -110,7 +110,7 @@ Verify each file contains:
 - ✓ optimized-prompt.md: Improvements labeled with [ADDED], [CLARIFIED], etc.
 
 **CHECKPOINT:** Content validation passed.
-```
+\`\`\`
 
 ---
 
@@ -118,7 +118,7 @@ Verify each file contains:
 
 **Verify agent stayed in correct mode:**
 
-```markdown
+\`\`\`markdown
 **Step 7: Mode Compliance Check**
 
 Confirm you stayed in CLAVIX MODE:
@@ -127,7 +127,7 @@ Confirm you stayed in CLAVIX MODE:
 - ✓ Only created planning documents and prompts
 
 **CHECKPOINT:** Mode boundaries respected.
-```
+\`\`\`
 
 ---
 
@@ -135,7 +135,7 @@ Confirm you stayed in CLAVIX MODE:
 
 **Verify minimum requirements gathered:**
 
-```markdown
+\`\`\`markdown
 **Pre-Extraction Validation**
 
 Before proceeding with summarization, verify conversation includes:
@@ -149,7 +149,7 @@ If ANY are missing:
 - Reference: `.clavix/instructions/troubleshooting/incomplete-requirements.md`
 
 **CHECKPOINT:** Minimum requirements met - proceeding with extraction.
-```
+\`\`\`
 
 ---
 
@@ -157,7 +157,7 @@ If ANY are missing:
 
 ### Detecting Premature Implementation
 
-```markdown
+\`\`\`markdown
 **Self-Check: Am I Implementing?**
 
 If you catch yourself:
@@ -173,13 +173,13 @@ If you catch yourself:
 5. Reference: `.clavix/instructions/core/clavix-mode.md`
 
 **CHECKPOINT:** Self-corrected - returned to requirements mode.
-```
+\`\`\`
 
 ---
 
 ### Detecting Skipped Steps
 
-```markdown
+\`\`\`markdown
 **Self-Check: Did I Skip File Creation?**
 
 Before completing the summarization workflow, verify:
@@ -195,7 +195,7 @@ If any step was skipped:
 3. Verify files exist before marking workflow complete
 
 **CHECKPOINT:** All file creation steps completed.
-```
+\`\`\`
 
 ---
 
@@ -203,7 +203,7 @@ If any step was skipped:
 
 ### Pattern: Identify Common Failures
 
-```markdown
+\`\`\`markdown
 **Troubleshooting Check**
 
 If workflow isn't proceeding as expected, check:
@@ -221,7 +221,7 @@ If workflow isn't proceeding as expected, check:
    - Common cause: Unclear which mode (planning vs implementation) is active
 
 **CHECKPOINT:** Troubleshooting guidance provided if needed.
-```
+\`\`\`
 
 ---
 
@@ -229,7 +229,7 @@ If workflow isn't proceeding as expected, check:
 
 ### Conversational Mode (/clavix:start)
 
-```markdown
+\`\`\`markdown
 **Checkpoints to include:**
 
 1. After entering mode:
@@ -246,13 +246,13 @@ If workflow isn't proceeding as expected, check:
 
 5. When user says "summarize":
    **CHECKPOINT:** Transitioning to summarization workflow
-```
+\`\`\`
 
 ---
 
 ### Summarization (/clavix:summarize)
 
-```markdown
+\`\`\`markdown
 **Checkpoints to include:**
 
 1. Before extraction:
@@ -277,13 +277,13 @@ If workflow isn't proceeding as expected, check:
 
 7. Workflow complete:
    **CHECKPOINT:** Summarization workflow complete - all outputs created
-```
+\`\`\`
 
 ---
 
 ### Prompt Improvement (/clavix:improve)
 
-```markdown
+\`\`\`markdown
 **Checkpoints to include:**
 
 1. After triage:
@@ -300,11 +300,11 @@ If workflow isn't proceeding as expected, check:
 
 5. After verification:
    **CHECKPOINT:** File verified - prompt saved successfully
-```
+\`\`\`
 
 **For Comprehensive Depth (`/clavix:improve --comprehensive`):**
 
-```markdown
+\`\`\`markdown
 **Additional checkpoints:**
 
 1. After alternative analysis:
@@ -315,7 +315,7 @@ If workflow isn't proceeding as expected, check:
 
 3. After validation checklist:
    **CHECKPOINT:** Created comprehensive analysis with validation checklist
-```
+\`\`\`
 
 ---
 
@@ -325,7 +325,7 @@ If workflow isn't proceeding as expected, check:
 
 Use consistent format to enable future automated validation:
 
-```markdown
+\`\`\`markdown
 **CHECKPOINT:** <status> - <description>
 
 Where:
@@ -337,7 +337,7 @@ Examples:
 **CHECKPOINT:** WARNING - Complexity threshold reached
 **CHECKPOINT:** ERROR - Missing required information
 **CHECKPOINT:** INFO - Entered conversational mode
-```
+\`\`\`
 
 ### Future Enhancements
 
@@ -358,9 +358,9 @@ Examples:
 4. **Troubleshooting detection** for common failures
 
 **Format:**
-```markdown
+\`\`\`markdown
 **CHECKPOINT:** [Clear description of what completed]
-```
+\`\`\`
 
 **Use verification to:**
 - Confirm files created

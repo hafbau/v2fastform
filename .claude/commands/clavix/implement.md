@@ -19,7 +19,7 @@ When you run `/clavix:implement`, I:
 
 ### Detection Priority
 
-```
+\`\`\`
 /clavix:implement
     │
     ├─► Check .clavix/outputs/<project>/tasks.md (all project folders)
@@ -31,26 +31,26 @@ When you run `/clavix:implement`, I:
     └─► Check .clavix/outputs/prompts/*.md
             └─► If found → Prompt Execution Mode
             └─► If neither → Ask what to build
-```
+\`\`\`
 
 ### Required Confirmation Message
 
 **Before starting any implementation, you MUST output a confirmation message:**
 
 **For tasks.md detection:**
-```
+\`\`\`
 Found tasks.md with [N] pending tasks in [project-name]. Starting task implementation...
-```
+\`\`\`
 
 **For prompt detection:**
-```
+\`\`\`
 Found [N] saved prompt(s) in prompts/. Implementing [prompt-name]...
-```
+\`\`\`
 
 **For legacy summarize/ fallback:**
-```
+\`\`\`
 Found tasks.md with [N] pending tasks in summarize/ (legacy location). Starting task implementation...
-```
+\`\`\`
 
 This confirmation ensures the user knows exactly what will be implemented before any code is written.
 
@@ -107,13 +107,13 @@ If you catch yourself doing any of these, STOP and correct:
 
 Before ANY action, output this confirmation:
 
-```
+\`\`\`
 **CLAVIX MODE: Implementation**
 Mode: implementation
 Purpose: Executing tasks or prompts with code generation
 Source: [tasks.md | prompts/ | user request]
 Implementation: AUTHORIZED
-```
+\`\`\`
 
 ---
 
@@ -121,7 +121,7 @@ Implementation: AUTHORIZED
 
 ### The Quick Version
 
-```
+\`\`\`
 You:    /clavix:implement
 Me:     "Found your task list! 8 tasks in 3 phases."
         "Starting with: Set up project structure"
@@ -131,7 +131,7 @@ Me:     "Found your task list! 8 tasks in 3 phases."
         [I build it]
         ...
 Me:     "All tasks complete! Your project is built."
-```
+\`\`\`
 
 ### The Detailed Version
 
@@ -192,14 +192,14 @@ After I finish implementing a task:
 
 ### What You'll See
 
-```
+\`\`\`
 ✓ Task complete: "Set up project structure"
 
 Progress: 2/8 tasks (25%)
 
 Next up: "Create database models"
 Starting now...
-```
+\`\`\`
 
 ## My Rules for Implementation
 
@@ -256,7 +256,7 @@ Sometimes I hit a wall. Here's what happens:
 
 If possible, I'll break the task into pieces and do what I can:
 
-```
+\`\`\`
 Original: "Set up payment integration"
 
 What I can do now:
@@ -266,18 +266,18 @@ What I can do now:
 
 What's blocked:
 ○ [BLOCKED: Need Stripe key] Connect to Stripe API
-```
+\`\`\`
 
 This way we make progress even when something's missing.
 
 ### Tracking Blocked Tasks
 
 I mark blocked tasks in tasks.md:
-```markdown
+\`\`\`markdown
 - [x] Create payment service structure
 - [ ] [BLOCKED: Need Stripe API key] Connect to Stripe
 - [x] Build checkout UI
-```
+\`\`\`
 
 At the end of our session, I'll remind you:
 > "Just a heads up - we have 2 blocked tasks waiting for:
@@ -288,7 +288,7 @@ At the end of our session, I'll remind you:
 
 ## Example: What a Session Looks Like
 
-```
+\`\`\`
 You:    /clavix:implement
 
 Me:     "Found your task list! Let me see where we are..."
@@ -324,14 +324,14 @@ Me:     "🎉 All 8 tasks complete!
         - [... etc]
 
         Ready to test it out?"
-```
+\`\`\`
 
 ## How I Find Tasks
 
 Task IDs look like: `phase-1-setup-1`, `phase-2-auth-3`
 
 I find them automatically from tasks.md:
-```markdown
+\`\`\`markdown
 ## Phase 1: Setup
 
 - [ ] Set up project structure
@@ -339,7 +339,7 @@ I find them automatically from tasks.md:
 
 - [ ] Create database models
   Task ID: phase-1-setup-2
-```
+\`\`\`
 
 You don't need to remember these - I handle all the tracking.
 
@@ -353,14 +353,14 @@ When I detect saved prompts (or you use `--latest`/`--prompt`), I switch to prom
 
 ### The Quick Version
 
-```
+\`\`\`
 You:    /clavix:implement --latest
 Me:     [Finds your latest prompt]
         [Reads requirements]
         [Implements everything]
         [Runs verification]
 Me:     "Done! Here's what I built..."
-```
+\`\`\`
 
 ### The Detailed Version (v5 Agentic-First)
 
@@ -421,12 +421,12 @@ You'll see a summary of:
 
 ### The Prompt Lifecycle
 
-```
+\`\`\`
 1. YOU CREATE   →  /clavix:improve (saves to .clavix/outputs/prompts/<id>.md)
 2. I EXECUTE    →  /clavix:implement --latest (reads and implements)
 3. I VERIFY     →  Automatic verification
 4. MARK DONE    →  I update frontmatter with executed: true
-```
+\`\`\`
 
 ---
 
@@ -445,7 +445,7 @@ After I finish building, I run verification myself:
 
 ### What You'll See
 
-```
+\`\`\`
 Implementation complete for [prompt-id]
 
 Verification Results:
@@ -453,7 +453,7 @@ Verification Results:
 1 item needs attention: [specific issue]
 
 Would you like me to fix the failing item?
-```
+\`\`\`
 
 ### Understanding the Symbols
 
@@ -546,7 +546,7 @@ Clavix v5 follows an **agentic-first architecture**. This means:
 
 ## File System Structure
 
-```
+\`\`\`
 .clavix/
 ├── config.json              # Project configuration
 ├── outputs/
@@ -558,7 +558,7 @@ Clavix v5 follows an **agentic-first architecture**. This means:
 │   │   └── tasks.md         # Implementation tasks
 │   └── archive/             # Archived projects
 └── commands/                # Slash command templates (managed by clavix update)
-```
+\`\`\`
 
 ---
 
@@ -647,7 +647,7 @@ These rules define deterministic agent behavior. Follow exactly.
 
 ### Rule 1: Quality-Based Decisions
 
-```
+\`\`\`
 IF quality < 60%:
   → ACTION: Suggest comprehensive analysis
   → SAY: "Quality is [X]%. Consider comprehensive depth."
@@ -659,11 +659,11 @@ IF quality >= 60% AND quality < 80%:
 IF quality >= 80%:
   → ACTION: Ready to use
   → SAY: "Quality is good ([X]%). Ready to proceed."
-```
+\`\`\`
 
 ### Rule 2: Intent Confidence
 
-```
+\`\`\`
 IF confidence >= 85%:
   → ACTION: Proceed with detected intent
 
@@ -676,11 +676,11 @@ IF confidence 50-69%:
 IF confidence < 50%:
   → ACTION: Cannot proceed autonomously
   → ASK: "I'm unclear on intent. Is this: [A] | [B] | [C]?"
-```
+\`\`\`
 
 ### Rule 3: File Operations
 
-```
+\`\`\`
 BEFORE writing files:
   → CHECK: Target directory exists
   → IF not exists: Create directory first
@@ -688,11 +688,11 @@ BEFORE writing files:
 AFTER writing files:
   → VERIFY: File was created successfully
   → IF failed: Report error, suggest manual action
-```
+\`\`\`
 
 ### Rule 4: Task Completion (Implementation Mode)
 
-```
+\`\`\`
 AFTER implementing task:
   → EDIT tasks.md: Change - [ ] to - [x] for completed task
 
@@ -703,11 +703,11 @@ IF edit succeeds:
 IF edit fails:
   → SHOW error to user
   → ASK: "Task completion failed. How to proceed?"
-```
+\`\`\`
 
 ### Rule 5: Error Recovery
 
-```
+\`\`\`
 IF pattern application fails:
   → LOG: Which pattern failed
   → CONTINUE: With remaining patterns
@@ -720,18 +720,18 @@ IF file write fails:
 IF user prompt is empty/invalid:
   → ASK: For valid input
   → NEVER: Proceed with assumption
-```
+\`\`\`
 
 ### Rule 6: Execution Verification
 
-```
+\`\`\`
 BEFORE completing response:
   → VERIFY all checkpoints met for current mode
   → IF any checkpoint failed:
     → REPORT which checkpoint failed
     → EXPLAIN why it failed
     → SUGGEST recovery action
-```
+\`\`\`
 
 ---
 
@@ -901,12 +901,12 @@ If you realize you should have asked clarifying questions AFTER starting:
 
 At the end of workflows that produce output, include verification:
 
-```
+\`\`\`
 ## Clavix Execution Verification
 - [x] Mode: {improve|prd|plan|implement|verify|archive}
 - [x] Output created: {actual file path}
 - [x] Verification: {how you verified it exists}
-```
+\`\`\`
 
 ---
 
@@ -918,16 +918,16 @@ At the end of workflows that produce output, include verification:
 
 ### PRD-to-Implementation States
 
-```
+\`\`\`
 NO_PROJECT → PRD_EXISTS → TASKS_EXIST → IMPLEMENTING → ALL_COMPLETE → ARCHIVED
-```
+\`\`\`
 
 ### State Detection Protocol
 
 **Step 1: Check for project config**
-```
+\`\`\`
 Read: .clavix/outputs/{project}/.clavix-implement-config.json
-```
+\`\`\`
 
 **Step 2: Interpret state based on conditions**
 
@@ -942,9 +942,9 @@ Read: .clavix/outputs/{project}/.clavix-implement-config.json
 
 **Step 3: State assertion**
 Always output current state when starting a workflow:
-```
+\`\`\`
 "Current state: [STATE]. Progress: [X]/[Y] tasks. Next: [action]"
-```
+\`\`\`
 
 ### File Detection Guide
 
@@ -962,7 +962,7 @@ Always output current state when starting a workflow:
 
 ### State Transition Rules
 
-```
+\`\`\`
 NO_PROJECT:
   → /clavix:prd creates PRD_EXISTS
   → /clavix:start + /clavix:summarize creates PRD_EXISTS
@@ -984,13 +984,13 @@ ALL_COMPLETE:
 
 ARCHIVED:
   → Agent moves project back from archive/ → back to previous state
-```
+\`\`\`
 
 ### Prompt Lifecycle States (Separate from PRD)
 
-```
+\`\`\`
 NO_PROMPTS → PROMPT_EXISTS → EXECUTED → CLEANED
-```
+\`\`\`
 
 | Condition | State | Detection |
 |-----------|-------|-----------|
@@ -1002,20 +1002,20 @@ NO_PROMPTS → PROMPT_EXISTS → EXECUTED → CLEANED
 ### Multi-Project Handling
 
 When multiple projects exist:
-```
+\`\`\`
 IF project count > 1:
   → LIST: Show all projects with progress
   → ASK: "Multiple projects found. Which one?"
   → Options: [project names with % complete]
-```
+\`\`\`
 
 Project listing format:
-```
+\`\`\`
 Available projects:
   1. auth-feature (75% - 12/16 tasks)
   2. api-refactor (0% - not started)
   3. dashboard-v2 (100% - complete, suggest archive)
-```
+\`\`\`
 
 
 ### Task Blocking Protocol
@@ -1319,7 +1319,7 @@ These are commands the **user** runs in their terminal to set up Clavix:
 
 ### File System Structure
 
-```
+\`\`\`
 .clavix/
 ├── config.json              # Project configuration
 ├── outputs/
@@ -1331,10 +1331,10 @@ These are commands the **user** runs in their terminal to set up Clavix:
 │   │   └── tasks.md         # Implementation tasks
 │   └── archive/             # Archived projects
 └── commands/                # Slash command templates (managed by clavix update)
-```
+\`\`\`
 
 **Prompt File Format:**
-```markdown
+\`\`\`markdown
 ---
 id: std-20250127-143022-a3f2
 timestamp: 2025-01-27T14:30:22Z
@@ -1345,7 +1345,7 @@ originalPrompt: "the user's original prompt"
 # Improved Prompt
 
 [optimized prompt content]
-```
+\`\`\`
 
 ---
 

@@ -85,13 +85,13 @@ This is a prompt improvement workflow. Your job is to ANALYZE and IMPROVE the pr
 ## State Assertion (REQUIRED)
 
 **Before starting analysis, output:**
-```
+\`\`\`
 **CLAVIX MODE: Improve**
 Mode: planning
 Purpose: Optimizing user prompt with pattern-based analysis
 Depth: [standard|comprehensive] (auto-detected based on quality score)
 Implementation: BLOCKED - I will analyze and improve the prompt, not implement it
-```
+\`\`\`
 
 ---
 
@@ -158,13 +158,13 @@ Clavix provides a unified **improve** mode that intelligently selects the approp
 
    **If Overall Quality 60-74%**:
    - Ask user to choose:
-     ```
+     \`\`\`
      Quality score: XX% (borderline)
 
      Choose analysis depth:
      - Comprehensive: Alternative approaches, edge cases, validation checklist
      - Standard: Quick improvements and core optimization
-     ```
+     \`\`\`
 
    **If Overall Quality < 60%**:
    - Auto-select **standard** depth
@@ -200,7 +200,7 @@ Clavix provides a unified **improve** mode that intelligently selects the approp
 
 If user provides: "Please could you maybe help me create a login page?"
 
-```
+\`\`\`
 ## Clavix Improve Mode Analysis
 
 ### Depth Selection
@@ -258,7 +258,7 @@ Success Criteria:
 - ConcisenessFilter: Removed unnecessary phrases
 - ObjectiveClarifier: Extracted clear goal statement
 - TechnicalContextEnricher: Added React/TypeScript stack
-```
+\`\`\`
 
 ---
 
@@ -266,7 +266,7 @@ Success Criteria:
 
 If user provides: "Build a notification system for our SaaS platform" (higher quality prompt)
 
-```
+\`\`\`
 ## Clavix Improve Mode Analysis
 
 ### Depth Selection
@@ -337,7 +337,7 @@ Before considering this task complete, verify:
 - No delivery confirmation causing silent failures
 - Poor batching overwhelming users
 - Missing unsubscribe compliance issues
-```
+\`\`\`
 
 ---
 
@@ -401,7 +401,7 @@ Create a unique identifier using this format:
 - **Path**: `.clavix/outputs/prompts/<prompt-id>.md`
 
 **File content format**:
-```markdown
+\`\`\`markdown
 ---
 id: <prompt-id>
 depthUsed: standard|comprehensive
@@ -423,9 +423,9 @@ originalPrompt: <user's original prompt text>
 - **Overall**: <percentage>% (<rating>)
 
 ## Original Prompt
-```
+\`\`\`
 <user's original prompt text>
-```
+\`\`\`
 
 [For comprehensive depth, also include:]
 ## Alternative Approaches
@@ -436,7 +436,7 @@ originalPrompt: <user's original prompt text>
 
 ## Edge Cases
 <Insert edge cases>
-```
+\`\`\`
 
 ---
 
@@ -472,12 +472,12 @@ Before outputting final message, confirm ALL of these:
 
 **Your response MUST end with the ACTUAL file path you created:**
 
-```
+\`\`\`
 ✅ Prompt saved to: `.clavix/outputs/prompts/<actual-prompt-id>.md`
 
 Ready to build this? Just say "let's implement" or run:
 /clavix:implement --latest
-```
+\`\`\`
 
 **Replace `<actual-prompt-id>` with the real ID you generated (e.g., `std-20250126-143022-a3f2`).**
 
@@ -546,7 +546,7 @@ Clavix v5 follows an **agentic-first architecture**. This means:
 
 ## File System Structure
 
-```
+\`\`\`
 .clavix/
 ├── config.json              # Project configuration
 ├── outputs/
@@ -558,7 +558,7 @@ Clavix v5 follows an **agentic-first architecture**. This means:
 │   │   └── tasks.md         # Implementation tasks
 │   └── archive/             # Archived projects
 └── commands/                # Slash command templates (managed by clavix update)
-```
+\`\`\`
 
 ---
 
@@ -647,7 +647,7 @@ These rules define deterministic agent behavior. Follow exactly.
 
 ### Rule 1: Quality-Based Decisions
 
-```
+\`\`\`
 IF quality < 60%:
   → ACTION: Suggest comprehensive analysis
   → SAY: "Quality is [X]%. Consider comprehensive depth."
@@ -659,11 +659,11 @@ IF quality >= 60% AND quality < 80%:
 IF quality >= 80%:
   → ACTION: Ready to use
   → SAY: "Quality is good ([X]%). Ready to proceed."
-```
+\`\`\`
 
 ### Rule 2: Intent Confidence
 
-```
+\`\`\`
 IF confidence >= 85%:
   → ACTION: Proceed with detected intent
 
@@ -676,11 +676,11 @@ IF confidence 50-69%:
 IF confidence < 50%:
   → ACTION: Cannot proceed autonomously
   → ASK: "I'm unclear on intent. Is this: [A] | [B] | [C]?"
-```
+\`\`\`
 
 ### Rule 3: File Operations
 
-```
+\`\`\`
 BEFORE writing files:
   → CHECK: Target directory exists
   → IF not exists: Create directory first
@@ -688,11 +688,11 @@ BEFORE writing files:
 AFTER writing files:
   → VERIFY: File was created successfully
   → IF failed: Report error, suggest manual action
-```
+\`\`\`
 
 ### Rule 4: Task Completion (Implementation Mode)
 
-```
+\`\`\`
 AFTER implementing task:
   → EDIT tasks.md: Change - [ ] to - [x] for completed task
 
@@ -703,11 +703,11 @@ IF edit succeeds:
 IF edit fails:
   → SHOW error to user
   → ASK: "Task completion failed. How to proceed?"
-```
+\`\`\`
 
 ### Rule 5: Error Recovery
 
-```
+\`\`\`
 IF pattern application fails:
   → LOG: Which pattern failed
   → CONTINUE: With remaining patterns
@@ -720,18 +720,18 @@ IF file write fails:
 IF user prompt is empty/invalid:
   → ASK: For valid input
   → NEVER: Proceed with assumption
-```
+\`\`\`
 
 ### Rule 6: Execution Verification
 
-```
+\`\`\`
 BEFORE completing response:
   → VERIFY all checkpoints met for current mode
   → IF any checkpoint failed:
     → REPORT which checkpoint failed
     → EXPLAIN why it failed
     → SUGGEST recovery action
-```
+\`\`\`
 
 ---
 
@@ -901,12 +901,12 @@ If you realize you should have asked clarifying questions AFTER starting:
 
 At the end of workflows that produce output, include verification:
 
-```
+\`\`\`
 ## Clavix Execution Verification
 - [x] Mode: {improve|prd|plan|implement|verify|archive}
 - [x] Output created: {actual file path}
 - [x] Verification: {how you verified it exists}
-```
+\`\`\`
 
 ---
 
@@ -987,7 +987,7 @@ These are commands the **user** runs in their terminal to set up Clavix:
 
 ### File System Structure
 
-```
+\`\`\`
 .clavix/
 ├── config.json              # Project configuration
 ├── outputs/
@@ -999,10 +999,10 @@ These are commands the **user** runs in their terminal to set up Clavix:
 │   │   └── tasks.md         # Implementation tasks
 │   └── archive/             # Archived projects
 └── commands/                # Slash command templates (managed by clavix update)
-```
+\`\`\`
 
 **Prompt File Format:**
-```markdown
+\`\`\`markdown
 ---
 id: std-20250127-143022-a3f2
 timestamp: 2025-01-27T14:30:22Z
@@ -1013,7 +1013,7 @@ originalPrompt: "the user's original prompt"
 # Improved Prompt
 
 [optimized prompt content]
-```
+\`\`\`
 
 ---
 
@@ -1164,7 +1164,7 @@ If user questions a change:
 
 ### Template for Improvement Summary
 
-```
+\`\`\`
 ## What I Improved
 
 **Quick summary:** [1-sentence overview]
@@ -1181,10 +1181,10 @@ If user questions a change:
 - Clarity: [rating emoji] [brief note]
 - Completeness: [rating emoji] [brief note]
 - Ready to use: [Yes/Almost/Needs more info]
-```
+\`\`\`
 
 **Example:**
-```
+\`\`\`
 ## What I Improved
 
 **Quick summary:** Made your prompt clearer and added the technical details AI needs.
@@ -1203,7 +1203,7 @@ in under 200ms and support filtering by category and price range."
 - Clarity: ✅ Crystal clear
 - Completeness: ✅ All details included
 - Ready to use: Yes!
-```
+\`\`\`
 
 
 ### Quality Dimensions (Plain English)
@@ -1509,7 +1509,7 @@ The 8 escalation factors for calculating when to recommend comprehensive depth:
 ### Example Conversations
 
 **Prompt clearly needs comprehensive depth:**
-```
+\`\`\`
 User: "help with auth"
 
 Agent: "Authentication is important to get right! This prompt is pretty
@@ -1519,10 +1519,10 @@ Agent: "Authentication is important to get right! This prompt is pretty
        - Create a detailed implementation guide
 
        Want me to do that, or just give it a quick cleanup?"
-```
+\`\`\`
 
 **Prompt is borderline:**
-```
+\`\`\`
 User: "build a REST API for user management"
 
 Agent: "I can definitely improve this! I notice it's missing some details
@@ -1531,17 +1531,17 @@ Agent: "I can definitely improve this! I notice it's missing some details
        - Comprehensive analysis: Fill in all the gaps and give you a complete spec
 
        Which works better for you?"
-```
+\`\`\`
 
 **Prompt is good enough for standard:**
-```
+\`\`\`
 User: "Create a React component that shows a list of products
        with name, price, and add-to-cart button. Use TypeScript
        and styled-components."
 
 Agent: [No escalation needed - proceed with standard depth]
        "Nice clear prompt! Let me just polish it up a bit..."
-```
+\`\`\`
 
 
 ### What Made the Biggest Difference
@@ -1598,7 +1598,7 @@ These are minor tweaks that add a bit of quality.
 ### How to Present Impact
 
 **For Fast Mode (Quick Overview):**
-```
+\`\`\`
 ✨ **What I improved:**
 
 🎯 Made your goal clearer - AI will know exactly what you want
@@ -1606,10 +1606,10 @@ These are minor tweaks that add a bit of quality.
 ✅ Added success criteria - How to know when it's done
 
 Your prompt is ready!
-```
+\`\`\`
 
 **For Deep Mode (Detailed Breakdown):**
-```
+\`\`\`
 ## Improvement Summary
 
 ### High-Impact Changes (3)
@@ -1638,7 +1638,7 @@ Your prompt is ready!
 
 ### Overall
 Your prompt went from **vague** to **production-ready**.
-```
+\`\`\`
 
 ---
 
@@ -1681,7 +1681,7 @@ When these patterns are applied, use these descriptions:
 
 ### Example: Fast Mode Summary
 
-```
+\`\`\`
 ✨ Your prompt is now better:
 
 🎯 Clearer goal - AI knows exactly what to build
@@ -1691,13 +1691,13 @@ When these patterns are applied, use these descriptions:
 **Before:** 45/100 → **After:** 85/100
 
 Ready to use!
-```
+\`\`\`
 
 ---
 
 ### Example: Deep Mode Full Breakdown
 
-```
+\`\`\`
 ## 📊 Improvement Analysis
 
 ### What I Changed (7 improvements)
@@ -1735,7 +1735,7 @@ Ready to use!
 | Actionability | 5/10 | 9/10 |
 
 **Your prompt went from 40% to 90% quality.**
-```
+\`\`\`
 
 ---
 
@@ -1743,7 +1743,7 @@ Ready to use!
 
 Sometimes the prompt is already good:
 
-```
+\`\`\`
 ✅ **Your prompt looks great!**
 
 I checked for common issues and your prompt:
@@ -1752,7 +1752,7 @@ I checked for common issues and your prompt:
 - Is well-organized
 
 No improvements needed - ready to use as-is!
-```
+\`\`\`
 
 
 ---
@@ -1770,9 +1770,9 @@ No improvements needed - ready to use as-is!
 ### Issue: Prompt Not Saved
 
 **Error: Cannot create directory**
-```bash
+\`\`\`bash
 mkdir -p .clavix/outputs/prompts
-```
+\`\`\`
 
 **Error: Prompt file has invalid frontmatter**
 - Re-save the prompt file with valid YAML frontmatter

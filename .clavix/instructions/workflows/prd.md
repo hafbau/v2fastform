@@ -68,12 +68,12 @@ For complete mode documentation, see: `.clavix/instructions/core/clavix-mode.md`
 ## State Assertion (REQUIRED)
 
 **Before starting PRD development, output:**
-```
+\`\`\`
 **CLAVIX MODE: PRD Development**
 Mode: planning
 Purpose: Guiding strategic questions to create comprehensive PRD documents
 Implementation: BLOCKED - I will develop requirements, not implement the feature
-```
+\`\`\`
 
 ---
 
@@ -148,7 +148,7 @@ Both documents are automatically validated for quality (Clarity, Structure, Comp
 3. After collecting and validating all answers, generate TWO documents:
 
    **Full PRD** (comprehensive):
-   ```markdown
+   \`\`\`markdown
    # Product Requirements Document: [Project Name]
 
    ## Problem & Goal
@@ -166,16 +166,16 @@ Both documents are automatically validated for quality (Clarity, Structure, Comp
 
    ## Additional Context
    [User's answer to Q5 if provided]
-   ```
+   \`\`\`
 
    **Quick PRD** (2-3 paragraphs, AI-optimized):
-   ```markdown
+   \`\`\`markdown
    [Concise summary combining problem, goal, and must-have features from Q1+Q2]
 
    [Technical requirements and constraints from Q3]
 
    [Out of scope and additional context from Q4+Q5]
-   ```
+   \`\`\`
 
 3. **Save both documents** using the file-saving protocol below
 
@@ -197,9 +197,9 @@ Both documents are automatically validated for quality (Clarity, Structure, Comp
 - **Example**: "Sales Manager Dashboard" → `sales-manager-dashboard`
 
 ### Step 2: Create Output Directory
-```bash
+\`\`\`bash
 mkdir -p .clavix/outputs/{sanitized-project-name}
-```
+\`\`\`
 
 **Handle errors**:
 - If directory creation fails: Check write permissions
@@ -209,7 +209,7 @@ mkdir -p .clavix/outputs/{sanitized-project-name}
 **File path**: `.clavix/outputs/{project-name}/full-prd.md`
 
 **Content structure**:
-```markdown
+\`\`\`markdown
 # Product Requirements Document: {Project Name}
 
 ## Problem & Goal
@@ -232,13 +232,13 @@ mkdir -p .clavix/outputs/{sanitized-project-name}
 
 *Generated with Clavix Planning Mode*
 *Generated: {ISO timestamp}*
-```
+\`\`\`
 
 ### Step 4: Save Quick PRD
 **File path**: `.clavix/outputs/{project-name}/quick-prd.md`
 
 **Content structure** (2-3 paragraphs, AI-optimized):
-```markdown
+\`\`\`markdown
 # {Project Name} - Quick PRD
 
 {Paragraph 1: Combine problem + goal + must-have features from Q1+Q2}
@@ -251,7 +251,7 @@ mkdir -p .clavix/outputs/{sanitized-project-name}
 
 *Generated with Clavix Planning Mode*
 *Generated: {ISO timestamp}*
-```
+\`\`\`
 
 ### Step 5: Verify Files Were Created
 
@@ -270,7 +270,7 @@ mkdir -p .clavix/outputs/{sanitized-project-name}
 
 ### Step 6: Communicate Success
 Display to user:
-```
+\`\`\`
 ✓ PRD generated successfully!
 
 Files saved:
@@ -286,7 +286,7 @@ Quality Assessment:
 Next steps:
   • Review and edit PRD files if needed
   • Run /clavix-plan to generate implementation tasks
-```
+\`\`\`
 
 ### Error Handling
 
@@ -373,7 +373,7 @@ Clavix v5 follows an **agentic-first architecture**. This means:
 
 ## File System Structure
 
-```
+\`\`\`
 .clavix/
 ├── config.json              # Project configuration
 ├── outputs/
@@ -385,7 +385,7 @@ Clavix v5 follows an **agentic-first architecture**. This means:
 │   │   └── tasks.md         # Implementation tasks
 │   └── archive/             # Archived projects
 └── commands/                # Slash command templates (managed by clavix update)
-```
+\`\`\`
 
 ---
 
@@ -474,7 +474,7 @@ These rules define deterministic agent behavior. Follow exactly.
 
 ### Rule 1: Quality-Based Decisions
 
-```
+\`\`\`
 IF quality < 60%:
   → ACTION: Suggest comprehensive analysis
   → SAY: "Quality is [X]%. Consider comprehensive depth."
@@ -486,11 +486,11 @@ IF quality >= 60% AND quality < 80%:
 IF quality >= 80%:
   → ACTION: Ready to use
   → SAY: "Quality is good ([X]%). Ready to proceed."
-```
+\`\`\`
 
 ### Rule 2: Intent Confidence
 
-```
+\`\`\`
 IF confidence >= 85%:
   → ACTION: Proceed with detected intent
 
@@ -503,11 +503,11 @@ IF confidence 50-69%:
 IF confidence < 50%:
   → ACTION: Cannot proceed autonomously
   → ASK: "I'm unclear on intent. Is this: [A] | [B] | [C]?"
-```
+\`\`\`
 
 ### Rule 3: File Operations
 
-```
+\`\`\`
 BEFORE writing files:
   → CHECK: Target directory exists
   → IF not exists: Create directory first
@@ -515,11 +515,11 @@ BEFORE writing files:
 AFTER writing files:
   → VERIFY: File was created successfully
   → IF failed: Report error, suggest manual action
-```
+\`\`\`
 
 ### Rule 4: Task Completion (Implementation Mode)
 
-```
+\`\`\`
 AFTER implementing task:
   → EDIT tasks.md: Change - [ ] to - [x] for completed task
 
@@ -530,11 +530,11 @@ IF edit succeeds:
 IF edit fails:
   → SHOW error to user
   → ASK: "Task completion failed. How to proceed?"
-```
+\`\`\`
 
 ### Rule 5: Error Recovery
 
-```
+\`\`\`
 IF pattern application fails:
   → LOG: Which pattern failed
   → CONTINUE: With remaining patterns
@@ -547,18 +547,18 @@ IF file write fails:
 IF user prompt is empty/invalid:
   → ASK: For valid input
   → NEVER: Proceed with assumption
-```
+\`\`\`
 
 ### Rule 6: Execution Verification
 
-```
+\`\`\`
 BEFORE completing response:
   → VERIFY all checkpoints met for current mode
   → IF any checkpoint failed:
     → REPORT which checkpoint failed
     → EXPLAIN why it failed
     → SUGGEST recovery action
-```
+\`\`\`
 
 ---
 
@@ -728,12 +728,12 @@ If you realize you should have asked clarifying questions AFTER starting:
 
 At the end of workflows that produce output, include verification:
 
-```
+\`\`\`
 ## Clavix Execution Verification
 - [x] Mode: {improve|prd|plan|implement|verify|archive}
 - [x] Output created: {actual file path}
 - [x] Verification: {how you verified it exists}
-```
+\`\`\`
 
 ---
 
@@ -749,7 +749,7 @@ Real examples of mini-PRDs to help users understand what good planning looks lik
 
 ### Example 1: Simple Mobile App
 
-```markdown
+\`\`\`markdown
 # Mini-PRD: Habit Tracker App
 
 ## What We're Building
@@ -798,13 +798,13 @@ instead of perfection.
 - Data export
 - Web version
 - Integrations with other apps
-```
+\`\`\`
 
 ---
 
 ### Example 2: API/Backend Service
 
-```markdown
+\`\`\`markdown
 # Mini-PRD: User Management API
 
 ## What We're Building
@@ -864,13 +864,13 @@ in one place with consistent patterns.
 - Email service (will use existing)
 - User analytics
 - Multi-tenancy
-```
+\`\`\`
 
 ---
 
 ### Example 3: Feature Addition
 
-```markdown
+\`\`\`markdown
 # Mini-PRD: Search Feature for E-commerce Site
 
 ## What We're Building
@@ -921,13 +921,13 @@ products. We need search.
 - Personalized results (same results for everyone)
 - Search within categories (just global search)
 - Advanced operators ("AND", "OR", quotes)
-```
+\`\`\`
 
 ---
 
 ### Example 4: Internal Tool
 
-```markdown
+\`\`\`markdown
 # Mini-PRD: Team Task Board
 
 ## What We're Building
@@ -975,7 +975,7 @@ We want something simpler that fits how we actually work.
 - Reporting/analytics
 - Time tracking
 - Multiple teams/permissions
-```
+\`\`\`
 
 ---
 
@@ -983,7 +983,7 @@ We want something simpler that fits how we actually work.
 
 Copy and fill in:
 
-```markdown
+\`\`\`markdown
 # Mini-PRD: [Project Name]
 
 ## What We're Building
@@ -1018,7 +1018,7 @@ Copy and fill in:
 ## What's NOT In Scope
 - [Explicitly excluded feature]
 - [Explicitly excluded feature]
-```
+\`\`\`
 
 ---
 
@@ -1245,16 +1245,16 @@ The `/clavix-summarize` command extracts requirements from conversation. Users i
 
 ### PRD-to-Implementation States
 
-```
+\`\`\`
 NO_PROJECT → PRD_EXISTS → TASKS_EXIST → IMPLEMENTING → ALL_COMPLETE → ARCHIVED
-```
+\`\`\`
 
 ### State Detection Protocol
 
 **Step 1: Check for project config**
-```
+\`\`\`
 Read: .clavix/outputs/{project}/.clavix-implement-config.json
-```
+\`\`\`
 
 **Step 2: Interpret state based on conditions**
 
@@ -1269,9 +1269,9 @@ Read: .clavix/outputs/{project}/.clavix-implement-config.json
 
 **Step 3: State assertion**
 Always output current state when starting a workflow:
-```
+\`\`\`
 "Current state: [STATE]. Progress: [X]/[Y] tasks. Next: [action]"
-```
+\`\`\`
 
 ### File Detection Guide
 
@@ -1289,7 +1289,7 @@ Always output current state when starting a workflow:
 
 ### State Transition Rules
 
-```
+\`\`\`
 NO_PROJECT:
   → /clavix-prd creates PRD_EXISTS
   → /clavix-start + /clavix-summarize creates PRD_EXISTS
@@ -1311,13 +1311,13 @@ ALL_COMPLETE:
 
 ARCHIVED:
   → Agent moves project back from archive/ → back to previous state
-```
+\`\`\`
 
 ### Prompt Lifecycle States (Separate from PRD)
 
-```
+\`\`\`
 NO_PROMPTS → PROMPT_EXISTS → EXECUTED → CLEANED
-```
+\`\`\`
 
 | Condition | State | Detection |
 |-----------|-------|-----------|
@@ -1329,20 +1329,20 @@ NO_PROMPTS → PROMPT_EXISTS → EXECUTED → CLEANED
 ### Multi-Project Handling
 
 When multiple projects exist:
-```
+\`\`\`
 IF project count > 1:
   → LIST: Show all projects with progress
   → ASK: "Multiple projects found. Which one?"
   → Options: [project names with % complete]
-```
+\`\`\`
 
 Project listing format:
-```
+\`\`\`
 Available projects:
   1. auth-feature (75% - 12/16 tasks)
   2. api-refactor (0% - not started)
   3. dashboard-v2 (100% - complete, suggest archive)
-```
+\`\`\`
 
 
 ### CLI Reference
@@ -1419,7 +1419,7 @@ These are commands the **user** runs in their terminal to set up Clavix:
 
 ### File System Structure
 
-```
+\`\`\`
 .clavix/
 ├── config.json              # Project configuration
 ├── outputs/
@@ -1431,10 +1431,10 @@ These are commands the **user** runs in their terminal to set up Clavix:
 │   │   └── tasks.md         # Implementation tasks
 │   └── archive/             # Archived projects
 └── commands/                # Slash command templates (managed by clavix update)
-```
+\`\`\`
 
 **Prompt File Format:**
-```markdown
+\`\`\`markdown
 ---
 id: std-20250127-143022-a3f2
 timestamp: 2025-01-27T14:30:22Z
@@ -1445,7 +1445,7 @@ originalPrompt: "the user's original prompt"
 # Improved Prompt
 
 [optimized prompt content]
-```
+\`\`\`
 
 ---
 

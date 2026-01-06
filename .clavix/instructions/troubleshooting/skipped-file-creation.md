@@ -37,9 +37,9 @@ If files weren't created:
 
 Check the expected location:
 
-```bash
+\`\`\`bash
 ls -la .clavix/outputs/[project-name]/
-```
+\`\`\`
 
 If directory or files missing, proceed with fix.
 
@@ -49,13 +49,13 @@ If directory or files missing, proceed with fix.
 
 Tell the agent:
 
-```markdown
+\`\`\`markdown
 The files weren't created. Please create them now using these exact steps:
 
 **Step 1: Create directory**
-```bash
+\`\`\`bash
 mkdir -p .clavix/outputs/[project-name]
-```
+\`\`\`
 
 **Step 2: Write mini-prd.md**
 Use the Write tool to create `.clavix/outputs/[project-name]/mini-prd.md` with the content you showed me earlier.
@@ -68,7 +68,7 @@ Use the Write tool to create `.clavix/outputs/[project-name]/optimized-prompt.md
 
 **Step 5: Confirm files exist**
 List the created files so I can verify.
-```
+\`\`\`
 
 ---
 
@@ -76,10 +76,10 @@ List the created files so I can verify.
 
 After agent claims files are created, verify:
 
-```bash
+\`\`\`bash
 ls -la .clavix/outputs/[project-name]/
 cat .clavix/outputs/[project-name]/mini-prd.md
-```
+\`\`\`
 
 Files should exist and contain the expected content.
 
@@ -93,15 +93,15 @@ Files should exist and contain the expected content.
 
 Copy the explicit pattern from `fast.md` or `.clavix/instructions/core/file-operations.md`:
 
-```markdown
+\`\`\`markdown
 **CREATE OUTPUT FILES (REQUIRED)**
 
 You MUST create [N] files. This is not optional.
 
 **Step 1: Create directory structure**
-```bash
+\`\`\`bash
 mkdir -p .clavix/outputs/[project-name]
-```
+\`\`\`
 
 **Step 2: Write [filename]**
 Use the Write tool to create `.clavix/outputs/[project-name]/[filename]`
@@ -114,13 +114,13 @@ Use the Write tool to create `.clavix/outputs/[project-name]/[another-filename]`
 
 **Step N: Verify files exist**
 List created files:
-```
+\`\`\`
 ✓ .clavix/outputs/[project-name]/file1.md
 ✓ .clavix/outputs/[project-name]/file2.md
-```
+\`\`\`
 
 **CHECKPOINT:** All files created successfully
-```
+\`\`\`
 
 **2. Use Imperative Language**
 
@@ -151,18 +151,18 @@ List created files:
 
 Always include a step to verify files exist:
 
-```markdown
+\`\`\`markdown
 **Step N: Verify File Creation**
 
 List the created files to confirm they exist:
-```
+\`\`\`
 ✓ file1.md
 ✓ file2.md
 ✓ file3.md
-```
+\`\`\`
 
 If any file is missing, something went wrong. Review and retry file creation steps.
-```
+\`\`\`
 
 ---
 
@@ -207,7 +207,7 @@ Remove any language that makes it optional:
 
 Some platforms have limited file access. Add fallback:
 
-```markdown
+\`\`\`markdown
 **Step 2: Write file (with fallback)**
 
 **Primary:** Use the Write tool to create `.clavix/outputs/[project]/file.md`
@@ -220,12 +220,12 @@ If file creation fails, display content and instruct user:
 **Path:** `.clavix/outputs/[project]/file.md`
 
 **Content:**
-```
+\`\`\`
 [Content here]
-```
+\`\`\`
 
 Copy the content above and save to the specified path.
-```
+\`\`\`
 
 ---
 
@@ -234,11 +234,11 @@ Copy the content above and save to the specified path.
 ### Test Scenario 1: Summarization Workflow
 
 **Setup:**
-```markdown
+\`\`\`markdown
 User: /clavix:start
 [Conversation happens]
 User: /clavix:summarize
-```
+\`\`\`
 
 **Expected behavior:**
 - Agent creates .clavix/outputs/[project]/ directory
@@ -249,9 +249,9 @@ User: /clavix:summarize
 - **CHECKPOINT:** All files created successfully
 
 **Test:**
-```bash
+\`\`\`bash
 ls -la .clavix/outputs/[project]/
-```
+\`\`\`
 
 Should show all three files.
 
@@ -265,9 +265,9 @@ Should show all three files.
 ### Test Scenario 2: Prompt Improvement
 
 **Setup:**
-```markdown
+\`\`\`markdown
 User: /clavix:improve [prompt]
-```
+\`\`\`
 
 **Expected behavior:**
 - Agent analyzes prompt with triage
@@ -277,9 +277,9 @@ User: /clavix:improve [prompt]
 - Agent verifies file created
 
 **Test:**
-```bash
+\`\`\`bash
 ls -la .clavix/outputs/prompts/
-```
+\`\`\`
 
 Should show saved prompt file.
 
@@ -289,9 +289,9 @@ Should show saved prompt file.
 
 ### ❌ Pattern 1: Vague Suggestion
 
-```markdown
+\`\`\`markdown
 5. Suggest saving to `.clavix/outputs/[project]/`
-```
+\`\`\`
 
 **Why it fails:** "Suggest" is passive, no Write tool instruction, no steps.
 
@@ -299,9 +299,9 @@ Should show saved prompt file.
 
 ### ❌ Pattern 2: Optional Language
 
-```markdown
+\`\`\`markdown
 4. Save to `.clavix/outputs/` if filesystem access available
-```
+\`\`\`
 
 **Why it fails:** "If available" makes it optional. Agent skips if uncertain.
 
@@ -309,11 +309,11 @@ Should show saved prompt file.
 
 ### ❌ Pattern 3: No Tool Specified
 
-```markdown
+\`\`\`markdown
 3. Save the following files:
    - mini-prd.md
    - optimized-prompt.md
-```
+\`\`\`
 
 **Why it fails:** Doesn't say HOW to save. No Write tool instruction.
 
@@ -321,10 +321,10 @@ Should show saved prompt file.
 
 ### ❌ Pattern 4: No Verification
 
-```markdown
+\`\`\`markdown
 3. Use Write tool to create files in .clavix/outputs/
 4. Display summary
-```
+\`\`\`
 
 **Why it fails:** No verification step. Can't detect if files weren't created.
 
@@ -334,19 +334,19 @@ Should show saved prompt file.
 
 ### ✅ Pattern: Explicit Numbered Steps
 
-```markdown
+\`\`\`markdown
 **CREATE FILES (REQUIRED)**
 
 **Step 1:** Create directory
-```bash
+\`\`\`bash
 mkdir -p .clavix/outputs/project
-```
+\`\`\`
 
 **Step 2:** Use Write tool to create file1.md
 **Step 3:** Use Write tool to create file2.md
 **Step 4:** Verify all files exist
 **CHECKPOINT:** Files created successfully
-```
+\`\`\`
 
 **Why it works:** Imperative, explicit tool, verification, checkpoint.
 

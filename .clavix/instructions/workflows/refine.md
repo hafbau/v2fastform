@@ -69,12 +69,12 @@ When you run `/clavix-refine`, I:
 ## State Assertion (REQUIRED)
 
 **Before starting refinement, output:**
-```
+\`\`\`
 **CLAVIX MODE: Refinement**
 Mode: planning
 Purpose: Updating existing PRD or prompt
 Implementation: BLOCKED - I'll update requirements, not build them
-```
+\`\`\`
 
 ---
 
@@ -93,10 +93,10 @@ I'll check what's available to refine:
 - Check `.clavix/outputs/prompts/*.md`
 
 **What you'll see:**
-```
+\`\`\`
 Found 2 PRD projects and 3 saved prompts.
 Which would you like to refine?
-```
+\`\`\`
 
 ---
 
@@ -188,7 +188,7 @@ I'll track what changes:
 
 After we agree on changes, I'll update the PRD file and add a history section:
 
-```markdown
+\`\`\`markdown
 ## Refinement History
 
 ### Dec 1, 2024
@@ -199,7 +199,7 @@ After we agree on changes, I'll update the PRD file and add a history section:
 - [REMOVED] Session management (moved to separate feature)
 
 **Why:** User feedback needed password reset, security upgrade
-```
+\`\`\`
 
 ### Step 6: About Tasks
 
@@ -303,7 +303,7 @@ Want to:
 **User:** "Yes, I want to add dark mode support."
 
 **Agent:**
-```markdown
+\`\`\`markdown
 ## Adding to [user-dashboard] PRD
 
 **Current features:**
@@ -317,14 +317,14 @@ Want to:
 - [MODIFIED] All UI components must support both themes
 
 Does this capture what you want to add?
-```
+\`\`\`
 
 ### Example: Changing PRD Constraints
 
 **User:** "Actually, we need to support mobile now too."
 
 **Agent:**
-```markdown
+\`\`\`markdown
 ## Modifying Technical Constraints
 
 **Previous constraints:**
@@ -339,7 +339,7 @@ Does this capture what you want to add?
 - [ADDED] iOS Safari and Chrome mobile support
 
 This changes scope significantly. Should I also update the success criteria?
-```
+\`\`\`
 
 ### Example: Making a Prompt More Specific
 
@@ -350,7 +350,7 @@ This changes scope significantly. Should I also update the success criteria?
 **User:** "The API integration one."
 
 **Agent:**
-```markdown
+\`\`\`markdown
 ## Current Prompt Assessment
 
 "Build an API integration for our system."
@@ -365,12 +365,12 @@ This changes scope significantly. Should I also update the success criteria?
 2. What operations are needed?
 3. Authentication requirements?
 4. Error handling expectations?
-```
+\`\`\`
 
 **User:** "It's the Stripe API for payments."
 
 **Agent:**
-```markdown
+\`\`\`markdown
 ## Refined Prompt
 
 "Integrate Stripe API for payment processing:
@@ -386,14 +386,14 @@ Technical: Use Stripe Node.js SDK, handle PCI compliance through Stripe Elements
 - Clarity: 85/100 (+45)
 - Specificity: 90/100 (+60)
 - Completeness: 80/100 (+60)
-```
+\`\`\`
 
 ### Example: Reducing PRD Scope
 
 **User:** "We need to cut scope. Remove the analytics feature."
 
 **Agent:**
-```markdown
+\`\`\`markdown
 ## Scope Reduction
 
 **Removing from scope:**
@@ -411,7 +411,7 @@ Technical: Use Stripe Node.js SDK, handle PCI compliance through Stripe Elements
 - Dependencies affected: None (analytics was standalone)
 
 I'll update the PRD and add this to the refinement history. Confirm?
-```
+\`\`\`
 
 ---
 
@@ -442,7 +442,7 @@ Clavix v5 follows an **agentic-first architecture**. This means:
 
 ## File System Structure
 
-```
+\`\`\`
 .clavix/
 ├── config.json              # Project configuration
 ├── outputs/
@@ -454,7 +454,7 @@ Clavix v5 follows an **agentic-first architecture**. This means:
 │   │   └── tasks.md         # Implementation tasks
 │   └── archive/             # Archived projects
 └── commands/                # Slash command templates (managed by clavix update)
-```
+\`\`\`
 
 ---
 
@@ -543,7 +543,7 @@ These rules define deterministic agent behavior. Follow exactly.
 
 ### Rule 1: Quality-Based Decisions
 
-```
+\`\`\`
 IF quality < 60%:
   → ACTION: Suggest comprehensive analysis
   → SAY: "Quality is [X]%. Consider comprehensive depth."
@@ -555,11 +555,11 @@ IF quality >= 60% AND quality < 80%:
 IF quality >= 80%:
   → ACTION: Ready to use
   → SAY: "Quality is good ([X]%). Ready to proceed."
-```
+\`\`\`
 
 ### Rule 2: Intent Confidence
 
-```
+\`\`\`
 IF confidence >= 85%:
   → ACTION: Proceed with detected intent
 
@@ -572,11 +572,11 @@ IF confidence 50-69%:
 IF confidence < 50%:
   → ACTION: Cannot proceed autonomously
   → ASK: "I'm unclear on intent. Is this: [A] | [B] | [C]?"
-```
+\`\`\`
 
 ### Rule 3: File Operations
 
-```
+\`\`\`
 BEFORE writing files:
   → CHECK: Target directory exists
   → IF not exists: Create directory first
@@ -584,11 +584,11 @@ BEFORE writing files:
 AFTER writing files:
   → VERIFY: File was created successfully
   → IF failed: Report error, suggest manual action
-```
+\`\`\`
 
 ### Rule 4: Task Completion (Implementation Mode)
 
-```
+\`\`\`
 AFTER implementing task:
   → EDIT tasks.md: Change - [ ] to - [x] for completed task
 
@@ -599,11 +599,11 @@ IF edit succeeds:
 IF edit fails:
   → SHOW error to user
   → ASK: "Task completion failed. How to proceed?"
-```
+\`\`\`
 
 ### Rule 5: Error Recovery
 
-```
+\`\`\`
 IF pattern application fails:
   → LOG: Which pattern failed
   → CONTINUE: With remaining patterns
@@ -616,18 +616,18 @@ IF file write fails:
 IF user prompt is empty/invalid:
   → ASK: For valid input
   → NEVER: Proceed with assumption
-```
+\`\`\`
 
 ### Rule 6: Execution Verification
 
-```
+\`\`\`
 BEFORE completing response:
   → VERIFY all checkpoints met for current mode
   → IF any checkpoint failed:
     → REPORT which checkpoint failed
     → EXPLAIN why it failed
     → SUGGEST recovery action
-```
+\`\`\`
 
 ---
 
@@ -797,12 +797,12 @@ If you realize you should have asked clarifying questions AFTER starting:
 
 At the end of workflows that produce output, include verification:
 
-```
+\`\`\`
 ## Clavix Execution Verification
 - [x] Mode: {improve|prd|plan|implement|verify|archive}
 - [x] Output created: {actual file path}
 - [x] Verification: {how you verified it exists}
-```
+\`\`\`
 
 ---
 
@@ -883,7 +883,7 @@ These are commands the **user** runs in their terminal to set up Clavix:
 
 ### File System Structure
 
-```
+\`\`\`
 .clavix/
 ├── config.json              # Project configuration
 ├── outputs/
@@ -895,10 +895,10 @@ These are commands the **user** runs in their terminal to set up Clavix:
 │   │   └── tasks.md         # Implementation tasks
 │   └── archive/             # Archived projects
 └── commands/                # Slash command templates (managed by clavix update)
-```
+\`\`\`
 
 **Prompt File Format:**
-```markdown
+\`\`\`markdown
 ---
 id: std-20250127-143022-a3f2
 timestamp: 2025-01-27T14:30:22Z
@@ -909,7 +909,7 @@ originalPrompt: "the user's original prompt"
 # Improved Prompt
 
 [optimized prompt content]
-```
+\`\`\`
 
 ---
 
@@ -1119,16 +1119,16 @@ The `/clavix-summarize` command extracts requirements from conversation. Users i
 
 ### PRD-to-Implementation States
 
-```
+\`\`\`
 NO_PROJECT → PRD_EXISTS → TASKS_EXIST → IMPLEMENTING → ALL_COMPLETE → ARCHIVED
-```
+\`\`\`
 
 ### State Detection Protocol
 
 **Step 1: Check for project config**
-```
+\`\`\`
 Read: .clavix/outputs/{project}/.clavix-implement-config.json
-```
+\`\`\`
 
 **Step 2: Interpret state based on conditions**
 
@@ -1143,9 +1143,9 @@ Read: .clavix/outputs/{project}/.clavix-implement-config.json
 
 **Step 3: State assertion**
 Always output current state when starting a workflow:
-```
+\`\`\`
 "Current state: [STATE]. Progress: [X]/[Y] tasks. Next: [action]"
-```
+\`\`\`
 
 ### File Detection Guide
 
@@ -1163,7 +1163,7 @@ Always output current state when starting a workflow:
 
 ### State Transition Rules
 
-```
+\`\`\`
 NO_PROJECT:
   → /clavix-prd creates PRD_EXISTS
   → /clavix-start + /clavix-summarize creates PRD_EXISTS
@@ -1185,13 +1185,13 @@ ALL_COMPLETE:
 
 ARCHIVED:
   → Agent moves project back from archive/ → back to previous state
-```
+\`\`\`
 
 ### Prompt Lifecycle States (Separate from PRD)
 
-```
+\`\`\`
 NO_PROMPTS → PROMPT_EXISTS → EXECUTED → CLEANED
-```
+\`\`\`
 
 | Condition | State | Detection |
 |-----------|-------|-----------|
@@ -1203,20 +1203,20 @@ NO_PROMPTS → PROMPT_EXISTS → EXECUTED → CLEANED
 ### Multi-Project Handling
 
 When multiple projects exist:
-```
+\`\`\`
 IF project count > 1:
   → LIST: Show all projects with progress
   → ASK: "Multiple projects found. Which one?"
   → Options: [project names with % complete]
-```
+\`\`\`
 
 Project listing format:
-```
+\`\`\`
 Available projects:
   1. auth-feature (75% - 12/16 tasks)
   2. api-refactor (0% - not started)
   3. dashboard-v2 (100% - complete, suggest archive)
-```
+\`\`\`
 
 
 ### Recovery Patterns

@@ -10,7 +10,7 @@ This is the authoritative reference for mode enforcement in Clavix workflows. Al
 
 Used in: `improve.md`, `prd.md`, `start.md`, `summarize.md`, `plan.md`
 
-```markdown
+\`\`\`markdown
 ## CLAVIX MODE: [Specific Planning Type]
 
 **You are in Clavix [workflow type] mode. You help [action], NOT implement features.**
@@ -28,13 +28,13 @@ Used in: `improve.md`, `prd.md`, `start.md`, `summarize.md`, `plan.md`
 **You are [doing planning action], not building what it describes.**
 
 For complete mode documentation, see: `.clavix/instructions/core/clavix-mode.md`
-```
+\`\`\`
 
 ### Implementation Mode Declaration
 
 Used in: `implement.md`
 
-```markdown
+\`\`\`markdown
 ## CLAVIX MODE: Implementation
 
 **You are in Clavix implementation mode. You ARE authorized to write code and implement features.**
@@ -57,7 +57,7 @@ Before implementing, verify:
 2. Output assertion: "Entering IMPLEMENTATION mode. I will implement [source]."
 
 For complete mode documentation, see: `.clavix/instructions/core/clavix-mode.md`
-```
+\`\`\`
 
 ---
 
@@ -66,16 +66,16 @@ For complete mode documentation, see: `.clavix/instructions/core/clavix-mode.md`
 ### Planning Mode Assertion
 
 Output at workflow start:
-```
+\`\`\`
 Entering CLAVIX PLANNING MODE. I will [action] without implementing code.
-```
+\`\`\`
 
 ### Implementation Mode Assertion
 
 Output at workflow start:
-```
+\`\`\`
 Entering IMPLEMENTATION mode. I will implement [source description].
-```
+\`\`\`
 
 ---
 
@@ -86,28 +86,28 @@ Entering IMPLEMENTATION mode. I will implement [source description].
 The AI is violating planning mode if it:
 
 1. **Writes function definitions** for the user's actual feature
-   ```typescript
+   \`\`\`typescript
    // VIOLATION: Creating actual implementation
    function authenticateUser(email: string, password: string) { ... }
-   ```
+   \`\`\`
 
 2. **Creates component implementations** for the described feature
-   ```jsx
+   \`\`\`jsx
    // VIOLATION: Building the actual component
    export function LoginForm() { ... }
-   ```
+   \`\`\`
 
 3. **Generates API endpoint code** for the described feature
-   ```typescript
+   \`\`\`typescript
    // VIOLATION: Implementing actual endpoints
    app.post('/api/login', (req, res) => { ... });
-   ```
+   \`\`\`
 
 4. **Creates database models/schemas** for the described feature
-   ```typescript
+   \`\`\`typescript
    // VIOLATION: Building actual data layer
    const UserSchema = new Schema({ email: String, ... });
-   ```
+   \`\`\`
 
 ### Implementation Mode Violations
 
@@ -123,7 +123,7 @@ The AI is violating implementation mode if it:
 
 All planning templates MUST include this protocol:
 
-```markdown
+\`\`\`markdown
 ## Self-Correction Protocol
 
 **DETECT**: If you find yourself:
@@ -137,7 +137,7 @@ All planning templates MUST include this protocol:
 "I apologize - I was implementing instead of [planning action]. Let me return to [correct workflow action]."
 
 **RESUME**: Return to the [workflow type] workflow.
-```
+\`\`\`
 
 ---
 
@@ -162,28 +162,28 @@ All planning templates MUST include this protocol:
 
 ### Standard Checkpoint Format
 
-```
+\`\`\`
 **CHECKPOINT [MODE]:** <description>
-```
+\`\`\`
 
 ### Planning Mode Checkpoints
 
-```
+\`\`\`
 **CHECKPOINT [PLANNING]:** Intent analysis complete
 **CHECKPOINT [PLANNING]:** Quality assessment done
 **CHECKPOINT [PLANNING]:** Optimization applied
 **CHECKPOINT [PLANNING]:** Ready to save
 **CHECKPOINT [PLANNING]:** Files saved successfully
-```
+\`\`\`
 
 ### Implementation Mode Checkpoints
 
-```
+\`\`\`
 **CHECKPOINT [IMPLEMENTATION]:** Task [ID] started
 **CHECKPOINT [IMPLEMENTATION]:** Code written for [component]
 **CHECKPOINT [IMPLEMENTATION]:** Tests passing
 **CHECKPOINT [IMPLEMENTATION]:** Task [ID] completed
-```
+\`\`\`
 
 ---
 

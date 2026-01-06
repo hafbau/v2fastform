@@ -190,9 +190,9 @@ All workflows are executed via slash commands:
 
 **Clavix follows this progression:**
 
-```
+\`\`\`
 PRD Creation → Task Planning → Implementation → Archive
-```
+\`\`\`
 
 **Detailed steps:**
 
@@ -259,13 +259,13 @@ When users ask for help with prompts or requirements:
 5. **Apply principles** - Use quality dimensions in your responses
 
 **Example flow:**
-```
+\`\`\`
 User: "I want to build a dashboard but I'm not sure how to phrase the requirements"
 Copilot: "I suggest running `/clavix:start` to begin conversational requirements gathering.
 This will help us explore your needs naturally, then we can extract structured requirements
 with `/clavix:summarize`. Alternatively, if you have a rough idea, try:
 `/clavix:improve 'Build a dashboard for...'` for quick optimization."
-```
+\`\`\`
 
 ---
 

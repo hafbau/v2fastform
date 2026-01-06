@@ -41,13 +41,13 @@ Agent should:
 
 Agent should output:
 
-```markdown
+\`\`\`markdown
 I apologize - I was jumping to implementation prematurely.
 
 I'm in Clavix mode, which is for requirements gathering and planning, NOT for implementing features yet.
 
 Let me return to asking clarifying questions about your requirements instead.
-```
+\`\`\`
 
 ### Step 3: Return to Correct Mode
 
@@ -69,7 +69,7 @@ Agent should:
 
 Every workflow template should start with:
 
-```markdown
+\`\`\`markdown
 ## CLAVIX MODE: Requirements & Planning Only
 
 **You are in Clavix prompt/PRD development mode. You help create planning documents, NOT implement features.**
@@ -83,7 +83,7 @@ Every workflow template should start with:
 - ✗ DO NOT generate component/function implementations
 
 **ONLY implement if user explicitly says: "Now implement this"**
-```
+\`\`\`
 
 **2. Repeat Mode Boundaries**
 
@@ -97,14 +97,14 @@ Don't rely on seeing it once. Repeat critical boundaries:
 
 Include explicit checks:
 
-```markdown
+\`\`\`markdown
 **Self-Check: Am I Implementing?**
 
 If you catch yourself writing application code, STOP IMMEDIATELY.
 1. Delete the implementation
 2. Apologize
 3. Return to requirements mode
-```
+\`\`\`
 
 **4. Use Explicit Imperative Language**
 
@@ -123,29 +123,29 @@ If you catch yourself writing application code, STOP IMMEDIATELY.
 
 When starting a Clavix workflow, remind the agent:
 
-```markdown
+\`\`\`markdown
 /clavix:start
 
 Remember: We're just gathering requirements and planning. Don't implement anything yet - I'll ask you to build it later once we have a solid plan.
-```
+\`\`\`
 
 **2. Catch Early and Redirect**
 
 If agent starts implementing:
 
-```markdown
+\`\`\`markdown
 Hold on - I don't want implementation yet. I just want to plan and document requirements first.
 
 Let's stay in planning mode. Ask me more questions about what I need.
-```
+\`\`\`
 
 **3. Explicit Implementation Request**
 
 When you DO want implementation:
 
-```markdown
+\`\`\`markdown
 Great PRD! Now implement this feature based on the PRD we created.
-```
+\`\`\`
 
 Be explicit. "Now implement" or "Build this" makes it clear.
 
@@ -156,10 +156,10 @@ Be explicit. "Now implement" or "Build this" makes it clear.
 ### Test Scenario 1: Conversational Mode
 
 **Setup:**
-```markdown
+\`\`\`markdown
 User: /clavix:start
 User: I want to build a todo app with authentication
-```
+\`\`\`
 
 **Expected behavior:**
 - Agent asks clarifying questions
@@ -174,12 +174,12 @@ User: I want to build a todo app with authentication
 ### Test Scenario 2: After Few Questions
 
 **Setup:**
-```markdown
+\`\`\`markdown
 User: /clavix:start
 User: I want real-time notifications in my app
 Agent: [Asks 2-3 questions]
 User: [Answers questions]
-```
+\`\`\`
 
 **Expected behavior:**
 - Agent asks more questions to deepen understanding

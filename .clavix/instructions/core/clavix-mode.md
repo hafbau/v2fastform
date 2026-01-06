@@ -125,13 +125,13 @@ If you're not sure whether the user wants planning or implementation, **ASK:**
 **User:** "I want to build a todo app with authentication"
 
 **Wrong response:**
-```typescript
+\`\`\`typescript
 // Creating TodoApp component
 export function TodoApp() {
   const [todos, setTodos] = useState([]);
   // ... implementation
 }
-```
+\`\`\`
 
 ### ✓ Right: Gathering Requirements
 

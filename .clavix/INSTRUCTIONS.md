@@ -15,7 +15,7 @@ Welcome to Clavix! This directory contains your local Clavix configuration and d
 
 ## Directory Structure
 
-```
+\`\`\`
 .clavix/
 ├── config.json           # Your Clavix configuration
 ├── INSTRUCTIONS.md       # This file
@@ -28,7 +28,7 @@ Welcome to Clavix! This directory contains your local Clavix configuration and d
 │   ├── prompts/         # Saved prompts for re-execution
 │   └── archive/         # Archived completed projects
 └── templates/           # Custom template overrides (optional)
-```
+\`\`\`
 
 ## Clavix Commands (v5)
 
@@ -66,9 +66,9 @@ All workflows are executed via slash commands that AI agents read and follow:
 
 **Clavix follows this progression:**
 
-```
+\`\`\`
 PRD Creation → Task Planning → Implementation → Archive
-```
+\`\`\`
 
 **Detailed steps:**
 

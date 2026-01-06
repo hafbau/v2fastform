@@ -1,31 +1,29 @@
-import { compare } from 'bcrypt-ts'
-import NextAuth, { type DefaultSession } from 'next-auth'
-import Credentials from 'next-auth/providers/credentials'
-import { createGuestUser, getUser } from '@/lib/db/queries'
-import { authConfig } from './auth.config'
-import { DUMMY_PASSWORD } from '@/lib/constants'
-import type { DefaultJWT } from 'next-auth/jwt'
+import NextAuth, { type DefaultSession, type NextAuthConfig } from "next-auth"
+import Credentials from "next-auth/providers/credentials"
+import { DUMMY_PASSWORD } from "@/lib/constants"
+import type { DefaultJWT } from "next-auth/jwt"
 
-const isDevelopment = process.env.NODE_ENV === 'development'
-
-// Check for required environment variables
-// Set default AUTH_SECRET for development if missing
-if (!process.env.AUTH_SECRET && isDevelopment) {
-  console.warn(
-    '⚠️  AUTH_SECRET not found. Using default secret for development.\n' +
-      'For production, please set AUTH_SECRET in your environment variables.\n',
-  )
-  process.env.AUTH_SECRET = 'dev-secret-key-not-for-production'
+const authConfig: NextAuthConfig = {
+  pages: {
+    signIn: "/login",
+    newUser: "/",
+  },
+  providers: [],
+  callbacks: {},
 }
 
-export type UserType = 'guest' | 'regular'
+if (!process.env.AUTH_SECRET) {
+  process.env.AUTH_SECRET = "v0-dev-secret-key-not-for-production-use"
+}
 
-declare module 'next-auth' {
+export type UserType = "guest" | "regular"
+
+declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string
       type: UserType
-    } & DefaultSession['user']
+    } & DefaultSession["user"]
   }
 
   interface User {
@@ -35,7 +33,7 @@ declare module 'next-auth' {
   }
 }
 
-declare module 'next-auth/jwt' {
+declare module "next-auth/jwt" {
   interface JWT extends DefaultJWT {
     id: string
     type: UserType
@@ -53,33 +51,47 @@ export const {
     Credentials({
       credentials: {},
       async authorize({ email, password }: any) {
-        const users = await getUser(email)
+        try {
+          const { compare } = await import("bcrypt-ts")
+          const { getUser } = await import("@/lib/db/queries")
 
-        if (users.length === 0) {
-          await compare(password, DUMMY_PASSWORD)
+          const users = await getUser(email)
+
+          if (users.length === 0) {
+            await compare(password, DUMMY_PASSWORD)
+            return null
+          }
+
+          const [user] = users
+
+          if (!user.password) {
+            await compare(password, DUMMY_PASSWORD)
+            return null
+          }
+
+          const passwordsMatch = await compare(password, user.password)
+
+          if (!passwordsMatch) return null
+
+          return { ...user, type: "regular" as const }
+        } catch (error) {
+          console.error("[v0] Auth authorize error:", error)
           return null
         }
-
-        const [user] = users
-
-        if (!user.password) {
-          await compare(password, DUMMY_PASSWORD)
-          return null
-        }
-
-        const passwordsMatch = await compare(password, user.password)
-
-        if (!passwordsMatch) return null
-
-        return { ...user, type: 'regular' }
       },
     }),
     Credentials({
-      id: 'guest',
+      id: "guest",
       credentials: {},
       async authorize() {
-        const [guestUser] = await createGuestUser()
-        return { ...guestUser, type: 'guest' }
+        try {
+          const { createGuestUser } = await import("@/lib/db/queries")
+          const [guestUser] = await createGuestUser()
+          return { ...guestUser, type: "guest" as const }
+        } catch (error) {
+          console.error("[v0] Guest auth error:", error)
+          return null
+        }
       },
     }),
   ],
@@ -102,3 +114,5 @@ export const {
     },
   },
 })
+
+export { authConfig }
