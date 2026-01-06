@@ -3,7 +3,7 @@
   "version": "0.2.3",
   "private": true,
   "scripts": {
-    "build": "tsx lib/db/migrate && next build --turbopack",
+    "build": "next build --turbopack",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx lib/db/migrate.ts",
     "db:push": "drizzle-kit push",
