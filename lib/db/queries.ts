@@ -123,17 +123,20 @@ export async function deleteApp({ appId }: { appId: string }) {
 export async function createChatOwnership({
   v0ChatId,
   userId,
+  appId,
 }: {
   v0ChatId: string
   userId: string
+  appId?: string // optional during migration, required for new chats
 }) {
   try {
     const db = getDb()
     return await db
       .insert(chatOwnerships)
       .values({
-        v0ChatId: v0ChatId,
-        userId: userId,
+        v0ChatId,
+        userId,
+        appId,
       })
       .onConflictDoNothing({ target: chatOwnerships.v0ChatId })
   } catch (error) {
@@ -179,6 +182,36 @@ export async function deleteChatOwnership({ v0ChatId }: { v0ChatId: string }) {
     return await db.delete(chatOwnerships).where(eq(chatOwnerships.v0ChatId, v0ChatId))
   } catch (error) {
     console.error("Failed to delete chat ownership from database:", error)
+    throw error
+  }
+}
+
+export async function getChatIdsByAppId({
+  appId,
+}: {
+  appId: string
+}): Promise<string[]> {
+  try {
+    const db = getDb()
+    const ownerships = await db
+      .select({ v0ChatId: chatOwnerships.v0ChatId })
+      .from(chatOwnerships)
+      .where(eq(chatOwnerships.appId, appId))
+      .orderBy(desc(chatOwnerships.createdAt))
+
+    return ownerships.map((o) => o.v0ChatId)
+  } catch (error) {
+    console.error("Failed to get chat IDs by app from database:", error)
+    throw error
+  }
+}
+
+export async function deleteChatOwnershipsByAppId({ appId }: { appId: string }) {
+  try {
+    const db = getDb()
+    return await db.delete(chatOwnerships).where(eq(chatOwnerships.appId, appId))
+  } catch (error) {
+    console.error("Failed to delete chat ownerships by app from database:", error)
     throw error
   }
 }

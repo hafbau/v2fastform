@@ -52,11 +52,36 @@ describe('Database Queries - camelCase verification', () => {
       expect(queries.getAppsByUserId).toBeDefined()
       expect(queries.getAppById).toBeDefined()
       expect(queries.deleteApp).toBeDefined()
+      // Chat ownership by app functions
+      expect(queries.getChatIdsByAppId).toBeDefined()
+      expect(queries.deleteChatOwnershipsByAppId).toBeDefined()
     })
   })
 
   describe('createChatOwnership', () => {
-    it('should use camelCase column names in values', async () => {
+    it('should use camelCase column names in values with appId', async () => {
+      const { createChatOwnership } = await import('../../lib/db/queries')
+
+      mockDb.returning.mockResolvedValueOnce([{ id: '1' }])
+
+      await createChatOwnership({
+        v0ChatId: 'chat-123',
+        userId: 'user-456',
+        appId: 'app-789',
+      })
+
+      // Verify insert was called
+      expect(mockDb.insert).toHaveBeenCalled()
+
+      // Verify values uses camelCase keys including appId
+      expect(mockDb.values).toHaveBeenCalledWith({
+        v0ChatId: 'chat-123',
+        userId: 'user-456',
+        appId: 'app-789',
+      })
+    })
+
+    it('should allow appId to be undefined during migration', async () => {
       const { createChatOwnership } = await import('../../lib/db/queries')
 
       mockDb.returning.mockResolvedValueOnce([{ id: '1' }])
@@ -66,13 +91,11 @@ describe('Database Queries - camelCase verification', () => {
         userId: 'user-456',
       })
 
-      // Verify insert was called
-      expect(mockDb.insert).toHaveBeenCalled()
-
-      // Verify values uses camelCase keys
+      // Verify values includes undefined appId
       expect(mockDb.values).toHaveBeenCalledWith({
         v0ChatId: 'chat-123',
         userId: 'user-456',
+        appId: undefined,
       })
     })
   })
@@ -159,6 +182,38 @@ describe('Database Queries - camelCase verification', () => {
       mockDb.where.mockResolvedValueOnce({ rowCount: 1 })
 
       await deleteApp({ appId: 'app-1' })
+
+      expect(mockDb.delete).toHaveBeenCalled()
+      expect(mockDb.where).toHaveBeenCalled()
+    })
+  })
+
+  describe('getChatIdsByAppId', () => {
+    it('should query chat IDs by appId', async () => {
+      const { getChatIdsByAppId } = await import('../../lib/db/queries')
+
+      mockDb.orderBy.mockResolvedValueOnce([
+        { v0ChatId: 'chat-1' },
+        { v0ChatId: 'chat-2' },
+      ])
+
+      const result = await getChatIdsByAppId({ appId: 'app-123' })
+
+      expect(mockDb.select).toHaveBeenCalled()
+      expect(mockDb.from).toHaveBeenCalled()
+      expect(mockDb.where).toHaveBeenCalled()
+      expect(mockDb.orderBy).toHaveBeenCalled()
+      expect(result).toEqual(['chat-1', 'chat-2'])
+    })
+  })
+
+  describe('deleteChatOwnershipsByAppId', () => {
+    it('should delete all chat ownerships for an app', async () => {
+      const { deleteChatOwnershipsByAppId } = await import('../../lib/db/queries')
+
+      mockDb.where.mockResolvedValueOnce({ rowCount: 3 })
+
+      await deleteChatOwnershipsByAppId({ appId: 'app-123' })
 
       expect(mockDb.delete).toHaveBeenCalled()
       expect(mockDb.where).toHaveBeenCalled()
