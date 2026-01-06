@@ -1,9 +1,11 @@
 import { describe, it, expect } from 'vitest'
 import {
   users,
+  apps,
   chatOwnerships,
   anonymousChatLogs,
   type User,
+  type App,
   type ChatOwnership,
   type AnonymousChatLog,
 } from '../../lib/db/schema'
@@ -29,6 +31,31 @@ describe('Database Schema', () => {
         createdAt: new Date(),
       }
       expect(mockUser.createdAt).toBeInstanceOf(Date)
+    })
+  })
+
+  describe('apps table', () => {
+    it('should have camelCase column names', () => {
+      expect(apps).toBeDefined()
+
+      const columnKeys = Object.keys(apps)
+      expect(columnKeys).toContain('userId')
+      expect(columnKeys).toContain('createdAt')
+
+      // Should NOT have snake_case columns
+      expect(columnKeys).not.toContain('user_id')
+      expect(columnKeys).not.toContain('created_at')
+    })
+
+    it('should export App type', () => {
+      const mockApp: App = {
+        id: '123',
+        userId: 'user-456',
+        name: 'My App',
+        createdAt: new Date(),
+      }
+      expect(mockApp.userId).toBe('user-456')
+      expect(mockApp.name).toBe('My App')
     })
   })
 

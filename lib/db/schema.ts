@@ -17,6 +17,19 @@ export const users = pgTable('users', {
 
 export type User = InferSelectModel<typeof users>
 
+// Apps - the primary entity users interact with
+// An app contains multiple chats
+export const apps = pgTable('apps', {
+  id: uuid('id').primaryKey().notNull().defaultRandom(),
+  userId: uuid('userId')
+    .notNull()
+    .references(() => users.id),
+  name: varchar('name', { length: 255 }).notNull(),
+  createdAt: timestamp('createdAt').notNull().defaultNow(),
+})
+
+export type App = InferSelectModel<typeof apps>
+
 // Simple ownership mapping for v0 chats
 // The actual chat data lives in v0 API, we just track who owns what
 export const chatOwnerships = pgTable(
