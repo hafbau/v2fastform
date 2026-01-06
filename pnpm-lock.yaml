@@ -1,7 +1,7 @@
 lockfileVersion: '9.0'
 
 settings:
-  autoInstallPeers: true
+  autoInstallPeers: false
   excludeLinksFromLockfile: false
 
 importers:
@@ -205,7 +205,7 @@ importers:
         version: 0.31.8
       drizzle-orm:
         specifier: ^0.44.5
-        version: 0.44.5(0c901895fabaf0800d0cd5222ef2aa87)
+        version: 0.44.5(3glc4ncuojgzcg3yylxc6bqklu)
       embla-carousel-react:
         specifier: ^8.6.0
         version: 8.6.0(react@19.2.3)
@@ -229,7 +229,7 @@ importers:
         version: 2.6.1
       knex:
         specifier: latest
-        version: 3.1.0(better-sqlite3@12.5.0)(mysql2@3.16.0)(pg-native@3.5.2)(pg@8.16.3(pg-native@3.5.2))(sqlite3@5.1.7)
+        version: 3.1.0(better-sqlite3@12.5.0)(mysql2@3.16.0)(pg@8.16.3)(sqlite3@5.1.7)
       kysely:
         specifier: latest
         version: 0.28.9
@@ -265,10 +265,7 @@ importers:
         version: 7.0.12
       pg:
         specifier: latest
-        version: 8.16.3(pg-native@3.5.2)
-      pg-native:
-        specifier: latest
-        version: 3.5.2
+        version: 8.16.3
       playwright:
         specifier: latest
         version: 1.57.0
@@ -3184,8 +3181,6 @@ packages:
   '@react-native/babel-preset@0.81.5':
     resolution: {integrity: sha512-UoI/x/5tCmi+pZ3c1+Ypr1DaRMDLI3y+Q70pVLLVgrnC3DHsHRIbHcCHIeG/IJvoeFqFM2sTdhSOLJrf8lOPrA==}
     engines: {node: '>= 20.19.4'}
-    peerDependencies:
-      '@babel/core': '*'
 
   '@react-native/codegen@0.81.5':
     resolution: {integrity: sha512-a2TDA03Up8lpSa9sh5VRGCQDXgCTOyDOFH+aqyinxp1HChG8uk89/G+nkJ9FPd0rqgi25eCTR16TWdS3b+fA6g==}
@@ -3196,8 +3191,6 @@ packages:
   '@react-native/codegen@0.83.1':
     resolution: {integrity: sha512-FpRxenonwH+c2a5X5DZMKUD7sCudHxB3eSQPgV9R+uxd28QWslyAWrpnJM/Az96AEksHnymDzEmzq2HLX5nb+g==}
     engines: {node: '>= 20.19.4'}
-    peerDependencies:
-      '@babel/core': '*'
 
   '@react-native/community-cli-plugin@0.83.1':
     resolution: {integrity: sha512-FqR1ftydr08PYlRbrDF06eRiiiGOK/hNmz5husv19sK6iN5nHj1SMaCIVjkH/a5vryxEddyFhU6PzO/uf4kOHg==}
@@ -4124,8 +4117,6 @@ packages:
 
   '@urql/exchange-retry@1.3.2':
     resolution: {integrity: sha512-TQMCz2pFJMfpNxmSfX1VSfTjwUIFx/mL+p1bnfM1xjjdla7Z+KnGMW/EhFbpckp3LyWAH4PgOsMwOMnIN+MBFg==}
-    peerDependencies:
-      '@urql/core': ^5.0.0
 
   '@v0-sdk/react@0.4.1':
     resolution: {integrity: sha512-KDsZUsHEcsThwgQVnPCZf8bDlmVhf4BMneRX2ewViKgkUFFNfyf3Prgvg9C2GscTZ6VIiD52VDoPToD92T+SrA==}
@@ -6871,12 +6862,8 @@ packages:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
 
-  libpq@1.8.15:
-    resolution: {integrity: sha512-4lSWmly2Nsj3LaTxxtFmJWuP3Kx+0hYHEd+aNrcXEWT0nKWaPd9/QZPiMkkC680zeALFGHQdQWjBvnilL+vgWA==}
-
   libsql@0.5.22:
     resolution: {integrity: sha512-NscWthMQt7fpU8lqd7LXMvT9pi+KhhmTHAJWUB/Lj6MWa0MKFv0F2V4C6WKKpjCVZl0VwcDz4nOI3CyaT1DDiA==}
-    cpu: [x64, arm64, wasm32, arm]
     os: [darwin, linux, win32]
 
   lie@3.3.0:
@@ -7497,9 +7484,6 @@ packages:
     resolution: {integrity: sha512-Tz09sEL2EEuv5fFowm419c1+a/jSMiBjI9gHxVLrVdbUkkNUUfjsVYs9pVZu5oCon/kmRh9TfLEObFtkVxmY0w==}
     engines: {node: '>=8.0.0'}
 
-  nan@2.22.2:
-    resolution: {integrity: sha512-DANghxFkS1plDdRsX0X9pm0Z6SJNN6gBdtXfanwoZ8hooC5gosGFSBGRYHUVPz1asKA/kMRqDRdHrluZ61SpBQ==}
-
   nano-spawn@2.0.0:
     resolution: {integrity: sha512-tacvGzUY5o2D8CBh2rrwxyNojUsZNU2zjNTzKQrkgGJQTbGAfArVWXSKMBokBeeg6C7OLRGUEyoFlYbfeWQIqw==}
     engines: {node: '>=20.17'}
@@ -7893,9 +7877,6 @@ packages:
   pg-int8@1.0.1:
     resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
     engines: {node: '>=4.0.0'}
-
-  pg-native@3.5.2:
-    resolution: {integrity: sha512-3oi+KVil86Vngo4H0IlhBaYSJWdcu8t2f1Y4TkQoQi5oZ9bNeYECGqW3oSGx69mjSZYHoC3h+3jYtqzRgndn5A==}
 
   pg-numeric@1.0.2:
     resolution: {integrity: sha512-BM/Thnrw5jm2kKLE5uJkXqqExRUY/toLHda65XgFTBTFYZyopbKjBe29Ii3RbkvlsMoFwD+tHeGaCjjv0gHlyw==}
@@ -11331,7 +11312,7 @@ snapshots:
       '@expo/xcpretty': 4.3.2
       '@react-native/dev-middleware': 0.81.5(bufferutil@4.1.0)
       '@urql/core': 5.2.0
-      '@urql/exchange-retry': 1.3.2(@urql/core@5.2.0)
+      '@urql/exchange-retry': 1.3.2
       accepts: 1.3.8
       arg: 5.0.2
       better-opn: 3.0.2
@@ -13010,7 +12991,7 @@ snapshots:
       - '@babel/core'
       - supports-color
 
-  '@react-native/babel-preset@0.81.5(@babel/core@7.28.5)':
+  '@react-native/babel-preset@0.81.5':
     dependencies:
       '@babel/core': 7.28.5
       '@babel/plugin-proposal-export-default-from': 7.27.1(@babel/core@7.28.5)
@@ -13070,7 +13051,7 @@ snapshots:
       nullthrows: 1.1.1
       yargs: 17.7.2
 
-  '@react-native/codegen@0.83.1(@babel/core@7.28.5)':
+  '@react-native/codegen@0.83.1':
     dependencies:
       '@babel/core': 7.28.5
       '@babel/parser': 7.28.5
@@ -13079,6 +13060,8 @@ snapshots:
       invariant: 2.2.4
       nullthrows: 1.1.1
       yargs: 17.7.2
+    transitivePeerDependencies:
+      - supports-color
 
   '@react-native/community-cli-plugin@0.83.1(bufferutil@4.1.0)':
     dependencies:
@@ -14121,10 +14104,12 @@ snapshots:
     transitivePeerDependencies:
       - graphql
 
-  '@urql/exchange-retry@1.3.2(@urql/core@5.2.0)':
+  '@urql/exchange-retry@1.3.2':
     dependencies:
       '@urql/core': 5.2.0
       wonka: 6.3.5
+    transitivePeerDependencies:
+      - graphql
 
   '@v0-sdk/react@0.4.1(react@19.2.3)':
     dependencies:
@@ -14696,7 +14681,7 @@ snapshots:
       '@babel/plugin-transform-runtime': 7.28.5(@babel/core@7.28.5)
       '@babel/preset-react': 7.28.5(@babel/core@7.28.5)
       '@babel/preset-typescript': 7.28.5(@babel/core@7.28.5)
-      '@react-native/babel-preset': 0.81.5(@babel/core@7.28.5)
+      '@react-native/babel-preset': 0.81.5
       babel-plugin-react-compiler: 1.0.0
       babel-plugin-react-native-web: 0.21.2
       babel-plugin-syntax-hermes-parser: 0.29.1
@@ -15616,7 +15601,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.44.5(0c901895fabaf0800d0cd5222ef2aa87):
+  drizzle-orm@0.44.5(3glc4ncuojgzcg3yylxc6bqklu):
     optionalDependencies:
       '@aws-sdk/client-rds-data': 3.962.0
       '@cloudflare/workers-types': 4.20260103.0
@@ -15639,10 +15624,10 @@ snapshots:
       bun-types: 1.3.5
       expo-sqlite: 16.0.10(expo@54.0.30)(react-native@0.83.1(@babel/core@7.28.5)(@types/react@19.2.7)(bufferutil@4.1.0)(react@19.2.3))(react@19.2.3)
       gel: 2.2.0
-      knex: 3.1.0(better-sqlite3@12.5.0)(mysql2@3.16.0)(pg-native@3.5.2)(pg@8.16.3(pg-native@3.5.2))(sqlite3@5.1.7)
+      knex: 3.1.0(better-sqlite3@12.5.0)(mysql2@3.16.0)(pg@8.16.3)(sqlite3@5.1.7)
       kysely: 0.28.9
       mysql2: 3.16.0
-      pg: 8.16.3(pg-native@3.5.2)
+      pg: 8.16.3
       postgres: 3.4.7
       prisma: 7.2.0(@types/react@19.2.7)(better-sqlite3@12.5.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)
       sql.js: 1.13.0
@@ -17331,7 +17316,7 @@ snapshots:
 
   kleur@3.0.3: {}
 
-  knex@3.1.0(better-sqlite3@12.5.0)(mysql2@3.16.0)(pg-native@3.5.2)(pg@8.16.3(pg-native@3.5.2))(sqlite3@5.1.7):
+  knex@3.1.0(better-sqlite3@12.5.0)(mysql2@3.16.0)(pg@8.16.3)(sqlite3@5.1.7):
     dependencies:
       colorette: 2.0.19
       commander: 10.0.1
@@ -17350,8 +17335,7 @@ snapshots:
     optionalDependencies:
       better-sqlite3: 12.5.0
       mysql2: 3.16.0
-      pg: 8.16.3(pg-native@3.5.2)
-      pg-native: 3.5.2
+      pg: 8.16.3
       sqlite3: 5.1.7
     transitivePeerDependencies:
       - supports-color
@@ -17402,11 +17386,6 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
-
-  libpq@1.8.15:
-    dependencies:
-      bindings: 1.5.0
-      nan: 2.22.2
 
   libsql@0.5.22:
     dependencies:
@@ -18420,8 +18399,6 @@ snapshots:
     dependencies:
       lru.min: 1.1.3
 
-  nan@2.22.2: {}
-
   nano-spawn@2.0.0: {}
 
   nanoid@3.3.11: {}
@@ -18833,16 +18810,11 @@ snapshots:
 
   pg-int8@1.0.1: {}
 
-  pg-native@3.5.2:
-    dependencies:
-      libpq: 1.8.15
-      pg-types: 2.2.0
-
   pg-numeric@1.0.2: {}
 
-  pg-pool@3.10.1(pg@8.16.3(pg-native@3.5.2)):
+  pg-pool@3.10.1(pg@8.16.3):
     dependencies:
-      pg: 8.16.3(pg-native@3.5.2)
+      pg: 8.16.3
 
   pg-protocol@1.10.3: {}
 
@@ -18864,16 +18836,15 @@ snapshots:
       postgres-interval: 3.0.0
       postgres-range: 1.1.4
 
-  pg@8.16.3(pg-native@3.5.2):
+  pg@8.16.3:
     dependencies:
       pg-connection-string: 2.9.1
-      pg-pool: 3.10.1(pg@8.16.3(pg-native@3.5.2))
+      pg-pool: 3.10.1(pg@8.16.3)
       pg-protocol: 1.10.3
       pg-types: 2.2.0
       pgpass: 1.0.5
     optionalDependencies:
       pg-cloudflare: 1.2.7
-      pg-native: 3.5.2
 
   pgpass@1.0.5:
     dependencies:
@@ -19193,7 +19164,7 @@ snapshots:
     dependencies:
       '@jest/create-cache-key-function': 29.7.0
       '@react-native/assets-registry': 0.83.1
-      '@react-native/codegen': 0.83.1(@babel/core@7.28.5)
+      '@react-native/codegen': 0.83.1
       '@react-native/community-cli-plugin': 0.83.1(bufferutil@4.1.0)
       '@react-native/gradle-plugin': 0.83.1
       '@react-native/js-polyfills': 0.83.1
