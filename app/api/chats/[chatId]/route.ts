@@ -33,7 +33,7 @@ export async function GET(
         return NextResponse.json({ error: 'Chat not found' }, { status: 404 })
       }
 
-      if (ownership.user_id !== session.user.id) {
+      if (ownership.userId !== session.user.id) {
         return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
       }
     } else {

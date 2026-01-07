@@ -21,8 +21,12 @@ interface ChatsResponse {
   data: V0Chat[]
 }
 
-export function ChatsClient() {
-  const { data, error, isLoading } = useSWR<ChatsResponse>('/api/chats')
+interface ChatsClientProps {
+  appId: string
+}
+
+export function ChatsClient({ appId }: ChatsClientProps) {
+  const { data, error, isLoading } = useSWR<ChatsResponse>(`/api/chats?appId=${appId}`)
   const chats = data?.data || []
 
   const getFirstUserMessage = (chat: V0Chat) => {
@@ -69,7 +73,7 @@ export function ChatsClient() {
                 </p>
               </div>
               <Link
-                href="/"
+                href={`/apps/${appId}/chats/new`}
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600"
               >
                 <Plus className="h-4 w-4 mr-2" />
@@ -87,7 +91,7 @@ export function ChatsClient() {
                 </p>
                 <div className="mt-6">
                   <Link
-                    href="/"
+                    href={`/apps/${appId}/chats/new`}
                     className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600"
                   >
                     <Plus className="h-4 w-4 mr-2" />
@@ -100,7 +104,7 @@ export function ChatsClient() {
                 {chats.map((chat) => (
                   <Link
                     key={chat.id}
-                    href={`/chats/${chat.id}`}
+                    href={`/apps/${appId}/chats/${chat.id}`}
                     className="group block"
                   >
                     <div className="border border-border dark:border-input rounded-lg p-6 hover:shadow-md transition-shadow">

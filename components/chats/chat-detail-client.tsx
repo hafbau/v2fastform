@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { useParams } from 'next/navigation'
 import { ChatMessages } from '@/components/chat/chat-messages'
 import { ChatInput } from '@/components/chat/chat-input'
 import { PreviewPanel } from '@/components/chat/preview-panel'
@@ -14,9 +13,13 @@ import {
   clearPromptFromStorage,
 } from '@/components/ai-elements/prompt-input'
 
-export function ChatDetailClient() {
-  const params = useParams()
-  const chatId = params.chatId as string
+interface ChatDetailClientProps {
+  appId: string
+  chatId: string
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function ChatDetailClient({ appId, chatId }: ChatDetailClientProps) {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [refreshKey, setRefreshKey] = useState(0)
   const [attachments, setAttachments] = useState<ImageAttachment[]>([])

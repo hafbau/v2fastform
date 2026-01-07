@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from 'v0-sdk'
 import { auth } from '@/app/(auth)/auth'
-import { getChatIdsByUserId } from '@/lib/db/queries'
+import { getChatIdsByUserId, getChatIdsByAppId, getAppById } from '@/lib/db/queries'
 
 // Create v0 client with custom baseUrl if V0_API_URL is set
 const v0 = createClient(
@@ -17,10 +17,26 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ data: [] })
     }
 
-    console.log('Fetching chats for user:', session.user.id)
+    const { searchParams } = new URL(request.url)
+    const appId = searchParams.get('appId')
 
-    // Get user's chat IDs from our ownership mapping
-    const userChatIds = await getChatIdsByUserId({ userId: session.user.id })
+    console.log('Fetching chats for user:', session.user.id, 'appId:', appId)
+
+    // If appId is provided, validate ownership and filter by app
+    let userChatIds: string[]
+    if (appId) {
+      const app = await getAppById({ appId })
+      if (!app) {
+        return NextResponse.json({ error: 'App not found' }, { status: 404 })
+      }
+      if (app.userId !== session.user.id) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      }
+      userChatIds = await getChatIdsByAppId({ appId })
+    } else {
+      // Get all user's chat IDs from our ownership mapping
+      userChatIds = await getChatIdsByUserId({ userId: session.user.id })
+    }
 
     if (userChatIds.length === 0) {
       return NextResponse.json({ data: [] })

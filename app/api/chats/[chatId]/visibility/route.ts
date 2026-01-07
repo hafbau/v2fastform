@@ -32,7 +32,7 @@ export async function PATCH(
 
     // Check if user owns this chat
     const ownership = await getChatOwnership({ v0ChatId: chatId })
-    if (!ownership || ownership.user_id !== session.user.id) {
+    if (!ownership || ownership.userId !== session.user.id) {
       return NextResponse.json(
         { error: 'Chat not found or access denied' },
         { status: 404 },

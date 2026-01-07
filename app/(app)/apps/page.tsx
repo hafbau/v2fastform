@@ -1,5 +1,5 @@
-import { HomeClient } from '@/components/home/home-client'
+import { AppsListClient } from '@/components/apps/apps-list-client'
 
 export default function AppsPage() {
-  return <HomeClient />
+  return <AppsListClient />
 }
