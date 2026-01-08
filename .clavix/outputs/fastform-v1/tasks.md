@@ -117,7 +117,7 @@
 
 ### Prompt Compilation
 
-- [ ] **Create deterministic AppSpec → Prompt compiler** (ref: AppSpec-Driven Generation)
+- [x] **Create deterministic AppSpec → Prompt compiler** (ref: AppSpec-Driven Generation)
   Task ID: `phase-3-compiler-01`
   > **Implementation**: Create `lib/compiler/appspec-to-prompt.ts`
   > **Details**:
@@ -130,8 +130,9 @@
   >   - "CONSTRAINTS: No external UI libraries. No form libraries. Use Server Actions for mutations. CamelCase Postgres columns."
   > - Deterministic: same AppSpec → identical prompt (no timestamps, no randomness)
   > - Include post-processing instructions in prompt footer
+  > **Completed**: 2026-01-08 | 74 tests passing | 100% coverage | Commit: 97159d3
 
-- [ ] **Add validation for unsupported features** (ref: Unsupported Features Blocked)
+- [x] **Add validation for unsupported features** (ref: Unsupported Features Blocked)
   Task ID: `phase-3-compiler-02`
   > **Implementation**: Edit `lib/compiler/appspec-to-prompt.ts`
   > **Details**:
@@ -141,6 +142,7 @@
   > - Check: single workflow (no multi-step approvals)
   > - If unsupported detected, throw `UnsupportedAppSpecFeatureError` with suggestion
   > - Error message: "Feature X is not supported in v1. Try Y instead."
+  > **Completed**: 2026-01-08 | Included in phase-3-compiler-01 | Commit: 97159d3
 
 ---
 
