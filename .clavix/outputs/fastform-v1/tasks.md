@@ -41,7 +41,7 @@
 
 ### TypeScript Types
 
-- [ ] **Create AppSpec TypeScript interfaces** (ref: Architecture Decisions)
+- [x] **Create AppSpec TypeScript interfaces** (ref: Architecture Decisions)
   Task ID: `phase-1-foundation-02`
   > **Implementation**: Create `lib/types/appspec.ts`
   > **Details**:
@@ -51,7 +51,7 @@
   > - Validate against v0.3 schema version
   > - Include type guards: `isValidAppSpec(obj: unknown): obj is FastformAppSpec`
 
-- [ ] **Create Psych Intake Lite template** (ref: Template-Based Initialization)
+- [x] **Create Psych Intake Lite template** (ref: Template-Based Initialization)
   Task ID: `phase-1-foundation-03`
   > **Implementation**: Create `lib/templates/psych-intake-lite.ts`
   > **Details**:
@@ -60,6 +60,7 @@
   > - Include all pages: welcome, intake form (10 fields), review, success, staff login, inbox, detail
   > - Define workflow states: DRAFT → SUBMITTED → NEEDS_INFO/APPROVED/REJECTED
   > - Use placeholder orgId/slug (will be replaced by LLM)
+  > **Completed**: 2026-01-08 | 69 tests passing
 
 ---
 
@@ -94,7 +95,7 @@
 
 ### Name/Slug Generation
 
-- [ ] **Heuristic name/slug generator** (ref: App Name/Slug Generation)
+- [x] **Heuristic name/slug generator** (ref: App Name/Slug Generation)
   Task ID: `phase-2-llm-03`
   > **Implementation**: Create `lib/utils/app-naming.ts`
   > **Details**:
@@ -106,6 +107,7 @@
   >   - Truncate to reasonable lengths (name: 50 chars, slug: 30 chars)
   > - This runs instantly before LLM call
   > - LLM refines these in AppSpec meta
+  > **Completed**: 2026-01-08 | Commit: c1bd0af
 
 ---
 
@@ -315,7 +317,7 @@
 
 ### Backend API Schema
 
-- [ ] **Create submissions table for generated apps** (ref: Central Multi-Tenant Backend)
+- [x] **Create submissions table for generated apps** (ref: Central Multi-Tenant Backend)
   Task ID: `phase-6-backend-01`
   > **Implementation**: Edit `lib/db/schema.ts`
   > **Details**:
@@ -331,6 +333,7 @@
   >   })
   >   ```
   > - Run `pnpm db:generate && pnpm db:push`
+  > **Completed**: 2026-01-08 | Commit: cfc7d9e0f195
 
 - [ ] **Create submission validation service** (ref: AppSpec-driven behavior)
   Task ID: `phase-6-backend-02`
@@ -518,7 +521,7 @@
 
 ### Deployment Config
 
-- [ ] **Create Vercel project configuration** (ref: Vercel integration)
+- [x] **Create Vercel project configuration** (ref: Vercel integration)
   Task ID: `phase-9-config-02`
   > **Implementation**: Create `vercel.json`
   > **Details**:
