@@ -1,19 +1,20 @@
 import type { Metadata } from 'next'
-import { Inter, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { StreamingProvider } from '@/contexts/streaming-context'
 import { SWRProvider } from '@/components/providers/swr-provider'
 import { SessionProvider } from '@/components/providers/session-provider'
 
-const inter = Inter({
-  variable: '--font-inter',
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+const geistSans = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+  display: "swap",
 })
 
 const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+  display: "swap",
 })
 
 export const metadata: Metadata = {
@@ -55,7 +56,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <SessionProvider>
           <SWRProvider>

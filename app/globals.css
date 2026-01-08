@@ -103,10 +103,10 @@
   --sidebar-ring: oklch(0.62 0.16 175);
 }
 
-/* Inter for bold enterprise typography, JetBrains Mono for data */
+/* Geist for UI, Geist Mono for code */
 @theme inline {
-  --font-sans: "Inter", "Inter Fallback", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", "JetBrains Mono Fallback", monospace;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -150,7 +150,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
   }
 
   /* Bold, confident heading styles for enterprise healthcare */
