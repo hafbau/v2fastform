@@ -245,3 +245,88 @@
     animation-delay: -10s;
   }
 }
+
+/* Glassmorphism utilities - Apple-level frosted glass effect */
+@layer utilities {
+  /* Base glass effect */
+  .glass {
+    --glass-bg: oklch(1 0 0 / 0.7);
+    --glass-border: oklch(1 0 0 / 0.2);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+  }
+
+  .dark .glass {
+    --glass-bg: oklch(0.16 0.025 250 / 0.6);
+    --glass-border: oklch(1 0 0 / 0.1);
+  }
+
+  /* Glass card - for auth forms, modals, etc. */
+  .glass-card {
+    --glass-bg: oklch(1 0 0 / 0.75);
+    --glass-border: oklch(0 0 0 / 0.06);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      0 4px 6px -1px oklch(0 0 0 / 0.05),
+      0 2px 4px -2px oklch(0 0 0 / 0.05),
+      0 0 0 1px oklch(1 0 0 / 0.5) inset;
+  }
+
+  .dark .glass-card {
+    --glass-bg: oklch(0.18 0.025 250 / 0.7);
+    --glass-border: oklch(1 0 0 / 0.08);
+    box-shadow:
+      0 4px 6px -1px oklch(0 0 0 / 0.2),
+      0 2px 4px -2px oklch(0 0 0 / 0.15),
+      0 0 0 1px oklch(1 0 0 / 0.05) inset;
+  }
+
+  /* Glass navbar - optimized for fixed headers */
+  .glass-navbar {
+    --glass-bg: oklch(0.99 0.003 180 / 0.8);
+    --glass-border: oklch(0 0 0 / 0.06);
+    background: var(--glass-bg);
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .dark .glass-navbar {
+    --glass-bg: oklch(0.12 0.025 250 / 0.85);
+    --glass-border: oklch(1 0 0 / 0.08);
+  }
+
+  /* Apply backdrop-blur with fallback */
+  .glass,
+  .glass-card,
+  .glass-navbar {
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    backdrop-filter: blur(16px) saturate(180%);
+  }
+
+  /* Fallback for browsers without backdrop-filter support */
+  @supports not (backdrop-filter: blur(1px)) {
+    .glass {
+      --glass-bg: oklch(0.98 0.003 180 / 0.95);
+    }
+
+    .dark .glass {
+      --glass-bg: oklch(0.14 0.025 250 / 0.95);
+    }
+
+    .glass-card {
+      --glass-bg: oklch(0.99 0.003 180 / 0.98);
+    }
+
+    .dark .glass-card {
+      --glass-bg: oklch(0.16 0.025 250 / 0.98);
+    }
+
+    .glass-navbar {
+      --glass-bg: oklch(0.99 0.003 180 / 0.98);
+    }
+
+    .dark .glass-navbar {
+      --glass-bg: oklch(0.12 0.025 250 / 0.98);
+    }
+  }
+}
