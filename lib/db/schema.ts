@@ -26,6 +26,7 @@ export const apps = pgTable('apps', {
     .references(() => users.id),
   name: varchar('name', { length: 255 }).notNull(),
   spec: jsonb('spec').notNull().default('{}'),
+  jwtSecret: varchar('jwtSecret', { length: 255 }), // JWT secret for generated app authentication
   createdAt: timestamp('createdAt').notNull().defaultNow(),
 })
 
@@ -72,8 +73,25 @@ export const submissions = pgTable('submissions', {
     .notNull(),
   data: jsonb('data').notNull(), // AppSpec-validated form data
   status: varchar('status', { length: 20 }).notNull(), // SUBMITTED, NEEDS_INFO, APPROVED, REJECTED
+  submittedBy: varchar('submittedBy', { length: 255 }), // Optional identifier for who submitted (email, user ID, etc.)
+  assignedTo: varchar('assignedTo', { length: 255 }), // Staff member assigned to this submission
+  deleted: timestamp('deleted'), // Soft delete timestamp
   createdAt: timestamp('createdAt').defaultNow().notNull(),
   updatedAt: timestamp('updatedAt').defaultNow().notNull(),
 })
 
 export type Submission = InferSelectModel<typeof submissions>
+
+// Submission History - audit trail for workflow transitions
+export const submissionHistory = pgTable('submissionHistory', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  submissionId: uuid('submissionId')
+    .references(() => submissions.id)
+    .notNull(),
+  status: varchar('status', { length: 20 }).notNull(), // Status at this point in history
+  updatedBy: varchar('updatedBy', { length: 255 }).notNull(), // User who made the change
+  notes: varchar('notes', { length: 1000 }), // Optional notes/comments
+  createdAt: timestamp('createdAt').defaultNow().notNull(),
+})
+
+export type SubmissionHistory = InferSelectModel<typeof submissionHistory>

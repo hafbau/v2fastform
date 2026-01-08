@@ -1,8 +1,8 @@
 import "server-only"
 
-import { and, count, desc, eq, gte } from "drizzle-orm"
+import { and, count, desc, eq, gte, isNull } from "drizzle-orm"
 
-import { users, apps, chatOwnerships, anonymousChatLogs, type User, type App } from "./schema"
+import { users, apps, chatOwnerships, anonymousChatLogs, submissions, submissionHistory, type User, type App, type Submission, type SubmissionHistory } from "./schema"
 import { generateUUID } from "../utils"
 import { generateHashedPassword } from "./utils"
 import { getDb } from "./connection"
@@ -282,6 +282,298 @@ export async function createAnonymousChatLog({
     })
   } catch (error) {
     console.error("Failed to create anonymous chat log in database:", error)
+    throw error
+  }
+}
+
+// Submission functions
+/**
+ * Creates a new submission record.
+ */
+export async function createSubmission({
+  appId,
+  data,
+  status,
+  submittedBy,
+}: {
+  appId: string
+  data: Record<string, unknown>
+  status: string
+  submittedBy?: string | null
+}): Promise<Submission[]> {
+  try {
+    const db = getDb()
+    return await db
+      .insert(submissions)
+      .values({
+        appId,
+        data,
+        status,
+        submittedBy: submittedBy || null,
+      })
+      .returning()
+  } catch (error) {
+    console.error("Failed to create submission in database:", error)
+    throw error
+  }
+}
+
+/**
+ * Gets a submission by ID.
+ */
+export async function getSubmissionById({
+  submissionId,
+}: {
+  submissionId: string
+}): Promise<Submission | undefined> {
+  try {
+    const db = getDb()
+    const [submission] = await db
+      .select()
+      .from(submissions)
+      .where(eq(submissions.id, submissionId))
+    return submission
+  } catch (error) {
+    console.error("Failed to get submission from database:", error)
+    throw error
+  }
+}
+
+/**
+ * Gets submissions for an app with optional filtering and pagination.
+ */
+export async function getSubmissionsByAppId({
+  appId,
+  status,
+  page = 1,
+  limit = 20,
+}: {
+  appId: string
+  status?: string
+  page?: number
+  limit?: number
+}): Promise<{ submissions: Submission[]; total: number }> {
+  try {
+    const db = getDb()
+    const offset = (page - 1) * limit
+
+    // Build where clause
+    const whereConditions = [eq(submissions.appId, appId)]
+    if (status) {
+      whereConditions.push(eq(submissions.status, status))
+    }
+
+    // Get paginated submissions
+    const submissionsData = await db
+      .select()
+      .from(submissions)
+      .where(and(...whereConditions))
+      .orderBy(desc(submissions.createdAt))
+      .limit(limit)
+      .offset(offset)
+
+    // Get total count
+    const [{ count: total }] = await db
+      .select({ count: count(submissions.id) })
+      .from(submissions)
+      .where(and(...whereConditions))
+
+    return {
+      submissions: submissionsData,
+      total: total || 0,
+    }
+  } catch (error) {
+    console.error("Failed to get submissions from database:", error)
+    throw error
+  }
+}
+
+/**
+ * Updates a submission status.
+ */
+export async function updateSubmissionStatus({
+  submissionId,
+  status,
+}: {
+  submissionId: string
+  status: string
+}): Promise<Submission[]> {
+  try {
+    const db = getDb()
+    return await db
+      .update(submissions)
+      .set({
+        status,
+        updatedAt: new Date(),
+      })
+      .where(eq(submissions.id, submissionId))
+      .returning()
+  } catch (error) {
+    console.error("Failed to update submission status in database:", error)
+    throw error
+  }
+}
+
+/**
+ * Deletes submissions for an app (used when deleting an app).
+ */
+export async function deleteSubmissionsByAppId({
+  appId,
+}: {
+  appId: string
+}) {
+  try {
+    const db = getDb()
+    return await db.delete(submissions).where(eq(submissions.appId, appId))
+  } catch (error) {
+    console.error("Failed to delete submissions from database:", error)
+    throw error
+  }
+}
+
+/**
+ * Updates a submission with full details (status, assignedTo, etc.).
+ */
+export async function updateSubmission({
+  submissionId,
+  status,
+  assignedTo,
+}: {
+  submissionId: string
+  status?: string
+  assignedTo?: string | null
+}): Promise<Submission[]> {
+  try {
+    const db = getDb()
+    const updateData: Partial<Submission> = {
+      updatedAt: new Date(),
+    }
+
+    if (status !== undefined) {
+      updateData.status = status
+    }
+
+    if (assignedTo !== undefined) {
+      updateData.assignedTo = assignedTo
+    }
+
+    return await db
+      .update(submissions)
+      .set(updateData)
+      .where(eq(submissions.id, submissionId))
+      .returning()
+  } catch (error) {
+    console.error("Failed to update submission in database:", error)
+    throw error
+  }
+}
+
+/**
+ * Updates submission data and status (for resume/resubmit flows).
+ */
+export async function updateSubmissionData({
+  submissionId,
+  data,
+  status,
+}: {
+  submissionId: string
+  data: Record<string, unknown>
+  status?: string
+}): Promise<Submission[]> {
+  try {
+    const db = getDb()
+    const updateData: Partial<Submission> = {
+      data,
+      updatedAt: new Date(),
+    }
+
+    if (status !== undefined) {
+      updateData.status = status
+    }
+
+    return await db
+      .update(submissions)
+      .set(updateData)
+      .where(eq(submissions.id, submissionId))
+      .returning()
+  } catch (error) {
+    console.error("Failed to update submission data in database:", error)
+    throw error
+  }
+}
+
+/**
+ * Soft deletes a submission by setting the deleted timestamp.
+ */
+export async function softDeleteSubmission({
+  submissionId,
+}: {
+  submissionId: string
+}): Promise<Submission[]> {
+  try {
+    const db = getDb()
+    return await db
+      .update(submissions)
+      .set({
+        deleted: new Date(),
+        updatedAt: new Date(),
+      })
+      .where(eq(submissions.id, submissionId))
+      .returning()
+  } catch (error) {
+    console.error("Failed to soft delete submission in database:", error)
+    throw error
+  }
+}
+
+/**
+ * Gets submission history for audit trail.
+ */
+export async function getSubmissionHistory({
+  submissionId,
+}: {
+  submissionId: string
+}): Promise<SubmissionHistory[]> {
+  try {
+    const db = getDb()
+    return await db
+      .select()
+      .from(submissionHistory)
+      .where(eq(submissionHistory.submissionId, submissionId))
+      .orderBy(desc(submissionHistory.createdAt))
+  } catch (error) {
+    console.error("Failed to get submission history from database:", error)
+    throw error
+  }
+}
+
+/**
+ * Creates a submission history entry.
+ */
+export async function createSubmissionHistory({
+  submissionId,
+  status,
+  updatedBy,
+  notes,
+}: {
+  submissionId: string
+  status: string
+  updatedBy: string
+  notes?: string | null
+}): Promise<SubmissionHistory[]> {
+  try {
+    const db = getDb()
+    return await db
+      .insert(submissionHistory)
+      .values({
+        submissionId,
+        status,
+        updatedBy,
+        notes: notes || null,
+      })
+      .returning()
+  } catch (error) {
+    console.error("Failed to create submission history in database:", error)
     throw error
   }
 }
