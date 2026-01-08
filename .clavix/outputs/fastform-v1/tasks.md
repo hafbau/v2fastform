@@ -68,7 +68,7 @@
 
 ### Azure OpenAI / Anthropic Client
 
-- [ ] **Create LLM client wrapper with Azure fallback** (ref: Azure-First with Fallback)
+- [x] **Create LLM client wrapper with Azure fallback** (ref: Azure-First with Fallback)
   Task ID: `phase-2-llm-01`
   > **Implementation**: Create `lib/ai/llm-client.ts`
   > **Details**:
@@ -78,8 +78,9 @@
   > - Export `generateAppSpec(userIntent: string, conversationHistory: Message[]): Promise<FastformAppSpec>`
   > - Use structured output (JSON mode) to guarantee valid AppSpec JSON
   > - Include system prompt: "You are a healthcare app spec generator. Given user intent, produce a FastformAppSpec JSON matching the v0.3 schema."
+  > **Completed**: 2026-01-08 | 17 tests passing | Multi-provider fallback (Azure→OpenAI→Anthropic)
 
-- [ ] **Create AppSpec generator service** (ref: Chat-to-AppSpec Pipeline)
+- [x] **Create AppSpec generator service** (ref: Chat-to-AppSpec Pipeline)
   Task ID: `phase-2-llm-02`
   > **Implementation**: Create `lib/ai/appspec-generator.ts`
   > **Details**:
@@ -92,6 +93,7 @@
   >   4. Validate output against AppSpec schema
   >   5. Return draft (not persisted)
   > - Export `async function regenerateAppSpec(currentSpec: FastformAppSpec, newMessage: string): Promise<FastformAppSpec>` for iterations
+  > **Completed**: 2026-01-08 | 29 tests passing | Template-based generation with validation
 
 ### Name/Slug Generation
 
