@@ -170,3 +170,57 @@ export async function signUpAction(
     throw error
   }
 }
+
+const resetPasswordSchema = z.object({
+  token: z.string().min(1, 'Reset token is required.'),
+  password: z.string().min(6, 'Password must be at least 6 characters.'),
+})
+
+export async function validateResetToken(
+  token: string,
+): Promise<ActionResult> {
+  // TODO: Phase 4 - Validate token from database
+  // For now, we accept any non-empty token for UI development
+  if (!token || token.length < 10) {
+    return {
+      type: 'error',
+      message: 'Invalid or expired reset link.',
+    }
+  }
+
+  // Placeholder: token validation will be implemented in Phase 4
+  return {
+    type: 'success',
+    message: 'Token is valid.',
+  }
+}
+
+export async function resetPassword(
+  token: string,
+  newPassword: string,
+): Promise<ActionResult> {
+  try {
+    const validated = resetPasswordSchema.parse({ token, password: newPassword })
+
+    // TODO: Phase 4 - Validate token, update password in database
+    console.log('[Password Reset] Resetting password with token:', validated.token)
+
+    // Placeholder: password reset will be implemented in Phase 4
+    return {
+      type: 'success',
+      message: 'Password has been reset successfully.',
+    }
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return {
+        type: 'error',
+        message: error.issues[0].message,
+      }
+    }
+
+    return {
+      type: 'error',
+      message: 'Something went wrong. Please try again.',
+    }
+  }
+}
