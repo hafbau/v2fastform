@@ -13,11 +13,46 @@ import {
   anonymousEntitlements,
 } from '@/lib/entitlements'
 import { ChatSDKError } from '@/lib/errors'
+import {
+  createDraftAppSpec,
+  regenerateAppSpec,
+  AppSpecValidationError,
+  AppSpecGenerationError,
+} from '@/lib/ai/appspec-generator'
+import type { FastformAppSpec } from '@/lib/types/appspec'
+import { randomUUID } from 'crypto'
 
 // Create v0 client with custom baseUrl if V0_API_URL is set
 const v0 = createClient(
   process.env.V0_API_URL ? { baseUrl: process.env.V0_API_URL } : {},
 )
+
+/**
+ * In-memory storage for draft AppSpecs before user confirmation.
+ * Map structure: sessionId -> FastformAppSpec
+ *
+ * NOTE: This is temporary storage for the chat → AppSpec flow.
+ * Confirmed AppSpecs will be persisted to the database via a separate endpoint.
+ */
+const draftAppSpecs = new Map<string, FastformAppSpec>()
+
+/**
+ * Cleanup interval for stale drafts (older than 1 hour).
+ * Runs every 15 minutes to prevent memory leaks.
+ */
+const DRAFT_EXPIRY_MS = 60 * 60 * 1000 // 1 hour
+const draftTimestamps = new Map<string, number>()
+
+// Cleanup stale drafts periodically
+setInterval(() => {
+  const now = Date.now()
+  for (const [sessionId, timestamp] of draftTimestamps.entries()) {
+    if (now - timestamp > DRAFT_EXPIRY_MS) {
+      draftAppSpecs.delete(sessionId)
+      draftTimestamps.delete(sessionId)
+    }
+  }
+}, 15 * 60 * 1000) // Run every 15 minutes
 
 function getClientIP(request: NextRequest): string {
   const forwarded = request.headers.get('x-forwarded-for')
@@ -38,7 +73,7 @@ function getClientIP(request: NextRequest): string {
 export async function POST(request: NextRequest) {
   try {
     const session = await auth()
-    const { message, chatId, streaming, attachments, appId } =
+    const { message, chatId, streaming, attachments, appId, sessionId } =
       await request.json()
 
     if (!message) {
@@ -48,7 +83,12 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Validate appId for new authenticated chats - appId is REQUIRED for new chats
+    // ========================================================================
+    // VALIDATION: Validate appId for new authenticated chats
+    // ========================================================================
+    // This validation runs BEFORE AppSpec generation to ensure user has
+    // permission to generate AppSpecs for this app.
+    // ========================================================================
     if (!chatId && session?.user?.id) {
       if (!appId) {
         return NextResponse.json(
@@ -70,6 +110,84 @@ export async function POST(request: NextRequest) {
         )
       }
     }
+
+    // ========================================================================
+    // NEW: AppSpec Generation for First Message in New Chat
+    // ========================================================================
+    // When user starts a new chat (no chatId) with appId, we generate a draft
+    // AppSpec for confirmation before proceeding to v0 code generation.
+    //
+    // Flow:
+    // 1. First message (no chatId, no sessionId) → createDraftAppSpec
+    // 2. Follow-up before confirmation (no chatId, with sessionId) → regenerateAppSpec
+    // 3. After confirmation (with chatId) → existing v0 SDK flow
+    //
+    // NOTE: App ownership is validated above before we reach this point.
+    // ========================================================================
+
+    if (!chatId && appId && session?.user?.id) {
+      try {
+        let draftSpec: FastformAppSpec
+        let currentSessionId: string
+
+        if (sessionId && draftAppSpecs.has(sessionId)) {
+          // User is continuing chat before confirmation - regenerate AppSpec
+          const existingDraft = draftAppSpecs.get(sessionId)!
+          draftSpec = await regenerateAppSpec(existingDraft, message)
+          currentSessionId = sessionId
+
+          // Update draft in memory
+          draftAppSpecs.set(currentSessionId, draftSpec)
+          draftTimestamps.set(currentSessionId, Date.now())
+        } else {
+          // First message - create new draft AppSpec
+          draftSpec = await createDraftAppSpec(message, [])
+          currentSessionId = randomUUID()
+
+          // Store draft in memory
+          draftAppSpecs.set(currentSessionId, draftSpec)
+          draftTimestamps.set(currentSessionId, Date.now())
+        }
+
+        // Return intent confirmation response
+        return NextResponse.json({
+          type: 'intent-confirmation',
+          draftSpec,
+          sessionId: currentSessionId,
+        })
+      } catch (error) {
+        console.error('AppSpec generation error:', error)
+
+        // Return detailed error for validation/generation failures
+        if (
+          error instanceof AppSpecValidationError ||
+          error instanceof AppSpecGenerationError
+        ) {
+          return NextResponse.json(
+            {
+              error: 'Failed to generate AppSpec',
+              details: error.message,
+              validationErrors:
+                error instanceof AppSpecValidationError
+                  ? error.validationErrors
+                  : undefined,
+            },
+            { status: 500 },
+          )
+        }
+
+        // For unexpected errors, fall through to existing v0 SDK flow
+        // This provides a graceful degradation path
+        console.warn(
+          'AppSpec generation failed unexpectedly, falling back to v0 SDK flow:',
+          error,
+        )
+      }
+    }
+
+    // ========================================================================
+    // EXISTING: v0 SDK Flow (unchanged)
+    // ========================================================================
 
     // Rate limiting
     if (session?.user?.id) {
