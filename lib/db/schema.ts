@@ -63,3 +63,17 @@ export const anonymousChatLogs = pgTable('anonymousChatLogs', {
 })
 
 export type AnonymousChatLog = InferSelectModel<typeof anonymousChatLogs>
+
+// Submissions - form data submitted through generated apps
+export const submissions = pgTable('submissions', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  appId: uuid('appId')
+    .references(() => apps.id)
+    .notNull(),
+  data: jsonb('data').notNull(), // AppSpec-validated form data
+  status: varchar('status', { length: 20 }).notNull(), // SUBMITTED, NEEDS_INFO, APPROVED, REJECTED
+  createdAt: timestamp('createdAt').defaultNow().notNull(),
+  updatedAt: timestamp('updatedAt').defaultNow().notNull(),
+})
+
+export type Submission = InferSelectModel<typeof submissions>
