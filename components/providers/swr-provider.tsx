@@ -8,7 +8,7 @@ interface SWRProviderProps {
 }
 
 interface FetchError extends Error {
-  info?: any
+  info?: unknown
   status?: number
 }
 

@@ -194,6 +194,8 @@ export const PromptInputTextarea = ({
   maxHeight = 164,
   ...props
 }: PromptInputTextareaProps) => {
+  const { style, ...textareaProps } = props
+
   const handleKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     if (e.key === 'Enter') {
       // Don't submit if IME composition is in progress
@@ -229,7 +231,8 @@ export const PromptInputTextarea = ({
       }}
       onKeyDown={handleKeyDown}
       placeholder={placeholder}
-      {...props}
+      style={{ ...style, minHeight, maxHeight }}
+      {...textareaProps}
     />
   )
 }
@@ -443,7 +446,7 @@ export const PromptInputMicButton = ({
       if (recognitionRef.current) {
         try {
           recognitionRef.current.abort()
-        } catch (error) {
+        } catch {
           // Ignore errors during cleanup
         }
       }

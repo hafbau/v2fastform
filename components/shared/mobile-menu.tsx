@@ -4,24 +4,15 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { Menu, X, Info } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { GitHubIcon, VercelIcon } from '@/components/ui/icons'
-import { DEPLOY_URL } from '@/lib/constants'
 import { ChatSelector } from './chat-selector'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
 
 interface MobileMenuProps {
   onInfoDialogOpen: () => void
 }
 
-export function MobileMenu({ onInfoDialogOpen }: MobileMenuProps) {
+export function MobileMenu({ onInfoDialogOpen: _onInfoDialogOpen }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
   const pathname = usePathname()

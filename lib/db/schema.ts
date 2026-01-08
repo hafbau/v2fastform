@@ -95,3 +95,19 @@ export const submissionHistory = pgTable('submissionHistory', {
 })
 
 export type SubmissionHistory = InferSelectModel<typeof submissionHistory>
+
+// Verification Tokens - for NextAuth Email provider magic links
+export const verificationTokens = pgTable(
+  'verificationTokens',
+  {
+    identifier: varchar('identifier', { length: 255 }).notNull(), // Email address
+    token: varchar('token', { length: 255 }).notNull(),
+    expires: timestamp('expires').notNull(),
+  },
+  (table) => ({
+    // Composite unique key on identifier + token
+    uniqueToken: unique().on(table.identifier, table.token),
+  })
+)
+
+export type VerificationToken = InferSelectModel<typeof verificationTokens>

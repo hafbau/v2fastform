@@ -136,11 +136,12 @@ export const ReasoningTrigger = memo(
         {children ?? (
           <>
             <BrainIcon className="size-4" />
-            {isStreaming || duration === 0 ? (
-              <p>Thinking...</p>
-            ) : (
-              <p>Thought for {duration} seconds</p>
-            )}
+            <p>
+              {title}{' '}
+              {isStreaming || duration === 0
+                ? '— Thinking...'
+                : `— Thought for ${duration} seconds`}
+            </p>
             <ChevronDownIcon
               className={cn(
                 'size-4 text-muted-foreground transition-transform',

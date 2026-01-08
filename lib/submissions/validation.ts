@@ -512,7 +512,7 @@ function validateRule(
           if (!regex.test(value)) {
             return rule.message
           }
-        } catch (error) {
+        } catch {
           // Invalid regex pattern in AppSpec
           return `Invalid pattern validation for ${fieldLabel}`
         }

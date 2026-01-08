@@ -12,12 +12,32 @@
  * @module ai/llm-client
  */
 
-import { generateText } from 'ai'
+import { generateText, type LanguageModel } from 'ai'
 import { createAzure } from '@ai-sdk/azure'
 import { createOpenAI } from '@ai-sdk/openai'
 import { createAnthropic } from '@ai-sdk/anthropic'
 import type { FastformAppSpec } from '@/lib/types/appspec'
 import { isValidAppSpec } from '@/lib/types/appspec'
+
+/**
+ * Conditional logger - only logs in development mode
+ */
+const logger = {
+  log: (...args: unknown[]) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[LLM]', ...args)
+    }
+  },
+  warn: (...args: unknown[]) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('[LLM]', ...args)
+    }
+  },
+  error: (...args: unknown[]) => {
+    // Always log errors, but with context
+    console.error('[LLM]', ...args)
+  },
+}
 
 /**
  * Message in a conversation history.
@@ -37,7 +57,7 @@ interface ProviderConfig {
   /** Provider name for error messages */
   name: string
   /** AI SDK language model factory function */
-  model: (modelId: string) => any
+  model: (modelId: string) => LanguageModel
   /** Model identifier string */
   modelId: string
 }
@@ -489,16 +509,16 @@ export async function generateAppSpec(
 
   for (const provider of providers) {
     try {
-      console.log(`Attempting to generate AppSpec with ${provider.name}...`)
+      logger.log(`Attempting to generate AppSpec with ${provider.name}...`)
       const spec = await tryGenerateWithProvider(
         provider,
         systemPrompt,
         userPrompt
       )
-      console.log(`Successfully generated AppSpec with ${provider.name}`)
+      logger.log(`Successfully generated AppSpec with ${provider.name}`)
       return spec
     } catch (error) {
-      console.warn(
+      logger.warn(
         `Failed to generate with ${provider.name}:`,
         error instanceof Error ? error.message : String(error)
       )

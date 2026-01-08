@@ -33,12 +33,32 @@ const v0 = createClient(
  *
  * NOTE: This is temporary storage for the chat → AppSpec flow.
  * Confirmed AppSpecs will be persisted to the database via a separate endpoint.
+ *
+ * SCALING CONSIDERATION:
+ * This in-memory storage works well for single-instance deployments.
+ * For multi-instance deployments (e.g., multiple Vercel serverless functions),
+ * consider migrating to Redis or another distributed cache:
+ *
+ * 1. Redis (recommended): Use @upstash/redis for serverless-friendly Redis
+ *    - Set: await redis.set(`draft:${sessionId}`, JSON.stringify(spec), { ex: 3600 })
+ *    - Get: const spec = await redis.get(`draft:${sessionId}`)
+ *
+ * 2. Database: Store drafts in a `draft_appspecs` table with TTL
+ *    - Simple but adds database load
+ *
+ * For now, in-memory is acceptable since:
+ * - Draft lifetime is short (< 1 hour)
+ * - User typically completes flow in same session
+ * - Lost drafts can be regenerated from conversation
  */
 const draftAppSpecs = new Map<string, FastformAppSpec>()
 
 /**
  * Cleanup interval for stale drafts (older than 1 hour).
  * Runs every 15 minutes to prevent memory leaks.
+ *
+ * Note: In serverless environments, this interval may not run reliably.
+ * The TTL approach with Redis handles this automatically.
  */
 const DRAFT_EXPIRY_MS = 60 * 60 * 1000 // 1 hour
 const draftTimestamps = new Map<string, number>()

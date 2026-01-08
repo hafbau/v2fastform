@@ -1,6 +1,6 @@
 import "server-only"
 
-import { and, count, desc, eq, gte, isNull } from "drizzle-orm"
+import { and, count, desc, eq, gte } from "drizzle-orm"
 
 import { users, apps, chatOwnerships, anonymousChatLogs, submissions, submissionHistory, type User, type App, type Submission, type SubmissionHistory } from "./schema"
 import { generateUUID } from "../utils"
@@ -14,6 +14,17 @@ export async function getUser(email: string): Promise<Array<User>> {
   } catch (error) {
     console.error("Failed to get user from database:", error)
     return []
+  }
+}
+
+export async function getUserById(id: string): Promise<User | null> {
+  try {
+    const db = getDb()
+    const [user] = await db.select().from(users).where(eq(users.id, id))
+    return user || null
+  } catch (error) {
+    console.error("Failed to get user by ID from database:", error)
+    return null
   }
 }
 

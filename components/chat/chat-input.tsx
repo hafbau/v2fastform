@@ -14,7 +14,6 @@ import {
   clearPromptFromStorage,
   type ImageAttachment,
 } from '@/components/ai-elements/prompt-input'
-import { Suggestions, Suggestion } from '@/components/ai-elements/suggestion'
 import { useState, useCallback, useEffect } from 'react'
 import { SuggestionsWidget } from '../ai-elements/suggestions-widget'
 

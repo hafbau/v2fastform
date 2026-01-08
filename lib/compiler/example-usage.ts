@@ -7,6 +7,7 @@
 
 import { compileAppSpecToPrompt, UnsupportedAppSpecFeatureError } from './index'
 import { PSYCH_INTAKE_TEMPLATE } from '../templates/psych-intake-lite'
+import type { FastformAppSpec } from '../types/appspec'
 
 // Example 1: Basic usage
 console.log('Example 1: Basic Compilation\n')
@@ -39,14 +40,14 @@ const invalidSpec = {
       fields: [
         {
           id: 'document',
-          type: 'file' as any, // Unsupported field type
+          type: 'file', // Unsupported field type
           label: 'Upload Document',
           required: true,
         },
       ],
     },
   ],
-}
+} as unknown as FastformAppSpec
 
 try {
   compileAppSpecToPrompt(invalidSpec)

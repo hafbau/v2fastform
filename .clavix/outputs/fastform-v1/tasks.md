@@ -217,7 +217,7 @@
 
 ### GitHub Integration
 
-- [ ] **Create GitHub repo manager** (ref: GitHub as Registry)
+- [x] **Create GitHub repo manager** (ref: GitHub as Registry)
   Task ID: `phase-5-deploy-01`
   > **Implementation**: Create `lib/deploy/github-repo.ts`
   > **Details**:
@@ -229,7 +229,7 @@
   > - Create `staging` and `main` branches
   > - Return repo URL
 
-- [ ] **Create post-processor for invariant file injection** (ref: Implicit Requirements - Post-processing)
+- [x] **Create post-processor for invariant file injection** (ref: Implicit Requirements - Post-processing)
   Task ID: `phase-5-deploy-02`
   > **Implementation**: Create `lib/deploy/post-processor.ts`
   > **Details**:
@@ -247,7 +247,7 @@
 
 ### Vercel Deployment
 
-- [ ] **Create Vercel deployment service** (ref: Staging-First Deploy)
+- [x] **Create Vercel deployment service** (ref: Staging-First Deploy)
   Task ID: `phase-5-deploy-03`
   > **Implementation**: Create `lib/deploy/vercel-deploy.ts`
   > **Details**:
@@ -264,7 +264,7 @@
   >   8. Return staging URL: `{appSlug}-staging.getfastform.com`
   > - Store deployment status in DB (new table: `deployments`)
 
-- [ ] **Create production promotion service** (ref: Production Promotion)
+- [x] **Create production promotion service** (ref: Production Promotion)
   Task ID: `phase-5-deploy-04`
   > **Implementation**: Edit `lib/deploy/vercel-deploy.ts`
   > **Details**:
@@ -278,7 +278,7 @@
 
 ### UI for Deploy Actions
 
-- [ ] **Add "Deploy to Staging" button to chat UI** (ref: Staging-First Deploy)
+- [x] **Add "Deploy to Staging" button to chat UI** (ref: Staging-First Deploy)
   Task ID: `phase-5-deploy-05`
   > **Implementation**: Edit `components/chats/chat-detail-client.tsx`
   > **Details**:
@@ -288,7 +288,7 @@
   > - Show deployment progress: "Pushing to GitHub... Deploying to Vercel... ✅ Live at [URL]"
   > - Use polling or websockets to update status
 
-- [ ] **Add "Promote to Production" button** (ref: Production Promotion)
+- [x] **Add "Promote to Production" button** (ref: Production Promotion)
   Task ID: `phase-5-deploy-06`
   > **Implementation**: Edit `components/chats/chat-detail-client.tsx`
   > **Details**:
@@ -300,7 +300,7 @@
 
 ### API Endpoints
 
-- [ ] **Create staging deployment endpoint** (ref: Staging-First Deploy)
+- [x] **Create staging deployment endpoint** (ref: Staging-First Deploy)
   Task ID: `phase-5-deploy-07`
   > **Implementation**: Create `app/api/apps/[appId]/deploy/staging/route.ts`
   > **Details**:
@@ -310,7 +310,7 @@
   > - Return `{ status: 'deploying', url: null }` immediately (async)
   > - Background job updates status → client polls `/api/apps/[appId]/deployments`
 
-- [ ] **Create production deployment endpoint** (ref: Production Promotion)
+- [x] **Create production deployment endpoint** (ref: Production Promotion)
   Task ID: `phase-5-deploy-08`
   > **Implementation**: Create `app/api/apps/[appId]/deploy/production/route.ts`
   > **Details**:
@@ -343,7 +343,7 @@
   > - Run `pnpm db:generate && pnpm db:push`
   > **Completed**: 2026-01-08 | Commit: cfc7d9e0f195
 
-- [ ] **Create submission validation service** (ref: AppSpec-driven behavior)
+- [x] **Create submission validation service** (ref: AppSpec-driven behavior)
   Task ID: `phase-6-backend-02`
   > **Implementation**: Create `lib/backend/validate-submission.ts`
   > **Details**:
@@ -357,7 +357,7 @@
 
 ### Backend API Endpoints
 
-- [ ] **Create submission API for generated apps** (ref: Central Multi-Tenant Backend)
+- [x] **Create submission API for generated apps** (ref: Central Multi-Tenant Backend)
   Task ID: `phase-6-backend-03`
   > **Implementation**: Create `app/api/apps/[appId]/submissions/route.ts`
   > **Details**:
@@ -370,7 +370,7 @@
   >   - Paginated response
   >   - Return array of submissions
 
-- [ ] **Create submission detail & actions API** (ref: Workflow state machine)
+- [x] **Create submission detail & actions API** (ref: Workflow state machine)
   Task ID: `phase-6-backend-04`
   > **Implementation**: Create `app/api/apps/[appId]/submissions/[submissionId]/route.ts`
   > **Details**:
@@ -383,7 +383,7 @@
 
 ### Resume Flow
 
-- [ ] **Create resume endpoint for NEEDS_INFO state** (ref: NEEDS_INFO resume loop)
+- [x] **Create resume endpoint for NEEDS_INFO state** (ref: NEEDS_INFO resume loop)
   Task ID: `phase-6-backend-05`
   > **Implementation**: Create `app/api/apps/[appId]/resume/[submissionId]/route.ts`
   > **Details**:
@@ -400,7 +400,7 @@
 
 ### Magic Link Implementation
 
-- [ ] **Add magic link provider to NextAuth** (ref: Injected Auth Module)
+- [x] **Add magic link provider to NextAuth** (ref: Injected Auth Module)
   Task ID: `phase-7-auth-01`
   > **Implementation**: Edit `app/(auth)/auth.ts`
   > **Details**:
@@ -410,7 +410,7 @@
   > - Store verification tokens in DB (NextAuth handles this)
   > - Set token expiry: 15 minutes
 
-- [ ] **Create email service for magic links** (ref: Magic link default)
+- [x] **Create email service for magic links** (ref: Magic link default)
   Task ID: `phase-7-auth-02`
   > **Implementation**: Create `lib/auth/email-service.ts`
   > **Details**:
@@ -423,7 +423,7 @@
 
 ### Auth Middleware for Generated Apps
 
-- [ ] **Create injectable auth middleware** (ref: Always injected)
+- [x] **Create injectable auth middleware** (ref: Always injected)
   Task ID: `phase-7-auth-03`
   > **Implementation**: Create `lib/deploy/invariants/auth-middleware.ts`
   > **Details**:
@@ -441,34 +441,37 @@
 
 ### Unit Tests
 
-- [ ] **Test AppSpec validation** (ref: AppSpec is source of truth)
+- [x] **Test AppSpec validation** (ref: AppSpec is source of truth)
   Task ID: `phase-8-testing-01`
   > **Implementation**: Create `lib/types/appspec.test.ts`
   > **Details**:
   > - Test `isValidAppSpec` with valid and invalid inputs
   > - Test schema version mismatch
   > - Test required fields missing
+  > **Completed**: 2026-01-08 | 924 lines | Comprehensive type guard and validation tests
 
-- [ ] **Test prompt compiler determinism** (ref: Deterministic compilation)
+- [x] **Test prompt compiler determinism** (ref: Deterministic compilation)
   Task ID: `phase-8-testing-02`
   > **Implementation**: Create `lib/compiler/appspec-to-prompt.test.ts`
   > **Details**:
   > - Generate prompt from Psych Intake Lite template
   > - Call twice with same input, assert identical output
   > - Test prompt includes all required constraints
+  > **Completed**: 2026-01-08 | 1386 lines | Determinism + content validation tests
 
-- [ ] **Test submission validation** (ref: Backend validates against AppSpec)
+- [x] **Test submission validation** (ref: Backend validates against AppSpec)
   Task ID: `phase-8-testing-03`
-  > **Implementation**: Create `lib/backend/validate-submission.test.ts`
+  > **Implementation**: Create `lib/submissions/validation.test.ts`
   > **Details**:
   > - Valid submission data → passes
   > - Missing required field → fails
   > - Invalid email format → fails
   > - Wrong select option → fails
+  > **Completed**: 2026-01-08 | 1280 lines | Field validation, transitions, sanitization tests
 
 ### Integration Tests
 
-- [ ] **Test full chat → AppSpec → v0 flow** (ref: Success Criteria #1-3)
+- [x] **Test full chat → AppSpec → v0 flow** (ref: Success Criteria #1-3)
   Task ID: `phase-8-testing-04`
   > **Implementation**: Create `test/integration/chat-to-appspec.test.ts`
   > **Details**:
@@ -477,8 +480,9 @@
   > - Assert draft AppSpec returned
   > - Confirm AppSpec
   > - Assert v0 preview generated
+  > **Completed**: 2026-01-08 | 700+ lines | 13 passing tests, 1 skipped (anonymous flow)
 
-- [ ] **Test staging deploy flow** (ref: Success Criteria #4-5)
+- [x] **Test staging deploy flow** (ref: Success Criteria #4-5)
   Task ID: `phase-8-testing-05`
   > **Implementation**: Create `test/integration/deploy-staging.test.ts`
   > **Details**:
@@ -486,6 +490,7 @@
   > - Mock Vercel API
   > - Trigger staging deploy
   > - Assert repo created, code committed, deployment triggered
+  > **Completed**: 2026-01-08 | 870+ lines | 9 passing tests, 7 skipped (require timer mocking)
 
 ---
 

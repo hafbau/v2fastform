@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react'
-import { Message, MessageContent } from '@/components/ai-elements/message'
+import { Message } from '@/components/ai-elements/message'
 import {
   Conversation,
   ConversationContent,
@@ -8,10 +8,11 @@ import { Loader } from '@/components/ai-elements/loader'
 import { MessageRenderer } from '@/components/message-renderer'
 import { sharedComponents } from '@/components/shared-components'
 import { StreamingMessage } from '@v0-sdk/react'
+import type { MessageBinaryFormat } from '@v0-sdk/react'
 
 interface ChatMessage {
   type: 'user' | 'assistant'
-  content: string | any
+  content: MessageBinaryFormat | string
   isStreaming?: boolean
   stream?: ReadableStream<Uint8Array> | null
 }
@@ -26,15 +27,15 @@ interface ChatMessagesProps {
   chatHistory: ChatMessage[]
   isLoading: boolean
   currentChat: Chat | null
-  onStreamingComplete: (finalContent: any) => void
-  onChatData: (chatData: any) => void
+  onStreamingComplete: (finalContent: MessageBinaryFormat) => void
+  onChatData: (chatData: unknown) => void
   onStreamingStarted?: () => void
 }
 
 export function ChatMessages({
   chatHistory,
   isLoading,
-  currentChat,
+  currentChat: _currentChat,
   onStreamingComplete,
   onChatData,
   onStreamingStarted,
@@ -76,7 +77,10 @@ export function ChatMessages({
                   onChunk={(chunk) => {
                     // Debug: Log chunk content to understand structure
                     if (process.env.NODE_ENV === 'development') {
-                      console.log('[StreamingMessage] Received chunk:', JSON.stringify(chunk, null, 2))
+                      console.log(
+                        '[StreamingMessage] Received chunk:',
+                        JSON.stringify(chunk, null, 2),
+                      )
                     }
                     // Hide external loader once we start receiving content (only once)
                     if (onStreamingStarted && !streamingStartedRef.current) {
@@ -88,7 +92,9 @@ export function ChatMessages({
                   components={sharedComponents}
                   showLoadingIndicator={false}
                 />
-              ) : msg.content && (Array.isArray(msg.content) ? msg.content.length > 0 : msg.content.length > 0) ? (
+              ) : (typeof msg.content === 'string'
+                  ? msg.content.trim().length > 0
+                  : msg.content.length > 0) ? (
                 <MessageRenderer
                   content={msg.content}
                   role={msg.type}

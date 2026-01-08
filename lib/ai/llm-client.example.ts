@@ -21,7 +21,7 @@ import {
 /**
  * Example 1: Simple patient intake form
  */
-async function example1SimpleIntake() {
+export async function example1SimpleIntake() {
   console.log('\n=== Example 1: Simple Patient Intake ===\n')
 
   const userIntent = `
@@ -47,7 +47,7 @@ Requirements:
 /**
  * Example 2: Conversational refinement
  */
-async function example2ConversationalRefinement() {
+export async function example2ConversationalRefinement() {
   console.log('\n=== Example 2: Conversational Refinement ===\n')
 
   // Simulate a conversation where requirements are refined
@@ -93,7 +93,7 @@ Yes, add a staff workflow where:
 /**
  * Example 3: Complex multi-page workflow
  */
-async function example3ComplexWorkflow() {
+export async function example3ComplexWorkflow() {
   console.log('\n=== Example 3: Complex Workflow ===\n')
 
   const userIntent = `

@@ -20,7 +20,7 @@ function preprocessMessageContent(
     if (!Array.isArray(row)) return row
 
     // Process text content to remove V0_FILE markers and shell placeholders
-    return row.map((item, index) => {
+    return row.map((item) => {
       if (typeof item === 'string') {
         // Remove V0_FILE markers with various patterns
         let processed = item.replace(/\[V0_FILE\][^:]*:file="[^"]*"\n?/g, '')
@@ -44,7 +44,7 @@ function preprocessMessageContent(
         return processed
       }
       return item
-    }) as [number, ...any[]] // Type assertion to match MessageBinaryFormat structure
+    }) as [number, ...unknown[]] // Type assertion to match MessageBinaryFormat structure
   })
 
   // Filter out rows that are completely empty (all string content is empty)

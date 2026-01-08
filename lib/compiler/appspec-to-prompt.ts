@@ -17,7 +17,6 @@ import type {
   FastformAppSpec,
   Page,
   Field,
-  Action,
   WorkflowState,
   PageType,
   FieldType,

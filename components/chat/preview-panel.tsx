@@ -5,7 +5,7 @@ import {
   WebPreviewUrl,
   WebPreviewBody,
 } from '@/components/ai-elements/web-preview'
-import { RefreshCw, Monitor, Maximize, Minimize } from 'lucide-react'
+import { RefreshCw, Maximize, Minimize } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface Chat {

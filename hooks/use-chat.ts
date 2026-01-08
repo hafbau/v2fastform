@@ -2,22 +2,23 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useStreaming } from '@/contexts/streaming-context'
 import useSWR, { mutate } from 'swr'
+import type { MessageBinaryFormat } from '@v0-sdk/react'
 
 interface Chat {
   id: string
   demo?: string
   url?: string
-  messages?: Array<{
-    id: string
-    role: 'user' | 'assistant'
-    content: string
-    experimental_content?: any
-  }>
-}
+	  messages?: Array<{
+	    id: string
+	    role: 'user' | 'assistant'
+	    content: string
+	    experimental_content?: MessageBinaryFormat
+	  }>
+	}
 
 interface ChatMessage {
   type: 'user' | 'assistant'
-  content: string | any
+  content: MessageBinaryFormat | string
   isStreaming?: boolean
   stream?: ReadableStream<Uint8Array> | null
 }
@@ -33,7 +34,6 @@ export function useChat(chatId: string) {
   // Use SWR to fetch chat data
   const {
     data: currentChat,
-    error,
     isLoading: isLoadingChat,
   } = useSWR<Chat>(chatId ? `/api/chats/${chatId}` : null, {
     onError: (error) => {
@@ -191,7 +191,7 @@ export function useChat(chatId: string) {
     }
   }
 
-  const handleStreamingComplete = async (finalContent: any) => {
+  const handleStreamingComplete = async (finalContent: MessageBinaryFormat) => {
     setIsStreaming(false)
     setIsLoading(false)
 
@@ -230,40 +230,42 @@ export function useChat(chatId: string) {
     }
 
     // Try to extract chat ID from the final content if we don't have one yet
-    if (!currentChat && finalContent && Array.isArray(finalContent)) {
+    if (!currentChat && finalContent.length > 0) {
       let newChatId: string | undefined
 
       // Search through the content structure for chat ID
-      const searchForChatId = (obj: any) => {
-        if (obj && typeof obj === 'object') {
-          // Look for chat ID - be more specific about what we accept
-          if (obj.chatId && typeof obj.chatId === 'string') {
-            // Validate that it looks like a real chat ID (UUID-like or specific format)
-            if (obj.chatId.length > 10 && obj.chatId !== 'hello-world') {
-              console.log('Accepting chatId:', obj.chatId)
-              newChatId = obj.chatId
-            }
-          }
+      const searchForChatId = (obj: unknown) => {
+        if (Array.isArray(obj)) {
+          obj.forEach(searchForChatId)
+          return
+        }
 
-          // Only use 'id' if it's specifically a chat context and looks like a real ID
-          if (!newChatId && obj.id && typeof obj.id === 'string') {
-            // More restrictive check for 'id' field - should look like UUID or be longer
-            if (
-              (obj.id.includes('-') && obj.id.length > 20) ||
-              (obj.id.length > 15 && obj.id !== 'hello-world')
-            ) {
-              console.log('Accepting id as chatId:', obj.id)
-              newChatId = obj.id
-            }
-          }
+        if (!obj || typeof obj !== 'object') return
 
-          // Recursively search in arrays and objects
-          if (Array.isArray(obj)) {
-            obj.forEach(searchForChatId)
-          } else {
-            Object.values(obj).forEach(searchForChatId)
+        const record = obj as Record<string, unknown>
+
+        const chatId = record.chatId
+        if (typeof chatId === 'string') {
+          // Validate that it looks like a real chat ID (UUID-like or specific format)
+          if (chatId.length > 10 && chatId !== 'hello-world') {
+            console.log('Accepting chatId:', chatId)
+            newChatId = chatId
           }
         }
+
+        const id = record.id
+        if (!newChatId && typeof id === 'string') {
+          // More restrictive check for 'id' field - should look like UUID or be longer
+          if (
+            (id.includes('-') && id.length > 20) ||
+            (id.length > 15 && id !== 'hello-world')
+          ) {
+            console.log('Accepting id as chatId:', id)
+            newChatId = id
+          }
+        }
+
+        Object.values(record).forEach(searchForChatId)
       }
 
       finalContent.forEach(searchForChatId)
@@ -337,15 +339,20 @@ export function useChat(chatId: string) {
     })
   }
 
-  const handleChatData = async (chatData: any) => {
-    if (chatData.id && !currentChat) {
+  const handleChatData = async (chatData: unknown) => {
+    const data = chatData as Record<string, unknown>
+    const id = typeof data.id === 'string' ? data.id : undefined
+    const webUrl = typeof data.webUrl === 'string' ? data.webUrl : undefined
+    const url = typeof data.url === 'string' ? data.url : undefined
+
+    if (id && !currentChat) {
       // Only update with basic chat data, without demo URL
       // The demo URL will be fetched in handleStreamingComplete
       mutate(
-        `/api/chats/${chatData.id}`,
+        `/api/chats/${id}`,
         {
-          id: chatData.id,
-          url: chatData.webUrl || chatData.url,
+          id,
+          url: webUrl || url,
           // Don't set demo URL here - wait for streaming to complete
         },
         false,

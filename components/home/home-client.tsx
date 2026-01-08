@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import useSWR from 'swr'
 import Link from 'next/link'
+import type { MessageBinaryFormat } from '@v0-sdk/react'
 import {
   PromptInput,
   PromptInputImageButton,
@@ -73,14 +74,14 @@ export function HomeClient() {
   const [showChatInterface, setShowChatInterface] = useState(false)
   const [attachments, setAttachments] = useState<ImageAttachment[]>([])
   const [isDragOver, setIsDragOver] = useState(false)
-  const [chatHistory, setChatHistory] = useState<
-    Array<{
-      type: 'user' | 'assistant'
-      content: string | any
-      isStreaming?: boolean
-      stream?: ReadableStream<Uint8Array> | null
-    }>
-  >([])
+	  const [chatHistory, setChatHistory] = useState<
+	    Array<{
+	      type: 'user' | 'assistant'
+	      content: MessageBinaryFormat | string
+	      isStreaming?: boolean
+	      stream?: ReadableStream<Uint8Array> | null
+	    }>
+	  >([])
   const [currentChatId, setCurrentChatId] = useState<string | null>(null)
   const [currentChat, setCurrentChat] = useState<{
     id: string
@@ -279,15 +280,19 @@ export function HomeClient() {
     }
   }
 
-  const handleChatData = async (chatData: any) => {
-    if (chatData.id) {
+  const handleChatData = async (chatData: unknown) => {
+    const data = chatData as Record<string, unknown>
+    const id = typeof data.id === 'string' ? data.id : undefined
+    const object = typeof data.object === 'string' ? data.object : undefined
+
+    if (id) {
       // Only set currentChat if it's not already set or if this is the main chat object
-      if (!currentChatId || chatData.object === 'chat') {
-        setCurrentChatId(chatData.id)
-        setCurrentChat({ id: chatData.id })
+      if (!currentChatId || object === 'chat') {
+        setCurrentChatId(id)
+        setCurrentChat({ id })
 
         // Update URL without triggering Next.js routing
-        window.history.pushState(null, '', `/chats/${chatData.id}`)
+        window.history.pushState(null, '', `/chats/${id}`)
       }
 
       // Create ownership record for new chat (only if this is a new chat)
@@ -299,7 +304,7 @@ export function HomeClient() {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              chatId: chatData.id,
+              chatId: id,
               appId: selectedAppId,
             }),
           })
@@ -311,7 +316,7 @@ export function HomeClient() {
     }
   }
 
-  const handleStreamingComplete = async (finalContent: any) => {
+  const handleStreamingComplete = async (finalContent: MessageBinaryFormat) => {
     setIsLoading(false)
 
     // Update chat history with final content

@@ -31,8 +31,9 @@ import type { FastformAppSpec } from '@/lib/types/appspec'
 
 /**
  * Configuration constants for deployment process.
+ * GITHUB_ORG is configurable via environment variable (defaults to 'getfastform').
  */
-const GITHUB_ORG = 'getfastform'
+const GITHUB_ORG = process.env.GITHUB_ORG || 'getfastform'
 const VERCEL_API_BASE_URL = 'https://api.vercel.com'
 const DEPLOYMENT_POLL_INTERVAL_MS = 5000 // 5 seconds
 const DEPLOYMENT_TIMEOUT_MS = 60000 // 60 seconds
@@ -403,7 +404,7 @@ async function generateCodeWithV0(
 async function commitFilesToGitHub(
   repoName: string,
   files: Array<{ name: string; content: string }>,
-  userId: string
+  _userId: string
 ): Promise<string> {
   console.log(`[DEPLOY] Committing ${files.length} files to GitHub`)
   console.log(`[DEPLOY] Repository: ${GITHUB_ORG}/${repoName}`)
@@ -1127,7 +1128,7 @@ async function pollProductionDeployment(
   repoName: string,
   commitSha: string,
   appId: string,
-  userId: string
+  _userId: string
 ): Promise<{ url: string; deploymentId: string }> {
   console.log(`[PROMOTE] Polling Vercel for production deployment status`)
   console.log(`[PROMOTE] Looking for deployment of commit ${commitSha}`)

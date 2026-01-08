@@ -102,7 +102,6 @@ vi.mock('@/lib/templates/psych-intake-lite', () => ({
 // Import mocked functions
 import { generateAppSpec } from './llm-client'
 import { isValidAppSpec } from '@/lib/types/appspec'
-import { PSYCH_INTAKE_TEMPLATE } from '@/lib/templates/psych-intake-lite'
 
 describe('appspec-generator', () => {
   // Mock valid AppSpec for testing

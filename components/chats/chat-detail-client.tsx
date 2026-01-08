@@ -9,7 +9,6 @@ import { PreviewPanel } from '@/components/chat/preview-panel'
 import { ResizableLayout } from '@/components/shared/resizable-layout'
 import { BottomToolbar } from '@/components/shared/bottom-toolbar'
 import { useChat } from '@/hooks/use-chat'
-import { useStreaming } from '@/contexts/streaming-context'
 import {
   type ImageAttachment,
   clearPromptFromStorage,
@@ -79,7 +78,6 @@ export function ChatDetailClient({ appId, chatId }: ChatDetailClientProps) {
   const [deploymentError, setDeploymentError] = useState<DeploymentErrorState | null>(null)
 
   const { toast } = useToast()
-  const { handoff } = useStreaming()
 
   // Fetch app data to check if spec exists
   const { data: appData } = useSWR<{ data: App }>(
@@ -99,10 +97,8 @@ export function ChatDetailClient({ appId, chatId }: ChatDetailClientProps) {
     currentChat,
     isLoading,
     setIsLoading,
-    isStreaming,
     chatHistory,
     isLoadingChat,
-    handleSendMessage,
     handleStreamingComplete,
     handleChatData,
   } = useChat(chatId)

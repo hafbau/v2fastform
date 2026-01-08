@@ -28,7 +28,6 @@ import { Octokit } from '@octokit/rest'
 import { createClient } from 'v0-sdk'
 import { compileAppSpecToPrompt } from '@/lib/compiler/appspec-to-prompt'
 import { injectInvariants, extractFiles } from './post-processor'
-import { createAppRepo } from './github-repo'
 import { getAppById } from '@/lib/db/queries'
 
 // Mock dependencies
@@ -194,7 +193,6 @@ describe('vercel-deploy', () => {
       const mockCreateClient = createClient as Mock
       const mockInjectInvariants = injectInvariants as Mock
       const mockExtractFiles = extractFiles as Mock
-      const mockCreateAppRepo = createAppRepo as Mock
       const mockOctokit = Octokit as unknown as Mock
 
       // Mock database app fetch

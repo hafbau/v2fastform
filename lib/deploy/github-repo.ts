@@ -11,9 +11,11 @@ export class GitHubRepoCreationError extends Error {
 }
 
 /**
- * GitHub organization where repositories will be created
+ * GitHub organization where repositories will be created.
+ * Configurable via GITHUB_ORG environment variable.
+ * Defaults to 'getfastform' if not set.
  */
-const GITHUB_ORG = 'getfastform'
+const GITHUB_ORG = process.env.GITHUB_ORG || 'getfastform'
 
 /**
  * Creates and configures an Octokit client instance

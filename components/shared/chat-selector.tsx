@@ -93,7 +93,7 @@ export function ChatSelector() {
   const pathname = usePathname()
   const { data: session } = useSession()
   const [chats, setChats] = useState<Chat[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [_isLoading, setIsLoading] = useState(false)
   const [isRenameDialogOpen, setIsRenameDialogOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [isDuplicateDialogOpen, setIsDuplicateDialogOpen] = useState(false)

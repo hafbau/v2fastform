@@ -32,11 +32,18 @@ export async function signInAction(
       password: formData.get('password'),
     })
 
-    await signIn('credentials', {
+    const result = await signIn('credentials', {
       email: validatedData.email,
       password: validatedData.password,
       redirect: false,
     })
+
+    if (result?.error) {
+      return {
+        type: 'error',
+        message: 'Invalid credentials. Please try again.',
+      }
+    }
 
     revalidatePath('/')
     redirect('/?refresh=session')

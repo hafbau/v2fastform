@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  CodeProjectPart,
   CodeBlock,
   MathPart,
   ThinkingSectionProps,
@@ -28,17 +27,17 @@ export const ThinkingSectionWrapper = ({
   collapsed,
   onCollapse,
   children,
-  brainIcon,
-  chevronRightIcon,
-  chevronDownIcon,
-  iconRenderer,
+  brainIcon: _brainIcon,
+  chevronRightIcon: _chevronRightIcon,
+  chevronDownIcon: _chevronDownIcon,
+  iconRenderer: _iconRenderer,
   ...props
 }: ThinkingSectionProps) => {
   return (
     <Reasoning
       duration={duration ? Math.round(duration) : duration}
       defaultOpen={!collapsed}
-      onOpenChange={(open) => onCollapse?.()}
+      onOpenChange={() => onCollapse?.()}
       {...props}
     >
       <ReasoningTrigger title={title || 'Thinking'} />
@@ -59,18 +58,18 @@ export const TaskSectionWrapper = ({
   parts,
   collapsed,
   onCollapse,
+  className,
   children,
-  taskIcon,
-  chevronRightIcon,
-  chevronDownIcon,
-  iconRenderer,
-  ...props
+  taskIcon: _taskIcon,
+  chevronRightIcon: _chevronRightIcon,
+  chevronDownIcon: _chevronDownIcon,
+  iconRenderer: _iconRenderer,
 }: TaskSectionProps) => {
   return (
     <Task
-      className="w-full mb-4"
+      className={`w-full mb-4 ${className || ''}`}
       defaultOpen={!collapsed}
-      onOpenChange={(open) => onCollapse?.()}
+      onOpenChange={() => onCollapse?.()}
     >
       <TaskTrigger title={title || type || 'Task'} />
       <TaskContent>
@@ -83,7 +82,7 @@ export const TaskSectionWrapper = ({
 
             // Handle structured task data with proper AI Elements components
             if (part && typeof part === 'object') {
-              const partObj = part as any
+              const partObj = part
 
               if (partObj.type === 'starting-repo-search' && partObj.query) {
                 return (
@@ -129,7 +128,7 @@ export const TaskSectionWrapper = ({
                 return (
                   <TaskItem key={index}>
                     Editing{' '}
-                    {partObj.changedFiles.map((file: any, i: number) => (
+                    {partObj.changedFiles.map((file, i: number) => (
                       <TaskItemFile key={i}>
                         {file.fileName || file.baseName}
                       </TaskItemFile>
@@ -177,7 +176,7 @@ export const TaskSectionWrapper = ({
                         </svg>
                         <span>Action Required</span>
                       </div>
-                      {steps.map((step: any, i: number) => (
+                      {steps.map((step, i: number) => (
                         <div key={i} className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-md px-3 py-2">
                           <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -242,7 +241,7 @@ export const TaskSectionWrapper = ({
                       </div>
                       {partObj.inspirations
                         .slice(0, 3)
-                        .map((inspiration: any, i: number) => (
+                        .map((inspiration, i: number) => (
                           <div
                             key={i}
                             className="text-xs text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 p-2 rounded"
@@ -397,7 +396,7 @@ export const CodeProjectPartWrapper = ({
   collapsed,
   className,
   children,
-  iconRenderer,
+  iconRenderer: _iconRenderer,
   ...props
 }: CodeProjectPartProps) => {
   const [isCollapsed, setIsCollapsed] = React.useState(collapsed ?? true)
@@ -465,6 +464,18 @@ export const CodeProjectPartWrapper = ({
                   </span>
                 </div>
               </div>
+              {code ? (
+                <pre
+                  className="overflow-x-auto rounded-md bg-gray-100 dark:bg-gray-900 p-3 text-xs"
+                  data-language={language}
+                >
+                  <code>{code}</code>
+                </pre>
+              ) : (
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  No code content available
+                </p>
+              )}
             </div>
           )}
         </div>
@@ -475,7 +486,14 @@ export const CodeProjectPartWrapper = ({
 
 // Shared components object that can be used by both StreamingMessage and MessageRenderer
 // Custom TaskSection that handles code projects properly
-const CustomTaskSectionWrapper = (props: any) => {
+type CustomTaskSectionProps = TaskSectionProps & {
+  stopped?: { reason?: string }
+  integration?: string
+  taskNameComplete?: string
+  taskNameActive?: string
+}
+
+const CustomTaskSectionWrapper = (props: CustomTaskSectionProps) => {
   // Check if this task requires user input (integration requests, etc.)
   const requiresUserInput = props.stopped?.reason === 'user-input-required'
 
@@ -503,12 +521,12 @@ const CustomTaskSectionWrapper = (props: any) => {
   if (
     props.parts &&
     props.parts.some(
-      (part: any) =>
+      (part) =>
         part && typeof part === 'object' && part.type === 'code-project',
     )
   ) {
     const codeProjectPart = props.parts.find(
-      (part: any) =>
+      (part) =>
         part && typeof part === 'object' && part.type === 'code-project',
     )
 
@@ -521,17 +539,17 @@ const CustomTaskSectionWrapper = (props: any) => {
           language="typescript"
           collapsed={false}
         >
-          {/* Show all files in the project */}
-          {codeProjectPart.changedFiles &&
-            codeProjectPart.changedFiles.length > 0 && (
-              <div className="p-4">
-                <div className="space-y-2">
-                  {codeProjectPart.changedFiles.map(
-                    (file: any, index: number) => (
-                      <div
-                        key={index}
-                        className="flex items-center gap-2 text-sm text-black dark:text-white"
-                      >
+	          {/* Show all files in the project */}
+	          {codeProjectPart.changedFiles &&
+	            codeProjectPart.changedFiles.length > 0 && (
+	              <div className="p-4">
+	                <div className="space-y-2">
+	                  {codeProjectPart.changedFiles.map(
+	                    (file, index: number) => (
+	                      <div
+	                        key={index}
+	                        className="flex items-center gap-2 text-sm text-black dark:text-white"
+	                      >
                         <svg
                           className="w-4 h-4"
                           fill="currentColor"
