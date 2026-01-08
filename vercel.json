@@ -1,0 +1,45 @@
+{
+  "buildCommand": "pnpm build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "env": {
+    "POSTGRES_URL": "@postgres-url-staging",
+    "AUTH_SECRET": "@auth-secret-staging",
+    "NEXTAUTH_SECRET": "@nextauth-secret-staging",
+    "V0_API_KEY": "@v0-api-key-staging",
+    "V0_API_URL": "https://api.v0.dev",
+    "AZURE_OPENAI_ENDPOINT": "@azure-openai-endpoint-staging",
+    "AZURE_OPENAI_KEY": "@azure-openai-key-staging",
+    "OPENAI_API_KEY": "@openai-api-key-staging",
+    "ANTHROPIC_API_KEY": "@anthropic-api-key-staging",
+    "GITHUB_TOKEN": "@github-token-staging",
+    "VERCEL_TOKEN": "@vercel-token-staging",
+    "SMTP_HOST": "@smtp-host-staging",
+    "SMTP_PORT": "@smtp-port-staging",
+    "SMTP_USER": "@smtp-user-staging",
+    "SMTP_PASS": "@smtp-pass-staging"
+  },
+  "envProduction": {
+    "POSTGRES_URL": "@postgres-url-production",
+    "AUTH_SECRET": "@auth-secret-production",
+    "NEXTAUTH_SECRET": "@nextauth-secret-production",
+    "V0_API_KEY": "@v0-api-key-production",
+    "V0_API_URL": "https://api.v0.dev",
+    "AZURE_OPENAI_ENDPOINT": "@azure-openai-endpoint-production",
+    "AZURE_OPENAI_KEY": "@azure-openai-key-production",
+    "OPENAI_API_KEY": "@openai-api-key-production",
+    "ANTHROPIC_API_KEY": "@anthropic-api-key-production",
+    "GITHUB_TOKEN": "@github-token-production",
+    "VERCEL_TOKEN": "@vercel-token-production",
+    "SMTP_HOST": "@smtp-host-production",
+    "SMTP_PORT": "@smtp-port-production",
+    "SMTP_USER": "@smtp-user-production",
+    "SMTP_PASS": "@smtp-pass-production"
+  },
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "staging": true
+    }
+  }
+}
