@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Logo, LogoIcon } from '@/components/logo'
+import { Button } from '@/components/ui/button'
 import { UserAvatarMenu, type UserAvatarMenuProps } from './user-avatar-menu'
 import { cn } from '@/lib/utils'
 
@@ -16,8 +17,10 @@ interface NavItem {
 }
 
 export interface AppNavbarProps {
-  /** User information for the avatar menu */
-  user: UserAvatarMenuProps
+  /** User information for the avatar menu (optional when not authenticated) */
+  user?: UserAvatarMenuProps
+  /** Whether the user is authenticated */
+  isAuthenticated?: boolean
   /** Navigation items to display in the center (defaults to Apps) */
   navItems?: NavItem[]
   /** Additional CSS classes for the navbar container */
@@ -33,6 +36,7 @@ export interface AppNavbarProps {
  */
 export function AppNavbar({
   user,
+  isAuthenticated = false,
   navItems = [{ label: 'Apps', href: '/apps' }],
   className,
 }: AppNavbarProps) {
@@ -96,13 +100,24 @@ export function AppNavbar({
             </ul>
           </nav>
 
-          {/* Right side - User Avatar */}
+          {/* Right side - User Avatar or Auth Buttons */}
           <div className="shrink-0">
-            <UserAvatarMenu
-              name={user.name}
-              email={user.email}
-              avatarUrl={user.avatarUrl}
-            />
+            {isAuthenticated && user ? (
+              <UserAvatarMenu
+                name={user.name}
+                email={user.email}
+                avatarUrl={user.avatarUrl}
+              />
+            ) : (
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm" asChild>
+                  <Link href="/login">Log in</Link>
+                </Button>
+                <Button size="sm" asChild>
+                  <Link href="/register">Sign up</Link>
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>

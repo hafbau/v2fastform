@@ -44,18 +44,23 @@ export function AppLayout({
   navItems,
   className,
 }: AppLayoutProps) {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
+
+  // Determine if user is authenticated
+  const isAuthenticated = status === 'authenticated' && !!session?.user
 
   // Extract user info from session (may be null for anonymous users)
-  const user = {
-    name: session?.user?.name,
-    email: session?.user?.email,
-    avatarUrl: session?.user?.image,
-  }
+  const user = isAuthenticated
+    ? {
+        name: session?.user?.name,
+        email: session?.user?.email,
+        avatarUrl: session?.user?.image,
+      }
+    : undefined
 
   return (
     <div className="min-h-screen bg-background">
-      <AppNavbar user={user} navItems={navItems} />
+      <AppNavbar user={user} navItems={navItems} isAuthenticated={isAuthenticated} />
 
       {/* Main content area with top padding for fixed navbar */}
       <main className={cn('pt-14', className)}>
