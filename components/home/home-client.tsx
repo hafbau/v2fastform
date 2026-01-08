@@ -20,7 +20,6 @@ import {
   clearPromptFromStorage,
   type ImageAttachment,
 } from '@/components/ai-elements/prompt-input'
-import { AppLayout } from '@/components/layouts'
 import { ChatMessages } from '@/components/chat/chat-messages'
 import { ChatInput } from '@/components/chat/chat-input'
 import { PreviewPanel } from '@/components/chat/preview-panel'

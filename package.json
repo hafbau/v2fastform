@@ -108,6 +108,7 @@
     "happy-dom": "latest",
     "input-otp": "latest",
     "jiti": "latest",
+    "jose": "^6.1.3",
     "knex": "latest",
     "kysely": "latest",
     "less": "latest",

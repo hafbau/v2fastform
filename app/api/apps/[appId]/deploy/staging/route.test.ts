@@ -29,7 +29,7 @@ const mockTriggerStagingDeploy = vi.fn()
 const DeploymentError = class DeploymentError extends Error {
   phase: string
   constructor(message: string, phase: string, cause?: unknown) {
-    super(message)
+    super(message, { cause })
     this.name = 'DeploymentError'
     this.phase = phase
   }
@@ -37,7 +37,7 @@ const DeploymentError = class DeploymentError extends Error {
 const CodeGenerationError = class CodeGenerationError extends Error {
   appId: string
   constructor(message: string, appId: string, cause?: unknown) {
-    super(message)
+    super(message, { cause })
     this.name = 'CodeGenerationError'
     this.appId = appId
   }
@@ -45,7 +45,7 @@ const CodeGenerationError = class CodeGenerationError extends Error {
 const GitHubCommitError = class GitHubCommitError extends Error {
   repoName: string
   constructor(message: string, repoName: string, cause?: unknown) {
-    super(message)
+    super(message, { cause })
     this.name = 'GitHubCommitError'
     this.repoName = repoName
   }

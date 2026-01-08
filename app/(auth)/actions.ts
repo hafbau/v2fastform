@@ -1,7 +1,7 @@
 'use server'
 
 import { z } from 'zod'
-import { signIn, signOut } from './auth'
+import { signIn } from './auth'
 import { createUser, getUser } from '@/lib/db/queries'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'

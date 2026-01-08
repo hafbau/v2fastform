@@ -50,7 +50,16 @@ export const {
   providers: [
     Credentials({
       credentials: {},
-      async authorize({ email, password }: any) {
+      async authorize(credentials) {
+        const email =
+          typeof credentials?.email === "string" ? credentials.email : undefined
+        const password =
+          typeof credentials?.password === "string"
+            ? credentials.password
+            : undefined
+
+        if (!email || !password) return null
+
         try {
           const { compare } = await import("bcrypt-ts")
           const { getUser } = await import("@/lib/db/queries")

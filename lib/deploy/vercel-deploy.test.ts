@@ -72,7 +72,7 @@ describe('vercel-deploy', () => {
       {
         id: 'home',
         route: '/',
-        role: 'USER',
+        role: 'PATIENT',
         type: 'welcome',
         title: 'Welcome',
       },
@@ -84,7 +84,7 @@ describe('vercel-deploy', () => {
         {
           from: 'DRAFT',
           to: 'SUBMITTED',
-          allowedRoles: ['USER'],
+          allowedRoles: ['PATIENT'],
         },
       ],
     },
@@ -94,7 +94,7 @@ describe('vercel-deploy', () => {
       },
     },
     theme: {
-      preset: 'healthcare',
+      preset: 'healthcare-calm',
     },
     analytics: {
       events: [],

@@ -19,7 +19,7 @@ import { test, expect } from './fixtures'
 test.describe('Authenticated User Flow - With Fixtures', () => {
   test('should complete full user flow from /apps to chat creation', async ({
     page,
-    authenticatedUser,
+    authenticatedUser: _authenticatedUser,
     testHelpers,
   }) => {
     // Navigate to /apps
@@ -101,7 +101,7 @@ test.describe('Authenticated User Flow - With Fixtures', () => {
 
   test('should display apps grid after creating an app', async ({
     page,
-    authenticatedUser,
+    authenticatedUser: _authenticatedUser,
     testHelpers,
   }) => {
     // Create first app
@@ -138,7 +138,7 @@ test.describe('Authenticated User Flow - With Fixtures', () => {
 
   test('should prevent empty message submission', async ({
     page,
-    authenticatedUser,
+    authenticatedUser: _authenticatedUser,
     testHelpers,
   }) => {
     await page.goto('/apps')
@@ -160,7 +160,7 @@ test.describe('Authenticated User Flow - With Fixtures', () => {
 
   test('should validate UUID format for app and chat IDs', async ({
     page,
-    authenticatedUser,
+    authenticatedUser: _authenticatedUser,
     testHelpers,
   }) => {
     await page.goto('/apps')
@@ -186,7 +186,7 @@ test.describe('Authenticated User Flow - With Fixtures', () => {
 
   test('should maintain authentication across page transitions', async ({
     page,
-    authenticatedUser,
+    authenticatedUser: _authenticatedUser,
     testHelpers,
   }) => {
     // Start on /apps
@@ -220,7 +220,7 @@ test.describe('Authenticated User Flow - With Fixtures', () => {
 
   test('should disable submit button during submission', async ({
     page,
-    authenticatedUser,
+    authenticatedUser: _authenticatedUser,
     testHelpers,
   }) => {
     await page.goto('/apps')
@@ -243,7 +243,7 @@ test.describe('Authenticated User Flow - With Fixtures', () => {
 
   test('should handle navigation between app chats page and individual chat', async ({
     page,
-    authenticatedUser,
+    authenticatedUser: _authenticatedUser,
     testHelpers,
   }) => {
     // Create app and chat
@@ -283,7 +283,7 @@ test.describe('Authenticated User Flow - With Fixtures', () => {
 test.describe('Edge Cases - Authenticated User Flow', () => {
   test('should handle rapid successive submissions correctly', async ({
     page,
-    authenticatedUser,
+    authenticatedUser: _authenticatedUser,
     testHelpers,
   }) => {
     await page.goto('/apps')
@@ -311,7 +311,7 @@ test.describe('Edge Cases - Authenticated User Flow', () => {
 
   test('should display loading state during submission', async ({
     page,
-    authenticatedUser,
+    authenticatedUser: _authenticatedUser,
     testHelpers,
   }) => {
     await page.goto('/apps')
@@ -334,7 +334,7 @@ test.describe('Edge Cases - Authenticated User Flow', () => {
 
   test('should clear input after successful submission', async ({
     page,
-    authenticatedUser,
+    authenticatedUser: _authenticatedUser,
     testHelpers,
   }) => {
     await page.goto('/apps')
@@ -349,8 +349,6 @@ test.describe('Edge Cases - Authenticated User Flow', () => {
     await page.waitForURL(/\/apps\/[a-f0-9-]+\/chats\/[a-zA-Z0-9-_]+/, {
       timeout: 30000,
     })
-
-    const appId = testHelpers.extractAppId()
 
     // Go back to apps page
     await page.goto('/apps')
