@@ -4,8 +4,8 @@ import {
   varchar,
   timestamp,
   uuid,
-  primaryKey,
   unique,
+  jsonb,
 } from 'drizzle-orm/pg-core'
 
 export const users = pgTable('users', {
@@ -25,6 +25,7 @@ export const apps = pgTable('apps', {
     .notNull()
     .references(() => users.id),
   name: varchar('name', { length: 255 }).notNull(),
+  spec: jsonb('spec').notNull().default('{}'),
   createdAt: timestamp('createdAt').notNull().defaultNow(),
 })
 
