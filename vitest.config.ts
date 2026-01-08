@@ -8,6 +8,12 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./test/setup.ts'],
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/test/e2e/**', // Exclude Playwright E2E tests
+      '**/.{idea,git,cache,output,temp}/**',
+    ],
     env: {
       NODE_ENV: 'test',
       DISABLE_EXTERNAL_SERVICES: 'true',
