@@ -1,10 +1,11 @@
 'use client'
 
 import { useActionState } from 'react'
+import { Loader2 } from 'lucide-react'
 import { signInAction, signUpAction } from '@/app/(auth)/actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import Link from 'next/link'
+import { Label } from '@/components/ui/label'
 
 interface AuthFormProps {
   type: 'signin' | 'signup'
@@ -18,60 +19,57 @@ export function AuthForm({ type }: AuthFormProps) {
 
   return (
     <form action={formAction} className="space-y-4">
-      <div>
+      <div className="space-y-2">
+        <Label htmlFor="email">Email address</Label>
         <Input
           id="email"
           name="email"
           type="email"
-          placeholder="Email"
+          placeholder="you@example.com"
           required
           autoFocus
+          autoComplete="email"
           className="w-full"
         />
       </div>
-      <div>
+
+      <div className="space-y-2">
+        <Label htmlFor="password">Password</Label>
         <Input
           id="password"
           name="password"
           type="password"
-          placeholder="Password"
+          placeholder="••••••••"
           required
+          autoComplete={type === 'signin' ? 'current-password' : 'new-password'}
           className="w-full"
           minLength={type === 'signup' ? 6 : 1}
         />
+        {type === 'signup' && (
+          <p className="text-xs text-muted-foreground">
+            Must be at least 6 characters
+          </p>
+        )}
       </div>
 
       {state?.type === 'error' && (
-        <div className="text-sm text-red-500">{state.message}</div>
+        <div className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
+          {state.message}
+        </div>
       )}
 
       <Button type="submit" className="w-full" disabled={isPending}>
-        {isPending
-          ? type === 'signin'
-            ? 'Signing in...'
-            : 'Creating account...'
-          : type === 'signin'
-            ? 'Sign In'
-            : 'Create Account'}
-      </Button>
-
-      <div className="text-center text-sm text-muted-foreground">
-        {type === 'signin' ? (
+        {isPending ? (
           <>
-            Don&apos;t have an account?{' '}
-            <Link href="/register" className="text-primary hover:underline">
-              Sign up
-            </Link>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            {type === 'signin' ? 'Signing in...' : 'Creating account...'}
           </>
+        ) : type === 'signin' ? (
+          'Sign in'
         ) : (
-          <>
-            Already have an account?{' '}
-            <Link href="/login" className="text-primary hover:underline">
-              Sign in
-            </Link>
-          </>
+          'Create account'
         )}
-      </div>
+      </Button>
     </form>
   )
 }
